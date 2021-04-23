@@ -35,7 +35,12 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+         $data["titie"] = "แบ่งสินค้าเพื่อจัดส่ง";
+         $data["users"] = User::with('Role')->get();
+         $data["menus"] = Menu::with(['SubMenu' => function($q){
+              $q->orderBy('sort', 'asc');
+         }])->orderBy('sort', 'asc')->get();
+         return view('Admin.Order.create', $data);
     }
 
     /**

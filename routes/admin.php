@@ -46,6 +46,7 @@ Route::group(['middleware' => ['auth.admin', 'cors'], 'prefix' => 'admin'], func
     // Route::delete('/role/{id}', 'Admin\RoleController@destroy')->name('role.destroy');
 
     Route::get('/order', 'Admin\OrderController@index')->name('order');
+    Route::get('/order/create', 'Admin\OrderController@create')->name('order.create');
 
 
 });
