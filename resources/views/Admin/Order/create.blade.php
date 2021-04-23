@@ -1,5 +1,6 @@
 @extends('layouts.layout')
 <link rel="stylesheet" href="{{asset('assets/css/plugins/dataTables.bootstrap4.min.css')}}">
+<link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}">
 @section('css_bottom')
 @endsection
 @section('body')
@@ -30,48 +31,158 @@
                                   <div class="card-body">
                                        <form id="FormAdd">
                                             <div class="form-row">
-                                                 <div class="col-md-4 mb-3">
+                                                 <div class="col-md-3 mb-3">
                                                       <label for="validationTooltip01">เลขที่เอกสาร</label>
-                                                      <input type="text" class="form-control" id="validationTooltip01" placeholder="First name" value="Mark" required>
-                                                      <div class="valid-tooltip">
-                                                           Looks good!
-                                                      </div>
+                                                      <input type="text" class="form-control" id="validationTooltip01" placeholder="" value="" required>
                                                  </div>
-                                                 <div class="col-md-4 mb-3">
-                                                      <label for="validationTooltip02">วันที่เอกสาร</label>
-                                                      <input type="text" class="form-control" id="validationTooltip02" placeholder="Last name" value="Otto" required>
-                                                      <div class="valid-tooltip">
-                                                           Looks good!
-                                                      </div>
+                                                 <div class="col-md-3 mb-3">
+                                                      <label for="document_date">วันที่เอกสาร</label>
+                                                      <input type="text" class="form-control" name="document_date" placeholder="" value="" required>
                                                  </div>
-                                                 <div class="col-md-4 mb-3">
-                                                      <label for="validationTooltip02">วันที่เอกสาร</label>
-                                                      <input type="text" class="form-control" id="validationTooltip02" placeholder="Last name" value="Otto" required>
-                                                      <div class="valid-tooltip">
-                                                           Looks good!
-                                                      </div>
+                                                 <div class="col-md-3 mb-3">
+                                                      <label for="send_appointment">วันที่นัดส่ง</label>
+                                                      <input type="text" class="form-control" name="send_appointment" value="" required />
+                                                 </div>
+                                                 <div class="col-md-3 mb-3">
+                                                      <label for="customer_code">รหัสลูกค้า</label>
+                                                      <input type="text" name="customer_code" value="" class="form-control" />
                                                  </div>
                                             </div>
                                             <div class="form-row">
                                                  <div class="col-md-6 mb-3">
-                                                      <label for="validationTooltip03">City</label>
-                                                      <input type="text" class="form-control" id="validationTooltip03" placeholder="City" required>
-                                                      <div class="invalid-tooltip">
-                                                           Please provide a valid city.
+                                                      <label for="sale_code">รหัสพนักงานขาย</label>
+                                                      <input type="text" class="form-control" name="sale_code" placeholder="" value="" required>
+                                                 </div>
+                                                 <div class="col-md-6 mb-3">
+                                                      <label for="product_code">รหัสสินค้า</label>
+                                                      <input type="text" class="form-control" name="product_code" placeholder="" value="" required>
+                                                 </div>
+                                            </div>
+                                            <div class="form-row">
+                                                 <div class="col-xl-12">
+                                                      <div class="card">
+                                                           <div class="card-header">
+                                                                <h5>Striped Table</h5>
+                                                                <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+                                                           </div>
+                                                           <div class="card-body table-border-style">
+                                                                <div class="table-responsive">
+                                                                     <table class="table table-striped">
+                                                                          <thead>
+                                                                               <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>เลขที่เอกสาร</th>
+                                                                                    <th>วันที่จอง</th>
+                                                                                    <th>จำนวนวัน</th>
+                                                                                    <th>สถานที่จัดส่ง</th>
+                                                                                    <th>ราคา/หน่วย</th>
+                                                                                    <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                    <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                               </tr>
+                                                                          </thead>
+                                                                          <tbody>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                          </tbody>
+                                                                     </table>
+                                                                </div>
+                                                           </div>
                                                       </div>
                                                  </div>
-                                                 <div class="col-md-3 mb-3">
-                                                      <label for="validationTooltip04">State</label>
-                                                      <input type="text" class="form-control" id="validationTooltip04" placeholder="State" required>
-                                                      <div class="invalid-tooltip">
-                                                           Please provide a valid state.
-                                                      </div>
+                                            </div>
+                                            <h5>แบ่งสินค้ามาจาก</h5>
+                                            <hr/>
+                                            <div class="form-row">
+                                                 <div class="col-md-12 mb-3">
+                                                      <label for="sale_code_from">รหัสพนักงานขาย</label>
+                                                      <input type="text" class="form-control" name="sale_code_from" placeholder="" value="" required>
                                                  </div>
-                                                 <div class="col-md-3 mb-3">
-                                                      <label for="validationTooltip05">Zip</label>
-                                                      <input type="text" class="form-control" id="validationTooltip05" placeholder="Zip" required>
-                                                      <div class="invalid-tooltip">
-                                                           Please provide a valid zip.
+                                            </div>
+                                            <div class="form-row">
+                                                 <div class="col-xl-12">
+                                                      <div class="card">
+                                                           <div class="card-header">
+                                                                <h5>Striped Table</h5>
+                                                                <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
+                                                           </div>
+                                                           <div class="card-body table-border-style">
+                                                                <div class="table-responsive">
+                                                                     <table class="table table-striped">
+                                                                          <thead>
+                                                                               <tr>
+                                                                                    <th>#</th>
+                                                                                    <th>เลขที่เอกสาร</th>
+                                                                                    <th>วันที่จอง</th>
+                                                                                    <th>ชื่อลูกค้า</th>
+                                                                                    <th>เลขตู้จัดสินค้า</th>
+                                                                                    <th>สถานะตู้</th>
+                                                                                    <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                    <th>จำนวนสินค้าแบ่งให้</th>
+                                                                               </tr>
+                                                                          </thead>
+                                                                          <tbody>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                               <tr>
+                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                                    <td></td>
+                                                                               </tr>
+                                                                          </tbody>
+                                                                     </table>
+                                                                </div>
+                                                           </div>
                                                       </div>
                                                  </div>
                                             </div>
@@ -90,7 +201,9 @@
      <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
      <!-- sweet alert Js -->
      <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
-
+     <!-- datepicker js -->
+     <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
+     <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
      <script type="text/javascript">
          $(document).ready(function() {
             $("#pcoded").pcodedmenu({
@@ -98,6 +211,27 @@
                  MenuTrigger: 'hover',
                  SubMenuTrigger: 'hover',
             });
+         });
+
+         $(function() {
+              $('input[name="document_date"]').daterangepicker({
+                   singleDatePicker: true,
+                   showDropdowns: true,
+                   minYear: 2020,
+                   maxYear: parseInt(moment().format('YYYY'),10),
+                   locale: {
+                      format: 'DD MMM YYYY'
+                  }
+              });
+              $('input[name="send_appointment"]').daterangepicker({
+                   singleDatePicker: true,
+                   showDropdowns: true,
+                   minYear: 2020,
+                   maxYear: parseInt(moment().format('YYYY'),10),
+                   locale: {
+                      format: 'DD MMM YYYY'
+                  }
+              });
          });
 
          $('#FormAdd').validate({
