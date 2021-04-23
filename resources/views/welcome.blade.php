@@ -25,8 +25,9 @@
     <!-- vendor css -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-     {{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> --}}
-     <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    {{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> --}}
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}">
     <style>
     .process-step .btn:focus{outline:none}
     .process{display:table;width:100%;position:relative}
@@ -105,7 +106,7 @@
                      <div class="col-md-12">
                           <div class="card">
                                <div class="card-header">
-                                    <h5>Wizard with Validation</h5>
+                                    <h5>{{$title}}</h5>
                                </div>
                                <div class="card-body">
                                    <div class="bt-wizard" id="besicwizard">
@@ -147,30 +148,34 @@
                                                               <div class="card-body">
                                                                    <div class="form-row">
                                                                         <div class="col-md-3 mb-3">
-                                                                             <label for="validationTooltip01">เลขที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" id="validationTooltip01" placeholder="" value="" required>
+                                                                             <label for="document_no">เลขที่เอกสาร</label>
+                                                                             <input type="text" class="form-control" name="document_no" id="document_no" placeholder="" value="{{$result->DocuNO}}">
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="document_date">วันที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="document_date" placeholder="" value="" required>
+                                                                             <input type="text" class="form-control" name="document_date" id="document_date" placeholder="" value="{{$result->DocuDate}}">
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="send_appointment">วันที่นัดส่ง</label>
-                                                                             <input type="text" class="form-control" name="send_appointment" value="" required />
+                                                                             <input type="text" class="form-control" name="send_appointment" id="send_appointment" value="" />
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="customer_code">รหัสลูกค้า</label>
-                                                                             <input type="text" name="customer_code" value="" class="form-control" />
+                                                                             <input type="text" name="customer_code" id="customer_code" value="{{$result->CustCode}}" class="form-control" />
                                                                         </div>
                                                                    </div>
                                                                    <div class="form-row">
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="sale_code">รหัสพนักงานขาย</label>
-                                                                             <input type="text" class="form-control" name="sale_code" placeholder="" value="" required>
+                                                                             <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="{{$result->EmpCode}}">
                                                                         </div>
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="product_code">รหัสสินค้า</label>
-                                                                             <input type="text" class="form-control" name="product_code" placeholder="" value="" required>
+                                                                             <select class="form-control" name="product_code" id="product_code">
+                                                                                  @foreach ($products as $key => $product)
+                                                                                       <option value="{{$product->GoodCode}}">{{$product->GoodCode}} {{$product->GoodName1}}</option>
+                                                                                  @endforeach
+                                                                             </select>
                                                                         </div>
                                                                    </div>
                                                               </div>
@@ -230,9 +235,13 @@
         <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
         <script src="{{asset('assets/js/menu-setting.min.js')}}"></script>
 
-        <script src="{{asset('assets/js/plugins/jquery.bootstrap.wizard.min.js')}}"></script>
-
-
+        <!-- jquery-validation Js -->
+        <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
+        <!-- sweet alert Js -->
+        <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
+        <!-- datepicker js -->
+        <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
+        <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
         <!-- prism Js -->
         <script src="{{asset('assets/js/plugins/prism.js')}}"></script>
         <script src="{{asset('assets/js/horizontal-menu.js')}}"></script>
@@ -246,7 +255,15 @@
                 SubMenuTrigger: 'hover',
             });
 
-
+            $("#send_appointment").daterangepicker({
+                 singleDatePicker: true,
+                 showDropdowns: true,
+                 minYear: 2020,
+                 maxYear: parseInt(moment().format('YYYY'),10),
+                 locale: {
+                    format: 'DD MMM YYYY'
+                }
+            });
         });
 
         $(function(){
@@ -267,6 +284,7 @@
                   $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
                   $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
              });
+
              $('.prev-step').on('click', function (e){
                   e.preventDefault();
                   var data = $(this).data("id");
@@ -283,7 +301,6 @@
         });
     </script>
 
-    <script src="{{asset('assets/js/analytics.js')}}"></script>
 
 </body>
 
