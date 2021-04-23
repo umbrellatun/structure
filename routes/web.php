@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Route;
 //     return view('welcome');
 // });
 Route::get('/customer/{customer_id}', 'HomeController@index');
+Route::post('/customer/get_cust_code', 'HomeController@get_cust_code')->name('customer.get_cust_code');
 
 
 //Clear Cache facade value:

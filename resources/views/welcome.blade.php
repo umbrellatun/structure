@@ -44,6 +44,17 @@
     body{
          font-family: myFirstFont, sans-serif;
     }
+    .preloader
+    {
+         position: fixed;
+         left: 0px;
+         top: 0px;
+         width: 100%;
+         height: 100%;
+         z-index: 9999;
+         background: url('../../../public/assets/images/Pulse-1s-200px.gif') 50% 50% no-repeat rgb(249,249,249);
+         opacity: .8;
+    }
     </style>
 
 
@@ -70,8 +81,8 @@
             <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             <a href="#!" class="b-brand">
                 <!-- ========   change your logo hear   ============ -->
-                <img src="assets/images/logo.png" alt="" class="logo">
-                <img src="assets/images/logo-icon.png" alt="" class="logo-thumb">
+                <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
+                <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb">
             </a>
             <a href="#!" class="mob-toggler">
                 <i class="feather icon-more-vertical"></i>
@@ -146,32 +157,32 @@
                                                                    <hr/>
                                                               </div>
                                                               <div class="card-body">
-                                                                   <div class="form-row">
+                                                                   <div class="form-row form-1 needs-validation" novalidate>
                                                                         <div class="col-md-3 mb-3">
-                                                                             <label for="document_no">เลขที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="document_no" id="document_no" placeholder="" value="{{$result->DocuNO}}">
+                                                                             <label for="DocuNO">เลขที่เอกสาร</label>
+                                                                             <input type="text" class="form-control" name="DocuNO" id="DocuNO" value="{{$result->DocuNO}}" required>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
-                                                                             <label for="document_date">วันที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="document_date" id="document_date" placeholder="" value="{{$result->DocuDate}}">
+                                                                             <label for="DocuDate">วันที่เอกสาร</label>
+                                                                             <input type="text" class="form-control" name="DocuDate" id="DocuDate" value="{{$result->DocuDate}}" required>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="send_appointment">วันที่นัดส่ง</label>
-                                                                             <input type="text" class="form-control" name="send_appointment" id="send_appointment" value="" />
+                                                                             <input type="text" class="form-control" name="send_appointment" id="send_appointment" value="" required />
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
-                                                                             <label for="customer_code">รหัสลูกค้า</label>
-                                                                             <input type="text" name="customer_code" id="customer_code" value="{{$result->CustCode}}" class="form-control" />
+                                                                             <label for="CustCode">รหัสลูกค้า</label>
+                                                                             <input type="text" name="CustCode" id="CustCode" value="{{$result->CustCode}}" class="form-control" required />
                                                                         </div>
                                                                    </div>
-                                                                   <div class="form-row">
+                                                                   <div class="form-row form-1 needs-validation" novalidate>
                                                                         <div class="col-md-6 mb-3">
-                                                                             <label for="sale_code">รหัสพนักงานขาย</label>
-                                                                             <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="{{$result->EmpCode}}">
+                                                                             <label for="EmpCode">รหัสพนักงานขาย</label>
+                                                                             <input type="text" name="EmpCode" id="EmpCode" value="{{$result->EmpCode}}" class="form-control" required>
                                                                         </div>
                                                                         <div class="col-md-6 mb-3">
-                                                                             <label for="product_code">รหัสสินค้า</label>
-                                                                             <select class="form-control" name="product_code" id="product_code">
+                                                                             <label for="GoodCode">รหัสสินค้า</label>
+                                                                             <select class="form-control" name="GoodCode" id="GoodCode" required>
                                                                                   @foreach ($products as $key => $product)
                                                                                        <option value="{{$product->GoodCode}}">{{$product->GoodCode}} {{$product->GoodName1}}</option>
                                                                                   @endforeach
@@ -246,7 +257,7 @@
         <script src="{{asset('assets/js/plugins/prism.js')}}"></script>
         <script src="{{asset('assets/js/horizontal-menu.js')}}"></script>
     <script>
-
+     var url_gb = '{{ url('') }}'
 
         $(document).ready(function() {
             $("#pcoded").pcodedmenu({
@@ -275,6 +286,63 @@
              $('.next-step').on('click', function (e){
                   e.preventDefault();
                   var data = $(this).data("id");
+                  if (data == 1){
+                       if (!$('#DocuNO').val()) {
+                          $('#DocuNO').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                       if (!$('#DocuDate').val()) {
+                          $('#DocuDate').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                       if (!$('#send_appointment').val()) {
+                          $('#send_appointment').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                       if (!$('#CustCode').val()) {
+                          $('#CustCode').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                       if (!$('#EmpCode').val()) {
+                          $('#EmpCode').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                       if (!$('#GoodCode').val()) {
+                          $('#GoodCode').focus();
+                          $('.form-1').addClass('was-validated');
+                          return false;
+                      }
+                      $.ajax({
+                           method : "post",
+                           url : '{{ route('customer.get_cust_code')}}',
+                           dataType : 'json',
+                           data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
+                           headers: {
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                           },
+                           beforeSend: function() {
+                                $("#preloaders").css("display", "block");
+                           },
+                      }).done(function(rec){
+                           $("#preloaders").css("display", "none");
+                           // if(rec.status==1){
+                                // swal("", rec.content, "success").then(function(){
+                                //      window.location.href = "{{ route('user') }}";
+                                // });
+                           // } else {
+                                // swal("", rec.content, "warning");
+                           // }
+                      }).fail(function(){
+                           $("#preloaders").css("display", "none");
+                           swal("", rec.content, "error");
+                      });
+                  }
+
                   var next = data+1;
                   $("#menu" + data).removeClass('active');
                   $("#menu" + data).removeClass('in');
@@ -288,6 +356,7 @@
              $('.prev-step').on('click', function (e){
                   e.preventDefault();
                   var data = $(this).data("id");
+
                   var prev = data-1;
 
                   $("#menu" + data).removeClass('active');

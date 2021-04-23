@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Validator;
 
 class HomeController extends Controller
 {
@@ -38,4 +39,48 @@ class HomeController extends Controller
          $data["products"] =  \DB::select($q);
          return view('welcome', $data);
     }
+
+    public function get_cust_code(Request $request)
+    {
+         $CustCode = $request->CustCode;
+         $GoodCode = $request->GoodCode;
+         // $ShipDate = $request->ShipDate;
+         $ShipDate = (date_create($request->ShipDate));
+         $ShipDate = date_format($ShipDate, 'Y-m-d');
+         $validator = Validator::make($request->all(), [
+
+         ]);
+         if (!$validator->fails()) {
+              try {
+
+                   $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate";
+                   $q .= " FROM tmConTain_bk_dt_Temp INNER JOIN";
+                   $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID';
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
+                   $q .= " UNION ALL';
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate';
+                   $q .= " FROM tmConTain_dl_dt_Temp INNER JOIN';
+                   $q .= " SOHD ON tmConTain_dl_dt_Temp.RefSOCOID = SOHD.SOID';
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
+                   $q .= " UNION ALL';
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate';
+                   $q .= " FROM tmConTain_dt_Temp INNER JOIN';
+                   $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID';
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
+
+                   $return["datas"] =  \DB::select($q);
+                   $return['status'] = 1;
+                   $return['content'] = 'จัดเก็บสำเร็จ';
+              } catch (Exception $e) {
+                   $return['status'] = 0;
+                   $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         $return['title'] = 'เพิ่มข้อมูล';
+         return json_encode($return);
+    }
+
+
 }
