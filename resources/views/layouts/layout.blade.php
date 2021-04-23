@@ -56,7 +56,7 @@
     <!-- [ Pre-loader ] End -->
 
     <!-- [ navigation menu ] start -->
-    <nav class="pcoded-navbar menupos-fixed navbar-dark brand-blue">
+    <nav class="pcoded-navbar menupos-fixed menu-light brand-blue">
         <div class="navbar-wrapper">
             <div class="navbar-content scroll-div">
                 <ul class="nav pcoded-inner-navbar">
@@ -71,7 +71,7 @@
                                    @else
                                    <a href="{{ strlen($menu->link) > 0 ? route($menu->link) : ''}}" class="nav-link">
                                    @endif
-                                        <span class="pcoded-micon"><i class="{{$menu->icon}}"></i></span>
+                                        <span class="pcoded-micon text-primary"><i class="{{$menu->icon}}"></i></span>
                                         <span class="pcoded-mtext">{{$menu->name}}</span>
                                    </a>
                                    @if (sizeof($menu->SubMenu) > 0)
