@@ -61,10 +61,10 @@
                                             <div class="form-row">
                                                  <div class="col-xl-12">
                                                       <div class="card">
-                                                           <div class="card-header">
+                                                           {{-- <div class="card-header">
                                                                 <h5>Striped Table</h5>
                                                                 <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
-                                                           </div>
+                                                           </div> --}}
                                                            <div class="card-body table-border-style">
                                                                 <div class="table-responsive">
                                                                      <table class="table table-striped">
@@ -81,36 +81,18 @@
                                                                                </tr>
                                                                           </thead>
                                                                           <tbody>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
+                                                                               @for ($i=0; $i < 5; $i++)
+                                                                                    <tr>
+                                                                                         <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                         <td>SO-CO2104-0001</td>
+                                                                                         <td>01/04/2021</td>
+                                                                                         <td>23</td>
+                                                                                         <td>45/2068 หมู่ 1 หนองค้างพลู หนองแขม กรุงเทพ</td>
+                                                                                         <td>990.99</td>
+                                                                                         <td>100</td>
+                                                                                         <td>20</td>
+                                                                                    </tr>
+                                                                               @endfor
                                                                           </tbody>
                                                                      </table>
                                                                 </div>
@@ -129,10 +111,10 @@
                                             <div class="form-row">
                                                  <div class="col-xl-12">
                                                       <div class="card">
-                                                           <div class="card-header">
+                                                           {{-- <div class="card-header">
                                                                 <h5>Striped Table</h5>
                                                                 <span class="d-block m-t-5">use class <code>table-striped</code> inside table element</span>
-                                                           </div>
+                                                           </div> --}}
                                                            <div class="card-body table-border-style">
                                                                 <div class="table-responsive">
                                                                      <table class="table table-striped">
@@ -149,44 +131,32 @@
                                                                                </tr>
                                                                           </thead>
                                                                           <tbody>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
-                                                                               <tr>
-                                                                                    <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                                    <td></td>
-                                                                               </tr>
+                                                                               @for ($i=0; $i < 5; $i++)
+                                                                                    <tr>
+                                                                                         <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                         <td>SO-CO2104-0001</td>
+                                                                                         <td>01/04/2021</td>
+                                                                                         <td>Sataporn Chunwet</td>
+                                                                                         <td>21040101001</td>
+                                                                                         <td>เปิด</td>
+                                                                                         <td>100</td>
+                                                                                         <td>20</td>
+                                                                                    </tr>
+                                                                               @endfor
                                                                           </tbody>
+                                                                          <tfoot>
+                                                                               <tr>
+                                                                                    <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
+                                                                                    <td >20</td>
+                                                                               </tr>
+                                                                          </tfoot>
                                                                      </table>
                                                                 </div>
                                                            </div>
                                                       </div>
                                                  </div>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <button type="submit" class="btn btn-primary">บันทึก</button>
                                        </form>
                                   </div>
                               </div>
