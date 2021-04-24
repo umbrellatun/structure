@@ -21,7 +21,6 @@
 
     <!-- prism css -->
     <link rel="stylesheet" href="{{asset('assets/css/plugins/prism-coy.css')}}">
-
     <!-- vendor css -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -234,7 +233,6 @@
                                                 </ul>
                                            </div>
                                            <div id="menu3" class="tab-pane fade">
-
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                          <div class="card">
@@ -263,12 +261,26 @@
                                                                    </div>
                                                               </div>
                                                               <div class="card-body">
-                                                                   <h5>แบ่งสินค้ามาจาก</h5>
-                                                                   <hr/>
+                                                                   <div class="card-header">
+                                                                        <h5>แบ่งสินค้ามาจาก</h5>
+                                                                        <hr/>
+                                                                        <div class="form-row">
+                                                                             <div class="form-group d-inline mr-2">
+                                                                                  <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
+                                                                                  <label for="share_product_radio_1">สินค้าตนเอง</label>
+                                                                             </div>
+                                                                             <div class="form-group d-inline">
+                                                                                  <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
+                                                                                  <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
+                                                                             </div>
+                                                                        </div>
+                                                                   </div>
+
+
                                                                    <div class="form-row">
                                                                         <div class="col-md-12 mb-3">
-                                                                             <label for="sale_code_from">รหัสพนักงานขาย</label>
-                                                                             <input type="text" class="form-control" name="sale_code_from" placeholder="" value="" required>
+                                                                             <label for="sale_code">รหัสพนักงานขาย</label>
+                                                                             <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required="true" readonly="readonly">
                                                                         </div>
                                                                    </div>
                                                               </div>
@@ -326,9 +338,10 @@
 
         <!-- notification Js -->
         <script src="{{asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
+
     <script>
      var url_gb = '{{ url('') }}'
-
+     var emp_code = '{{$result->EmpCode}}';
      function jsDateDiff1(strDate1,strDate2){
 		var theDate1 = Date.parse(strDate1)/1000;
 		var theDate2 = Date.parse(strDate2)/1000;
@@ -353,7 +366,6 @@
            }
        });
    });
-
         $(function(){
              function notify(from, align, icon, type, animIn, animOut, title) {
                   $.notify({
@@ -480,7 +492,8 @@
                             $("#preloaders").css("display", "none");
                             swal("", rec.content, "error");
                        });
-                  } else if(data == 2) {
+                  }
+                  else if(data == 2) {
                        $("#table2 tbody").empty();
                        var valids = new Array();
                        var doc_ids = new Array();
@@ -526,6 +539,28 @@
                   $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
                   $("#icon-"+prev).addClass('btn-info').removeClass('btn-default');
              });
+
+             $('input[name=share_product_radio]').on('change', function() {
+                  if($(this).val() == 'Y'){
+                       $("#sale_code").val(emp_code);
+                       $("#sale_code").attr("readonly", true);
+                  } else {
+                       $("#sale_code").val("");
+                       $("#sale_code").attr("placeholder", "กรุณาระบุรหัสพนักงานขาย");
+                       $("#sale_code").attr("readonly", false);
+                  }
+             });
+             // $('input[name=share_product_radio]').on('click', function (e){
+             //      e.preventDefault();
+             //      var data = $(this).val();
+             //      console.log(data);
+             //      if (data == 'Y'){
+             //           $("#sale_code").val(emp_code);
+             //      } else {
+             //           $("#sale_code").attr("readonly", false);
+             //      }
+             // });
+
         });
     </script>
 
