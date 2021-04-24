@@ -506,7 +506,7 @@
                                  let tr = '';
                                  if (rec.datas.length > 0){
                                       $.each(rec.datas, function( key, data ) {
-                                           tr += '<tr id="tr_'+data.RefSOCOID+'">';
+                                           tr += '<tr class="tr_'+data.RefSOCOID+'">';
                                            tr += '<td>';
                                            tr += '<input type="radio" name="ref_soco_id" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
                                            tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
@@ -543,7 +543,7 @@
                        if (jQuery.inArray( true, valids ) != -1) {
                               for (var i = 0; i < valids.length; i++) {
                                    if(valids[i] == true){
-                                        a = $("#tr_"+doc_ids[i]).clone();
+                                        a = $(".tr_"+doc_ids[i]).clone();
                                         $("#table2 tbody").append(a);
                                    }
                               }
