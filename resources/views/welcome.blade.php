@@ -202,7 +202,7 @@
                                                     <div class="col-md-12">
                                                          <div class="card">
                                                               <div class="card-header">
-                                                                   <h5>ข้อมูลลูกค้า</h5>
+                                                                   <h5>ข้อมูลเอกสาร</h5>
                                                                    <hr/>
                                                               </div>
                                                               <div class="card-body table-border-style">
@@ -360,22 +360,26 @@
                            $("#table1 tbody").empty();
                            if(rec.status==1){
                                 let tr = '';
-                                $.each( rec.datas, function( key, data ) {
-                                     tr += '<tr>';
-                                            tr += '<td>';
-                                            tr += '<input type="radio" name="ref_soco_id" class="form-check" value="'+data.RefSOCOID+'">';
-                                            tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
-                                            tr += '</td>';
-                                            tr += '<td>'+data.RefSOCONo+'</td>';
-                                            tr += '<td>'+data.DocuDate+'</td>';
-                                            tr += '<td></td>';
-                                            tr += '<td>'+data.CustAddress+'</td>';
-                                            tr += '<td>'+data.GoodPrice2+'</td>';
-                                            tr += '<td></td>';
-                                            tr += '<td></td>';
-                                            tr += '</tr>';
-                                       $("#table1 tbody").append(tr);
-                                });
+                                if (rec.datas.length > 0){
+                                     $.each(rec.datas, function( key, data ) {
+                                         tr += '<tr>';
+                                                tr += '<td>';
+                                                tr += '<input type="radio" name="ref_soco_id" class="form-check" value="'+data.RefSOCOID+'">';
+                                                tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
+                                                tr += '</td>';
+                                                tr += '<td>'+data.RefSOCONo+'</td>';
+                                                tr += '<td>'+data.DocuDate+'</td>';
+                                                tr += '<td></td>';
+                                                tr += '<td>'+data.CustAddress+'</td>';
+                                                tr += '<td>'+data.GoodPrice2+'</td>';
+                                                tr += '<td></td>';
+                                                tr += '<td></td>';
+                                                tr += '</tr>';
+                                    });
+                               } else {
+                                    tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                               }
+                               $("#table1 tbody").append(tr);
                            } else {
                                 swal("", rec.content, "warning");
                            }
