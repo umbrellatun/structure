@@ -133,15 +133,15 @@
                                                           <p><small>Fill<br />description</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab"><i class="fa fa-image fa-3x"></i></button>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab" disabled><i class="fa fa-image fa-3x"></i></button>
                                                           <p><small>Upload<br />images</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab"><i class="fa fa-cogs fa-3x"></i></button>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><i class="fa fa-cogs fa-3x"></i></button>
                                                           <p><small>Configure<br />display</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab"><i class="fa fa-check fa-3x"></i></button>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab" disabled><i class="fa fa-check fa-3x"></i></button>
                                                           <p><small>Save<br />result</small></p>
                                                      </div>
                                                 </div>
@@ -190,7 +190,6 @@
                                                                         </div>
                                                                    </div>
                                                               </div>
-
                                                          </div>
                                                     </div>
                                                </div>
@@ -199,8 +198,36 @@
                                                 </ul>
                                            </div>
                                            <div id="menu2" class="tab-pane fade">
-                                                <h3>Menu 2</h3>
-                                                <p>Some content in menu 2.</p>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                         <div class="card">
+                                                              <div class="card-header">
+                                                                   <h5>ข้อมูลลูกค้า</h5>
+                                                                   <hr/>
+                                                              </div>
+                                                              <div class="card-body table-border-style">
+                                                                   <div class="table-responsive">
+                                                                        <table id="table1" class="table table-striped">
+                                                                             <thead>
+                                                                                  <tr>
+                                                                                       <th>#</th>
+                                                                                       <th>เลขที่เอกสาร</th>
+                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>จำนวนวัน</th>
+                                                                                       <th>สถานที่จัดส่ง</th>
+                                                                                       <th>ราคา/หน่วย</th>
+                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                  </tr>
+                                                                             </thead>
+                                                                             <tbody>
+                                                                             </tbody>
+                                                                        </table>
+                                                                   </div>
+                                                              </div>
+                                                         </div>
+                                                    </div>
+                                               </div>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="2" id="prev-step-2"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="2" id="next-step-2">Next <i class="fa fa-chevron-right"></i></button></li>
@@ -330,13 +357,28 @@
                            },
                       }).done(function(rec){
                            $("#preloaders").css("display", "none");
-                           // if(rec.status==1){
-                                // swal("", rec.content, "success").then(function(){
-                                //      window.location.href = "{{ route('user') }}";
-                                // });
-                           // } else {
-                                // swal("", rec.content, "warning");
-                           // }
+                           $("#table1 tbody").empty();
+                           if(rec.status==1){
+                                let tr = '';
+                                $.each( rec.datas, function( key, data ) {
+                                     tr += '<tr>';
+                                            tr += '<td>';
+                                            tr += '<input type="radio" name="ref_soco_id" class="form-check" value="'+data.RefSOCOID+'">';
+                                            tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
+                                            tr += '</td>';
+                                            tr += '<td>'+data.RefSOCONo+'</td>';
+                                            tr += '<td>'+data.DocuDate+'</td>';
+                                            tr += '<td></td>';
+                                            tr += '<td>'+data.CustAddress+'</td>';
+                                            tr += '<td>'+data.GoodPrice2+'</td>';
+                                            tr += '<td></td>';
+                                            tr += '<td></td>';
+                                            tr += '</tr>';
+                                       $("#table1 tbody").append(tr);
+                                });
+                           } else {
+                                swal("", rec.content, "warning");
+                           }
                       }).fail(function(){
                            $("#preloaders").css("display", "none");
                            swal("", rec.content, "error");

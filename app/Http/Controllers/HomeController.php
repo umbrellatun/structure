@@ -46,7 +46,7 @@ class HomeController extends Controller
          $GoodCode = $request->GoodCode;
          // $ShipDate = $request->ShipDate;
          $ShipDate = (date_create($request->ShipDate));
-         $ShipDate = date_format($ShipDate, 'Y-m-d');
+         $ShipDate = date_format($ShipDate, 'Ymd');
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -55,30 +55,31 @@ class HomeController extends Controller
 
                    $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate";
                    $q .= " FROM tmConTain_bk_dt_Temp INNER JOIN";
-                   $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID';
-                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
-                   $q .= " UNION ALL';
-                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate';
-                   $q .= " FROM tmConTain_dl_dt_Temp INNER JOIN';
-                   $q .= " SOHD ON tmConTain_dl_dt_Temp.RefSOCOID = SOHD.SOID';
-                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
-                   $q .= " UNION ALL';
-                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate';
-                   $q .= " FROM tmConTain_dt_Temp INNER JOIN';
-                   $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID';
-                   $q .= " WHERE TranQty <> 0 AND CustCode = '.$CustCode.' AND GoodCode = '.$GoodCode.' AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'';
+                   $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '.$ShipDate.'";
+                   $q .= " UNION ALL";
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate";
+                   $q .= " FROM tmConTain_dl_dt_Temp INNER JOIN";
+                   $q .= " SOHD ON tmConTain_dl_dt_Temp.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
+                   $q .= " UNION ALL";
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate";
+                   $q .= " FROM tmConTain_dt_Temp INNER JOIN";
+                   $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
 
+                   // dd($q);
                    $return["datas"] =  \DB::select($q);
                    $return['status'] = 1;
-                   $return['content'] = 'จัดเก็บสำเร็จ';
               } catch (Exception $e) {
                    $return['status'] = 0;
-                   $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
               }
          } else{
               $return['status'] = 0;
          }
-         $return['title'] = 'เพิ่มข้อมูล';
          return json_encode($return);
     }
 
