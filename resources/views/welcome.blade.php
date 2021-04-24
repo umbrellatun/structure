@@ -164,7 +164,7 @@
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="DocuDate">วันที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="DocuDate" id="DocuDate" value="{{$result->DocuDate}}" required>
+                                                                             <input type="text" class="form-control" name="DocuDate" id="DocuDate" value="{{ date_format(date_create($result->DocuDate), "d M Y H:i:s") }}" required>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="send_appointment">วันที่นัดส่ง</label>
@@ -234,8 +234,48 @@
                                                 </ul>
                                            </div>
                                            <div id="menu3" class="tab-pane fade">
-                                                <h3>Menu 3</h3>
-                                                <p>Some content in menu 3.</p>
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                         <div class="card">
+                                                              <div class="card-header">
+                                                                   <h5>ข้อมูลเอกสาร</h5>
+                                                                   <hr/>
+                                                              </div>
+                                                              <div class="card-body table-border-style">
+                                                                   <div class="table-responsive">
+                                                                        <table id="table2" class="table table-striped">
+                                                                             <thead>
+                                                                                  <tr>
+                                                                                       <th>#</th>
+                                                                                       <th>เลขที่เอกสาร</th>
+                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>จำนวนวัน</th>
+                                                                                       <th>สถานที่จัดส่ง</th>
+                                                                                       <th>ราคา/หน่วย</th>
+                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                  </tr>
+                                                                             </thead>
+                                                                             <tbody>
+                                                                             </tbody>
+                                                                        </table>
+                                                                   </div>
+                                                              </div>
+                                                              <div class="card-body">
+                                                                   <h5>แบ่งสินค้ามาจาก</h5>
+                                                                   <hr/>
+                                                                   <div class="form-row">
+                                                                        <div class="col-md-12 mb-3">
+                                                                             <label for="sale_code_from">รหัสพนักงานขาย</label>
+                                                                             <input type="text" class="form-control" name="sale_code_from" placeholder="" value="" required>
+                                                                        </div>
+                                                                   </div>
+                                                              </div>
+
+                                                         </div>
+                                                    </div>
+                                               </div>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="3" id="prev-step-3"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="3" id="next-step-3">Next <i class="fa fa-chevron-right"></i></button></li>
@@ -283,28 +323,80 @@
         <!-- prism Js -->
         <script src="{{asset('assets/js/plugins/prism.js')}}"></script>
         <script src="{{asset('assets/js/horizontal-menu.js')}}"></script>
+
+        <!-- notification Js -->
+        <script src="{{asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
     <script>
      var url_gb = '{{ url('') }}'
 
-        $(document).ready(function() {
-            $("#pcoded").pcodedmenu({
-                themelayout: 'horizontal',
-                MenuTrigger: 'hover',
-                SubMenuTrigger: 'hover',
-            });
+     function jsDateDiff1(strDate1,strDate2){
+		var theDate1 = Date.parse(strDate1)/1000;
+		var theDate2 = Date.parse(strDate2)/1000;
+		var diff=(theDate2-theDate1)/(60*60*24);
+		return diff;
+	}
 
-            $("#send_appointment").daterangepicker({
-                 singleDatePicker: true,
-                 showDropdowns: true,
-                 minYear: 2020,
-                 maxYear: parseInt(moment().format('YYYY'),10),
-                 locale: {
-                    format: 'DD MMM YYYY'
-                }
-            });
-        });
+   $(document).ready(function() {
+       $("#pcoded").pcodedmenu({
+           themelayout: 'horizontal',
+           MenuTrigger: 'hover',
+           SubMenuTrigger: 'hover',
+       });
+
+       $("#send_appointment").daterangepicker({
+            singleDatePicker: true,
+            showDropdowns: true,
+            minYear: 2020,
+            maxYear: parseInt(moment().format('YYYY'),10),
+            locale: {
+               format: 'DD MMM YYYY'
+           }
+       });
+   });
 
         $(function(){
+             function notify(from, align, icon, type, animIn, animOut, title) {
+                  $.notify({
+                       icon: icon,
+                       title:  title,
+                       message: '',
+                       url: ''
+                  }, {
+                       element: 'body',
+                       type: type,
+                       allow_dismiss: true,
+                       placement: {
+                            from: from,
+                            align: align
+                       },
+                       offset: {
+                            x: 30,
+                            y: 30
+                       },
+                       spacing: 10,
+                       z_index: 999999,
+                       delay: 2500,
+                       timer: 1000,
+                       url_target: '_blank',
+                       mouse_over: false,
+                       animate: {
+                            enter: animIn,
+                            exit: animOut
+                       },
+                       icon_type: 'class',
+                       template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+                       '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+                       '<span data-notify="icon"></span> ' +
+                       '<span data-notify="title">{1}</span> ' +
+                       '<span data-notify="message">{2}</span>' +
+                       '<div class="progress" data-notify="progressbar">' +
+                       '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+                       '</div>' +
+                       '<a href="{3}" target="{4}" data-notify="url"></a>' +
+                       '</div>'
+                  });
+             };
+
              $('.btn-circle').on('click',function(){
                   $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
                   $(this).addClass('btn-info').removeClass('btn-default').blur();
@@ -313,80 +405,100 @@
              $('.next-step').on('click', function (e){
                   e.preventDefault();
                   var data = $(this).data("id");
+
                   if (data == 1){
                        if (!$('#DocuNO').val()) {
-                          $('#DocuNO').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
+                            $('#DocuNO').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
                        if (!$('#DocuDate').val()) {
-                          $('#DocuDate').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
+                            $('#DocuDate').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
                        if (!$('#send_appointment').val()) {
-                          $('#send_appointment').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
+                            $('#send_appointment').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
                        if (!$('#CustCode').val()) {
-                          $('#CustCode').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
+                            $('#CustCode').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
                        if (!$('#EmpCode').val()) {
-                          $('#EmpCode').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
+                            $('#EmpCode').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
                        if (!$('#GoodCode').val()) {
-                          $('#GoodCode').focus();
-                          $('.form-1').addClass('was-validated');
-                          return false;
-                      }
-                      $.ajax({
-                           method : "post",
-                           url : '{{ route('customer.get_cust_code')}}',
-                           dataType : 'json',
-                           data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
-                           headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                           },
-                           beforeSend: function() {
-                                $("#preloaders").css("display", "block");
-                           },
-                      }).done(function(rec){
-                           $("#preloaders").css("display", "none");
-                           $("#table1 tbody").empty();
-                           if(rec.status==1){
-                                let tr = '';
-                                if (rec.datas.length > 0){
-                                     $.each(rec.datas, function( key, data ) {
-                                         tr += '<tr>';
-                                                tr += '<td>';
-                                                tr += '<input type="radio" name="ref_soco_id" class="form-check" value="'+data.RefSOCOID+'">';
-                                                tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
-                                                tr += '</td>';
-                                                tr += '<td>'+data.RefSOCONo+'</td>';
-                                                tr += '<td>'+data.DocuDate+'</td>';
-                                                tr += '<td></td>';
-                                                tr += '<td>'+data.CustAddress+'</td>';
-                                                tr += '<td>'+data.GoodPrice2+'</td>';
-                                                tr += '<td></td>';
-                                                tr += '<td></td>';
-                                                tr += '</tr>';
-                                    });
-                               } else {
-                                    tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                               }
-                               $("#table1 tbody").append(tr);
-                           } else {
-                                swal("", rec.content, "warning");
-                           }
-                      }).fail(function(){
-                           $("#preloaders").css("display", "none");
-                           swal("", rec.content, "error");
-                      });
+                            $('#GoodCode').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
+                       $.ajax({
+                            method : "post",
+                            url : '{{ route('customer.get_cust_code')}}',
+                            dataType : 'json',
+                            data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
+                            headers: {
+                                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                            },
+                            beforeSend: function() {
+                                 $("#preloaders").css("display", "block");
+                            },
+                       }).done(function(rec){
+                            $("#preloaders").css("display", "none");
+                            $("#table1 tbody").empty();
+                            if(rec.status==1){
+                                 let tr = '';
+                                 if (rec.datas.length > 0){
+                                      $.each(rec.datas, function( key, data ) {
+                                           tr += '<tr id="tr_'+data.RefSOCOID+'">';
+                                           tr += '<td>';
+                                           tr += '<input type="radio" name="ref_soco_id" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
+                                           tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
+                                           tr += '</td>';
+                                           tr += '<td>'+data.RefSOCONo+'</td>';
+                                           tr += '<td>'+data.DocuDate+'</td>';
+                                           tr += '<td>'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</td>';
+                                           tr += '<td>'+data.CustAddress+'</td>';
+                                           tr += '<td>'+data.GoodPrice2+'</td>';
+                                           tr += '<td>'+data.TranQty+'</td>';
+                                           tr += '<td>0</td>';
+                                           tr += '</tr>';
+                                      });
+                                 } else {
+                                      tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                                 }
+                                 $("#table1 tbody").append(tr);
+                            } else {
+                                 swal("", rec.content, "warning");
+                            }
+                       }).fail(function(){
+                            $("#preloaders").css("display", "none");
+                            swal("", rec.content, "error");
+                       });
+                  } else if(data == 2) {
+                       $("#table2 tbody").empty();
+                       var valids = new Array();
+                       var doc_ids = new Array();
+                       $('.ref_soco_id').each(function(i, obj) {
+                            valids.push($(obj).prop("checked"));
+                            doc_ids.push($(obj).val());
+                       });
+                       if (jQuery.inArray( true, valids ) != -1) {
+                              for (var i = 0; i < valids.length; i++) {
+                                   if(valids[i] == true){
+                                        a = $("#tr_"+doc_ids[i]).clone();
+                                        $("#table2 tbody").append(a);
+                                   }
+                              }
+                       } else {
+                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                            return false;
+                       }
                   }
 
                   var next = data+1;
@@ -402,9 +514,10 @@
              $('.prev-step').on('click', function (e){
                   e.preventDefault();
                   var data = $(this).data("id");
-
                   var prev = data-1;
-
+                  if (data == 3){
+                       $(".ref_soco_id").prop("checked", false);
+                  }
                   $("#menu" + data).removeClass('active');
                   $("#menu" + data).removeClass('in');
                   $("#menu" + prev).addClass('active');
