@@ -275,19 +275,58 @@
                                                                              </div>
                                                                         </div>
                                                                    </div>
-
-
                                                                    <div class="form-row">
                                                                         <div class="col-md-12 mb-3">
                                                                              <label for="sale_code">รหัสพนักงานขาย</label>
                                                                              <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required="true" readonly="readonly">
                                                                         </div>
                                                                    </div>
+                                                                   <div class="card-body table-border-style">
+                                                                        <div class="table-responsive">
+                                                                             <table class="table table-striped">
+                                                                                  <thead>
+                                                                                       <tr>
+                                                                                            <th>#</th>
+                                                                                            <th>เลขที่เอกสาร</th>
+                                                                                            <th>วันที่จอง</th>
+                                                                                            <th>ชื่อลูกค้า</th>
+                                                                                            <th>เลขตู้จัดสินค้า</th>
+                                                                                            <th>สถานะตู้</th>
+                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                            <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                       </tr>
+                                                                                  </thead>
+                                                                                  <tbody>
+                                                                                       @for ($i=0; $i < 5; $i++)
+                                                                                            <tr>
+                                                                                                 <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                                 <td>SO-CO2104-0001</td>
+                                                                                                 <td>01/04/2021</td>
+                                                                                                 <td>Sataporn Chunwet</td>
+                                                                                                 <td>21040101001</td>
+                                                                                                 <td>เปิด</td>
+                                                                                                 <td>100</td>
+                                                                                                 <td>20</td>
+                                                                                            </tr>
+                                                                                       @endfor
+                                                                                  </tbody>
+                                                                                  <tfoot>
+                                                                                       <tr>
+                                                                                            <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
+                                                                                            <td >20</td>
+                                                                                       </tr>
+                                                                                  </tfoot>
+                                                                             </table>
+                                                                        </div>
+                                                                   </div>
+
+
                                                               </div>
 
                                                          </div>
                                                     </div>
                                                </div>
+
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="3" id="prev-step-3"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="3" id="next-step-3">Next <i class="fa fa-chevron-right"></i></button></li>
