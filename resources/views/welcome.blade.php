@@ -124,24 +124,24 @@
                                            <div class="process mb-5">
                                                 <div class="process-row nav nav-tabs">
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-info btn-circle" id="icon-1" data-toggle="tab" disabled><i class="fa fa-info fa-3x"></i></button>
-                                                          <p><small>Fill<br />information</small></p>
+                                                          <button type="button" class="btn btn-info btn-circle" id="icon-1" data-toggle="tab" disabled><h1>1</h1></button>
+                                                          <p><small>ข้อมูล<br />ลูกค้า</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-2" data-toggle="tab" disabled><i class="fa fa-file-text-o fa-3x"></i></button>
-                                                          <p><small>Fill<br />description</small></p>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-2" data-toggle="tab" disabled><h1>2</h1></button>
+                                                          <p><small>ข้อมูล<br />เอกสาร</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab" disabled><i class="fa fa-image fa-3x"></i></button>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab" disabled><h1>3</h1></button>
                                                           <p><small>Upload<br />images</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><i class="fa fa-cogs fa-3x"></i></button>
-                                                          <p><small>Configure<br />display</small></p>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><h1>4</h1></button>
+                                                          <p><small>สรุป<br />ข้อมูล</small></p>
                                                      </div>
                                                      <div class="process-step">
-                                                          <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab" disabled><i class="fa fa-check fa-3x"></i></button>
-                                                          <p><small>Save<br />result</small></p>
+                                                          <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab" disabled><h1>5</h1></button>
+                                                          <p><small>บันทึก<br />สำเร็จ</small></p>
                                                      </div>
                                                 </div>
                                            </div>
@@ -262,27 +262,29 @@
                                                                         </div>
                                                                    </div>
                                                                    <div class="card-body">
-                                                                        <div class="card-header">
-                                                                             <h5>แบ่งสินค้ามาจาก</h5>
-                                                                             <hr/>
-                                                                             <div class="form-row">
-                                                                                  <div class="form-group d-inline mr-2">
-                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
-                                                                                       <label for="share_product_radio_1">สินค้าตนเอง</label>
-                                                                                  </div>
-                                                                                  <div class="form-group d-inline">
-                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
-                                                                                       <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
+                                                                        <div class="card_shared_product">
+                                                                             <div class="card-header">
+                                                                                  <h5>แบ่งสินค้ามาจาก</h5>
+                                                                                  <hr/>
+                                                                                  <div class="form-row">
+                                                                                       <div class="form-group d-inline mr-2">
+                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
+                                                                                            <label for="share_product_radio_1">สินค้าตนเอง</label>
+                                                                                       </div>
+                                                                                       <div class="form-group d-inline">
+                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
+                                                                                            <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
+                                                                                       </div>
                                                                                   </div>
                                                                              </div>
-                                                                        </div>
-                                                                        <div class="form-row">
-                                                                             <div class="col-md-12 mb-3">
-                                                                                  <label for="sale_code">รหัสพนักงานขาย</label>
-                                                                                  <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required="true" readonly="readonly">
-                                                                             </div>
-                                                                             <div class="col-md-12 mb-3">
-                                                                                  <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button>
+                                                                             <div class="form-row form-1 needs-validation" novalidate>
+                                                                                  <div class="col-md-12 mb-3">
+                                                                                       <label for="sale_code">รหัสพนักงานขาย</label>
+                                                                                       <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required readonly>
+                                                                                  </div>
+                                                                                  <div class="col-md-12 mb-3">
+                                                                                       <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button>
+                                                                                  </div>
                                                                              </div>
                                                                         </div>
                                                                         <div class="card-body table-border-style">
@@ -301,18 +303,6 @@
                                                                                             </tr>
                                                                                        </thead>
                                                                                        <tbody>
-                                                                                            @for ($i=0; $i < 5; $i++)
-                                                                                                 <tr>
-                                                                                                      <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                                      <td>SO-CO2104-0001</td>
-                                                                                                      <td>01/04/2021</td>
-                                                                                                      <td>Sataporn Chunwet</td>
-                                                                                                      <td>21040101001</td>
-                                                                                                      <td>เปิด</td>
-                                                                                                      <td>100</td>
-                                                                                                      <td>20</td>
-                                                                                                 </tr>
-                                                                                            @endfor
                                                                                        </tbody>
                                                                                        <tfoot>
                                                                                             <tr>
@@ -555,7 +545,24 @@
                             return false;
                        }
                   }
+                  else if (data == 3) {
+                       if (!$('#sale_code').val()) {
+                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+                            $('#sale_code').focus();
+                            $('.form-1').addClass('was-validated');
+                            return false;
+                       }
+                       var valids = new Array();
+                       $('.product_share_chk').each(function(i, obj) {
+                            valids.push($(obj).prop("checked"));
+                       });
+                       if (jQuery.inArray( true, valids ) != -1) {
 
+                       } else {
+                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                            return false;
+                       }
+                  }
                   var next = data+1;
                   $("#menu" + data).removeClass('active');
                   $("#menu" + data).removeClass('in');
@@ -592,48 +599,60 @@
                        $("#sale_code").attr("readonly", false);
                   }
              });
-             // $('input[name=share_product_radio]').on('click', function (e){
-             //      e.preventDefault();
-             //      var data = $(this).val();
-             //      console.log(data);
-             //      if (data == 'Y'){
-             //           $("#sale_code").val(emp_code);
-             //      } else {
-             //           $("#sale_code").attr("readonly", false);
-             //      }
-             // });
 
              $("#btn-get-product").on('click', function (e){
                   e.preventDefault();
-                  $.ajax({
-                       method : "post",
-                       url : '{{ route('customer.get_product')}}',
-                       dataType : 'json',
-                       data : $("#get_product_form").serialize(),
-                       headers: {
-                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                       },
-                       beforeSend: function() {
-                            $("#preloaders").css("display", "block");
-                       },
-                  }).done(function(rec){
-                       $("#preloaders").css("display", "none");
-                       $("#table3 tbody").empty();
-                       if(rec.status==1){
-
-                       } else {
-                            swal("", rec.content, "warning");
-                       }
-                  }).fail(function(){
-                       $("#preloaders").css("display", "none");
-                       swal("", rec.content, "error");
-                  });
+                  if ($("#sale_code").val() == ''){
+                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+                       $("#sale_code").focus();
+                       return false;
+                  } else {
+                       $.ajax({
+                           method : "post",
+                           url : '{{ route('customer.get_product')}}',
+                           dataType : 'json',
+                           data : $("#get_product_form").serialize(),
+                           headers: {
+                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                           },
+                           beforeSend: function() {
+                                $("#preloaders").css("display", "block");
+                           },
+                      }).done(function(rec){
+                           $("#preloaders").css("display", "none");
+                           $("#table3 tbody").empty();
+                           if(rec.status==1){
+                                let tr = '';
+                                if (rec.datas.length > 0){
+                                     $.each(rec.datas, function( key, data ) {
+                                          tr += '<tr>';
+                                          tr += '<td>';
+                                          tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                          tr += '</td>';
+                                          tr += '<td>'+data.RefSOCONo+'</td>';
+                                          tr += '<td></td>';
+                                          tr += '<td>'+data.EmpName+'</td>';
+                                          tr += '<td>'+data.ContainerNO+'</td>';
+                                          tr += '<td>'+data.Flag_st+'</td>';
+                                          tr += '<td>'+data.TranQty+'</td>';
+                                          tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly /></td>';
+                                          tr += '</tr>';
+                                     });
+                                } else {
+                                     tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                                }
+                                $("#table3 tbody").append(tr);
+                           } else {
+                                swal("", rec.content, "warning");
+                           }
+                      }).fail(function(){
+                           $("#preloaders").css("display", "none");
+                           swal("", rec.content, "error");
+                      });
+                  }
              });
-
         });
     </script>
-
-
 </body>
 
 </html>
