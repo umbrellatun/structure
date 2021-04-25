@@ -233,100 +233,101 @@
                                                 </ul>
                                            </div>
                                            <div id="menu3" class="tab-pane fade">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                         <div class="card">
-                                                              <div class="card-header">
-                                                                   <h5>ข้อมูลเอกสาร</h5>
-                                                                   <hr/>
-                                                              </div>
-                                                              <div class="card-body table-border-style">
-                                                                   <div class="table-responsive">
-                                                                        <table id="table2" class="table table-striped">
-                                                                             <thead>
-                                                                                  <tr>
-                                                                                       <th>#</th>
-                                                                                       <th>เลขที่เอกสาร</th>
-                                                                                       <th>วันที่จอง</th>
-                                                                                       <th>จำนวนวัน</th>
-                                                                                       <th>สถานที่จัดส่ง</th>
-                                                                                       <th>ราคา/หน่วย</th>
-                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
-                                                                                  </tr>
-                                                                             </thead>
-                                                                             <tbody>
-                                                                             </tbody>
-                                                                        </table>
-                                                                   </div>
-                                                              </div>
-                                                              <div class="card-body">
+                                                <form id="get_product_form">
+                                                     <div class="row">
+                                                         <div class="col-md-12">
+                                                              <div class="card">
                                                                    <div class="card-header">
-                                                                        <h5>แบ่งสินค้ามาจาก</h5>
+                                                                        <h5>ข้อมูลเอกสาร</h5>
                                                                         <hr/>
-                                                                        <div class="form-row">
-                                                                             <div class="form-group d-inline mr-2">
-                                                                                  <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
-                                                                                  <label for="share_product_radio_1">สินค้าตนเอง</label>
-                                                                             </div>
-                                                                             <div class="form-group d-inline">
-                                                                                  <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
-                                                                                  <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
-                                                                             </div>
-                                                                        </div>
-                                                                   </div>
-                                                                   <div class="form-row">
-                                                                        <div class="col-md-12 mb-3">
-                                                                             <label for="sale_code">รหัสพนักงานขาย</label>
-                                                                             <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required="true" readonly="readonly">
-                                                                        </div>
                                                                    </div>
                                                                    <div class="card-body table-border-style">
                                                                         <div class="table-responsive">
-                                                                             <table class="table table-striped">
+                                                                             <table id="table2" class="table table-striped">
                                                                                   <thead>
                                                                                        <tr>
                                                                                             <th>#</th>
                                                                                             <th>เลขที่เอกสาร</th>
                                                                                             <th>วันที่จอง</th>
-                                                                                            <th>ชื่อลูกค้า</th>
-                                                                                            <th>เลขตู้จัดสินค้า</th>
-                                                                                            <th>สถานะตู้</th>
+                                                                                            <th>จำนวนวัน</th>
+                                                                                            <th>สถานที่จัดส่ง</th>
+                                                                                            <th>ราคา/หน่วย</th>
                                                                                             <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                            <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                            <th>จำนวนสินค้าต้องการส่ง</th>
                                                                                        </tr>
                                                                                   </thead>
                                                                                   <tbody>
-                                                                                       @for ($i=0; $i < 5; $i++)
-                                                                                            <tr>
-                                                                                                 <td><input type="checkbox" class="form-check" value=""></td>
-                                                                                                 <td>SO-CO2104-0001</td>
-                                                                                                 <td>01/04/2021</td>
-                                                                                                 <td>Sataporn Chunwet</td>
-                                                                                                 <td>21040101001</td>
-                                                                                                 <td>เปิด</td>
-                                                                                                 <td>100</td>
-                                                                                                 <td>20</td>
-                                                                                            </tr>
-                                                                                       @endfor
                                                                                   </tbody>
-                                                                                  <tfoot>
-                                                                                       <tr>
-                                                                                            <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
-                                                                                            <td >20</td>
-                                                                                       </tr>
-                                                                                  </tfoot>
                                                                              </table>
                                                                         </div>
                                                                    </div>
-
-
+                                                                   <div class="card-body">
+                                                                        <div class="card-header">
+                                                                             <h5>แบ่งสินค้ามาจาก</h5>
+                                                                             <hr/>
+                                                                             <div class="form-row">
+                                                                                  <div class="form-group d-inline mr-2">
+                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
+                                                                                       <label for="share_product_radio_1">สินค้าตนเอง</label>
+                                                                                  </div>
+                                                                                  <div class="form-group d-inline">
+                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
+                                                                                       <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
+                                                                                  </div>
+                                                                             </div>
+                                                                        </div>
+                                                                        <div class="form-row">
+                                                                             <div class="col-md-12 mb-3">
+                                                                                  <label for="sale_code">รหัสพนักงานขาย</label>
+                                                                                  <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required="true" readonly="readonly">
+                                                                             </div>
+                                                                             <div class="col-md-12 mb-3">
+                                                                                  <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button>
+                                                                             </div>
+                                                                        </div>
+                                                                        <div class="card-body table-border-style">
+                                                                             <div class="table-responsive">
+                                                                                  <table id="table3" class="table table-striped">
+                                                                                       <thead>
+                                                                                            <tr>
+                                                                                                 <th>#</th>
+                                                                                                 <th>เลขที่เอกสาร</th>
+                                                                                                 <th>วันที่จอง</th>
+                                                                                                 <th>ชื่อลูกค้า</th>
+                                                                                                 <th>เลขตู้จัดสินค้า</th>
+                                                                                                 <th>สถานะตู้</th>
+                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                            </tr>
+                                                                                       </thead>
+                                                                                       <tbody>
+                                                                                            @for ($i=0; $i < 5; $i++)
+                                                                                                 <tr>
+                                                                                                      <td><input type="checkbox" class="form-check" value=""></td>
+                                                                                                      <td>SO-CO2104-0001</td>
+                                                                                                      <td>01/04/2021</td>
+                                                                                                      <td>Sataporn Chunwet</td>
+                                                                                                      <td>21040101001</td>
+                                                                                                      <td>เปิด</td>
+                                                                                                      <td>100</td>
+                                                                                                      <td>20</td>
+                                                                                                 </tr>
+                                                                                            @endfor
+                                                                                       </tbody>
+                                                                                       <tfoot>
+                                                                                            <tr>
+                                                                                                 <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
+                                                                                                 <td >20</td>
+                                                                                            </tr>
+                                                                                       </tfoot>
+                                                                                  </table>
+                                                                             </div>
+                                                                        </div>
+                                                                   </div>
                                                               </div>
-
                                                          </div>
                                                     </div>
-                                               </div>
-
+                                                </form>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="3" id="prev-step-3"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="3" id="next-step-3">Next <i class="fa fa-chevron-right"></i></button></li>
@@ -509,7 +510,9 @@
                                            tr += '<tr class="tr_'+data.RefSOCOID+'">';
                                            tr += '<td>';
                                            tr += '<input type="radio" name="ref_soco_id" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
-                                           tr += '<input type="hidden" name="ref_list_no" value="'+data.RefListNo+'">';
+                                           tr += '<input type="hidden" name="ref_list_no" id="ref_soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                           tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                           tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
                                            tr += '</td>';
                                            tr += '<td>'+data.RefSOCONo+'</td>';
                                            tr += '<td>'+data.DocuDate+'</td>';
@@ -599,6 +602,33 @@
              //           $("#sale_code").attr("readonly", false);
              //      }
              // });
+
+             $("#btn-get-product").on('click', function (e){
+                  e.preventDefault();
+                  $.ajax({
+                       method : "post",
+                       url : '{{ route('customer.get_product')}}',
+                       dataType : 'json',
+                       data : $("#get_product_form").serialize(),
+                       headers: {
+                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                       },
+                       beforeSend: function() {
+                            $("#preloaders").css("display", "block");
+                       },
+                  }).done(function(rec){
+                       $("#preloaders").css("display", "none");
+                       $("#table3 tbody").empty();
+                       if(rec.status==1){
+
+                       } else {
+                            swal("", rec.content, "warning");
+                       }
+                  }).fail(function(){
+                       $("#preloaders").css("display", "none");
+                       swal("", rec.content, "error");
+                  });
+             });
 
         });
     </script>

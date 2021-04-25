@@ -52,7 +52,6 @@ class HomeController extends Controller
          ]);
          if (!$validator->fails()) {
               try {
-
                    $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate";
                    $q .= " FROM tmConTain_bk_dt_Temp INNER JOIN";
                    $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID";
@@ -70,6 +69,65 @@ class HomeController extends Controller
                    $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID";
                    $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
                    // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
+
+                   // dd($q);
+                   $return["datas"] =  \DB::select($q);
+                   $return['status'] = 1;
+              } catch (Exception $e) {
+                   $return['status'] = 0;
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         return json_encode($return);
+    }
+
+    public function get_product(Request $request)
+    {
+         // dd($request->all());
+         $validator = Validator::make($request->all(), [
+
+         ]);
+         if (!$validator->fails()) {
+              try {
+                   $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
+                   $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
+                   $q .= " FROM tmConTain_bk";
+                   $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
+                   $q .= " INNER JOIN SOHD ON tmConTain_bk_dt.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE";
+                   $q .= " TranQty <> 0";
+                   $q .= " AND tmConTain_bk_dt.EmpCode <> '110134'";
+                   $q .= " AND CustCode <> 'C10-00008'";
+                   $q .= " AND GoodCode = 'FOM0010000508'";
+                   $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
+                   $q .= " UNION ALL";
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
+                   $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
+                   $q .= " FROM tmConTain_dl";
+                   $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
+                   $q .= " INNER JOIN SOHD ON tmConTain_dl_dt.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE";
+                   $q .= " TranQty <> 0";
+                   $q .= " AND tmConTain_dl_dt.EmpCode <> '110134'";
+                   $q .= " AND CustCode <> 'C10-00008'";
+                   $q .= " AND GoodCode = 'FOM0010000508'";
+                   $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
+                   $q .= " UNION ALL";
+                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
+                   $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
+                   $q .= " FROM tmConTain";
+                   $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";
+                   $q .= " INNER JOIN SOHD ON tmConTain_dt.RefSOCOID = SOHD.SOID";
+                   $q .= " WHERE";
+                   $q .= " TranQty <> 0";
+                   $q .= " AND tmConTain_dt.EmpCode <> '110134'";
+                   $q .= " AND CustCode <> 'C10-00008'";
+                   $q .= " AND GoodCode = 'FOM0010000508'";
+                   $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
 
                    // dd($q);
                    $return["datas"] =  \DB::select($q);
