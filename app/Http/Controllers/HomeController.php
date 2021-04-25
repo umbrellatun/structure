@@ -101,7 +101,7 @@ class HomeController extends Controller
                    $q .= " AND CustCode <> 'C10-00008'";
                    $q .= " AND GoodCode = 'FOM0010000508'";
                    $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
                    $q .= " UNION ALL";
                    $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                    $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -114,7 +114,7 @@ class HomeController extends Controller
                    $q .= " AND CustCode <> 'C10-00008'";
                    $q .= " AND GoodCode = 'FOM0010000508'";
                    $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
                    $q .= " UNION ALL";
                    $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                    $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -127,7 +127,7 @@ class HomeController extends Controller
                    $q .= " AND CustCode <> 'C10-00008'";
                    $q .= " AND GoodCode = 'FOM0010000508'";
                    $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
+                   $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
 
                    // dd($q);
                    $return["datas"] =  \DB::select($q);

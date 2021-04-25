@@ -600,6 +600,9 @@
                   }
              });
 
+
+
+
              $("#btn-get-product").on('click', function (e){
                   e.preventDefault();
                   if ($("#sale_code").val() == ''){
@@ -635,13 +638,22 @@
                                           tr += '<td>'+data.ContainerNO+'</td>';
                                           tr += '<td>'+data.Flag_st+'</td>';
                                           tr += '<td>'+data.TranQty+'</td>';
-                                          tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly /></td>';
+                                          tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                           tr += '</tr>';
                                      });
                                 } else {
                                      tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
                                 }
                                 $("#table3 tbody").append(tr);
+
+                                $('.product_share_chk').on('click', function() {
+                                     var data = $(this).data("value");
+                                     if ($(this).is(':checked')) {
+                                          $("#product_share_" + data).attr("readonly", false);
+                                     } else {
+                                          $("#product_share_" + data).attr("readonly", true);
+                                     }
+                                });
                            } else {
                                 swal("", rec.content, "warning");
                            }
@@ -651,6 +663,8 @@
                       });
                   }
              });
+
+
         });
     </script>
 </body>
