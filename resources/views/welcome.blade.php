@@ -139,10 +139,10 @@
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><h1>4</h1></button>
                                                           <p><small>สรุป<br />ข้อมูล</small></p>
                                                      </div>
-                                                     <div class="process-step">
+                                                     {{-- <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab" disabled><h1>5</h1></button>
                                                           <p><small>บันทึก<br />สำเร็จ</small></p>
-                                                     </div>
+                                                     </div> --}}
                                                 </div>
                                            </div>
                                       </ul>
