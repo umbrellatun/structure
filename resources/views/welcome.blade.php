@@ -664,19 +664,19 @@
                                              if (rec.datas.length > 0){
                                                   $.each(rec.datas, function( key, data ) {
                                                        if (data.Flag_st.length == 0){
-                                                            chkbox = '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                            chkbox = '<input type="checkbox" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                                        }
                                                        tr += '<tr>';
                                                        tr += '<td>';
                                                        tr += chkbox;
                                                        tr += '</td>';
-                                                       tr += '<td>'+data.RefSOCONo+'</td>';
-                                                       tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
-                                                       tr += '<td>'+data.EmpName+'</td>';
-                                                       tr += '<td>'+data.ContainerNO+'</td>';
-                                                       tr += '<td>'+data.Flag_st+'</td>';
-                                                       tr += '<td>'+data.TranQty+'</td>';
-                                                       tr += '<td><input type="text" class="form-control product_share" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                       tr += '<td><span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                                       tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
+                                                       tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
+                                                       tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
+                                                       tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                                       tr += '<td><input type="text" class="form-control product_share" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                        tr += '</tr>';
                                                   });
                                              } else {
@@ -718,7 +718,13 @@
                          valids.push($(obj).prop("checked"));
                     });
                     if (jQuery.inArray(true, valids) != -1) {
-                         
+                         $("#RefSOCONo_").text()
+                         $("#DocuDate_").text()
+                         $("#EmpName_").text()
+                         $("#ContainerNO_").text()
+                         $("#Flag_st_").text()
+                         $("#TranQty_").text()
+                         $("#product_share_").text()
                     } else {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
                          return false;
@@ -769,9 +775,8 @@
                          let tr = '';
                          if (rec.datas.length > 0){
                               $.each(rec.datas, function( key, data ) {
-                                   console.log(data.Flag_st.length);
                                    if (data.Flag_st.length == 0){
-                                        chkbox = '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                        chkbox = '<input type="checkbox" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                    } else {
                                         chkbox = '';
                                    }
@@ -779,13 +784,13 @@
                                    tr += '<td>';
                                    tr += chkbox;
                                    tr += '</td>';
-                                   tr += '<td>'+data.RefSOCONo+'</td>';
-                                   tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
-                                   tr += '<td>'+data.EmpName+'</td>';
-                                   tr += '<td>'+data.ContainerNO+'</td>';
-                                   tr += '<td>'+data.Flag_st+'</td>';
-                                   tr += '<td><span id="tran_qty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" class="form-control product_share number-only" data-value="'+data.RefSOCOID+'" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                   tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                   tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
+                                   tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
+                                   tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
+                                   tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                   tr += '<td><input type="text" class="form-control product_share" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
