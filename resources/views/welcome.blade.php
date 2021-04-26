@@ -121,7 +121,7 @@
                                <div class="card-body">
                                    <div class="bt-wizard" id="besicwizard">
                                        <ul class="nav nav-pills nav-fill mb-3">
-                                           <div class="process mb-5">
+                                           <div class="process">
                                                 <div class="process-row nav nav-tabs">
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-info btn-circle" id="icon-1" data-toggle="tab" disabled><h1>1</h1></button>
@@ -463,6 +463,18 @@
           });
      };
 
+     function numIndex() {
+          let allSum = 0;
+          $.each($('#table3').find('.product_share'), function (index, el) {
+               if ($(this).val() != ''){
+                    let sum_list = parseInt($(this).val());
+                    allSum += sum_list;
+               }
+          });
+          $("#sum_amount_product").text(allSum);
+          $("#product_amount_sent").text(allSum);
+     }
+
      $(document).ready(function() {
           $("#pcoded").pcodedmenu({
                themelayout: 'horizontal',
@@ -767,6 +779,7 @@
                                    $(this).val("");
                                    $(this).focus();
                               }
+                              numIndex();
                          });
                     } else {
                          swal("", rec.content, "warning");
