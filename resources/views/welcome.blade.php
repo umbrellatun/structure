@@ -332,55 +332,51 @@
                                                                    <hr/>
                                                               </div>
                                                               <div class="card-body">
-                                                                   <div class="card_shared_product">
-                                                                        <div class="card-header">
-                                                                             <h5>แบ่งสินค้ามาจาก</h5>
-                                                                             <hr/>
+                                                                   <h5>แบ่งสินค้ามาจาก</h5>
+                                                                   <hr/>
+                                                                   <div class="card-body table-border-style">
+                                                                        <div class="table-responsive">
+                                                                             <table id="table4" class="table table-striped">
+                                                                                  <thead>
+                                                                                       <tr>
+                                                                                            <th>เลขที่เอกสาร</th>
+                                                                                            <th>วันที่จอง</th>
+                                                                                            <th>ชื่อลูกค้า</th>
+                                                                                            <th>เลขตู้จัดสินค้า</th>
+                                                                                            <th>สถานะตู้</th>
+                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                            <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                       </tr>
+                                                                                  </thead>
+                                                                                  <tbody>
+                                                                                  </tbody>
+                                                                                  <tfoot>
+                                                                                  </tfoot>
+                                                                             </table>
                                                                         </div>
-                                                                        <div class="card-body table-border-style">
-                                                                             <div class="table-responsive">
-                                                                                  <table id="table4" class="table table-striped">
-                                                                                       <thead>
-                                                                                            <tr>
-                                                                                                 <th>เลขที่เอกสาร</th>
-                                                                                                 <th>วันที่จอง</th>
-                                                                                                 <th>ชื่อลูกค้า</th>
-                                                                                                 <th>เลขตู้จัดสินค้า</th>
-                                                                                                 <th>สถานะตู้</th>
-                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
-                                                                                            </tr>
-                                                                                       </thead>
-                                                                                       <tbody>
-                                                                                       </tbody>
-                                                                                       <tfoot>
-                                                                                       </tfoot>
-                                                                                  </table>
-                                                                             </div>
+                                                                   </div>
+                                                                   <div class="row">
+                                                                        <div class="col-12 text-center mb-5">
+                                                                             <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 250px; height: 250px;">
                                                                         </div>
-                                                                        <div class="row">
-                                                                             <div class="col-12 text-center mb-5">
-                                                                                  <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 250px; height: 250px;">
-                                                                             </div>
-                                                                        </div>
-                                                                        <div class="card-body table-border-style">
-                                                                             <div class="table-responsive">
-                                                                                  <table id="table5" class="table table-striped">
-                                                                                       <thead>
-                                                                                            <tr>
-                                                                                                 <th>เลขที่เอกสาร</th>
-                                                                                                 <th>วันที่จอง</th>
-                                                                                                 <th>จำนวนวัน</th>
-                                                                                                 <th>สถานที่จัดส่ง</th>
-                                                                                                 <th>ราคา/หน่วย</th>
-                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                                 <th>จำนวนสินค้าต้องการส่ง</th>
-                                                                                            </tr>
-                                                                                       </thead>
-                                                                                       <tbody>
-                                                                                       </tbody>
-                                                                                  </table>
-                                                                             </div>
+                                                                   </div>
+                                                                   <div class="card-body table-border-style">
+                                                                        <div class="table-responsive">
+                                                                             <table id="table5" class="table table-striped">
+                                                                                  <thead>
+                                                                                       <tr>
+                                                                                            <th>เลขที่เอกสาร</th>
+                                                                                            <th>วันที่จอง</th>
+                                                                                            <th>จำนวนวัน</th>
+                                                                                            <th>สถานที่จัดส่ง</th>
+                                                                                            <th>ราคา/หน่วย</th>
+                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                            <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                       </tr>
+                                                                                  </thead>
+                                                                                  <tbody>
+                                                                                  </tbody>
+                                                                             </table>
                                                                         </div>
                                                                    </div>
                                                               </div>
