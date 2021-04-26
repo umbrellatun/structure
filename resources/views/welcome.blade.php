@@ -358,26 +358,30 @@
                                                                                   </table>
                                                                              </div>
                                                                         </div>
-                                                                   </div>
-                                                              </div>
-
-                                                              <div class="card-body table-border-style">
-                                                                   <div class="table-responsive">
-                                                                        <table id="table2" class="table table-striped">
-                                                                             <thead>
-                                                                                  <tr>
-                                                                                       <th>เลขที่เอกสาร</th>
-                                                                                       <th>วันที่จอง</th>
-                                                                                       <th>จำนวนวัน</th>
-                                                                                       <th>สถานที่จัดส่ง</th>
-                                                                                       <th>ราคา/หน่วย</th>
-                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
-                                                                                  </tr>
-                                                                             </thead>
-                                                                             <tbody>
-                                                                             </tbody>
-                                                                        </table>
+                                                                        <div class="row">
+                                                                             <div class="col-12 text-center mb-5">
+                                                                                  <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 250px; height: 250px;">
+                                                                             </div>
+                                                                        </div>
+                                                                        <div class="card-body table-border-style">
+                                                                             <div class="table-responsive">
+                                                                                  <table id="table5" class="table table-striped">
+                                                                                       <thead>
+                                                                                            <tr>
+                                                                                                 <th>เลขที่เอกสาร</th>
+                                                                                                 <th>วันที่จอง</th>
+                                                                                                 <th>จำนวนวัน</th>
+                                                                                                 <th>สถานที่จัดส่ง</th>
+                                                                                                 <th>ราคา/หน่วย</th>
+                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                                 <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                            </tr>
+                                                                                       </thead>
+                                                                                       <tbody>
+                                                                                       </tbody>
+                                                                                  </table>
+                                                                             </div>
+                                                                        </div>
                                                                    </div>
                                                               </div>
                                                          </div>
@@ -385,17 +389,17 @@
                                                </div>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="4" id="prev-step-4"><i class="fa fa-chevron-left"></i> Back</button></li>
-                                                     <li><button type="button" class="btn btn-info next-step" data-id="4" id="next-step-4">Next <i class="fa fa-chevron-right"></i></button></li>
+                                                     <li><button type="button" class="btn btn-info" data-id="4"><i class="fa fa-save"></i> Save</button></li>
                                                 </ul>
                                            </div>
-                                           <div id="menu5" class="tab-pane fade">
+                                           {{-- <div id="menu5" class="tab-pane fade">
                                                 <h3>Menu 5</h3>
                                                 <p>Some content in menu 5.</p>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="5" id="prev-step-5"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-success" data-id="5" id="next-step-5"><i class="fa fa-check"></i> Done!</button></li>
                                                 </ul>
-                                           </div>
+                                           </div> --}}
                                       </div>
                                    </div>
                                </div>
@@ -685,15 +689,15 @@
                                    let goodcode = $("#GoodCode").val();
                                    let EmpCode = $("#EmpCode"+doc_ids[i]).val();
                                    tr += '<tr>';
-                                   tr += '<td>'+ref_soco_no+'';
-                                   tr += '<input type="hidden" name="goodcode" value="'+goodcode+'">';
-                                   tr += '<input type="hidden" name="shipdate" value="'+shipdate+'">';
-                                   tr += '<input type="hidden" name="EmpCode" value="'+EmpCode+'">';
+                                   tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
+                                   tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
+                                   tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
+                                   tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
                                    tr += '</td>';
-                                   tr += '<td>'+docudate+'</td>';
-                                   tr += '<td>'+date_amount+'</td>';
-                                   tr += '<td>'+cus_address+'</td>';
-                                   tr += '<td>'+goodprice+'</td>';
+                                   tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
+                                   tr += '<td><span id="tb2_date_amount">'+date_amount+'</span></td>';
+                                   tr += '<td><span id="tb2_cus_address">'+cus_address+'</span></td>';
+                                   tr += '<td><span id="tb2_goodprice">'+goodprice+'</span></td>';
                                    tr += '<td><span id="product_amount_tranqty">'+tranqty+'</span></td>';
                                    tr += '<td><span id="product_amount_sent">0</span></td>';
                                    tr += '</tr>';
@@ -719,7 +723,7 @@
                                              if (rec.datas.length > 0){
                                                   $.each(rec.datas, function( key, data ) {
                                                        if (data.Flag_st.length == 0){
-                                                            chkbox = '<input type="checkbox" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                                        }
                                                        tr += '<tr>';
                                                        tr += '<td>';
@@ -731,7 +735,7 @@
                                                        tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
                                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                                        tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                                       tr += '<td><input type="text" class="form-control product_share" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                       tr += '<td><input type="text" class="form-control product_share number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                        tr += '</tr>';
                                                   });
                                              } else {
@@ -763,6 +767,7 @@
                }
                else if (data == 3) {
                     $("#table4 tbody").empty();
+                    $("#table4 tfoot").empty();
                     $("#table5 tbody").empty();
                     var valids = new Array();
                     var product_share_chk_arr = new Array();
@@ -775,8 +780,10 @@
                          let sum_total = 0;
                          for (var i = 0; i < product_share_chk_arr.length; i++) {
                               if($("#product_share_" + product_share_chk_arr[i]).val() == ''){
-                                   notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
-                                   return false;
+                                   if ($("#product_share_chk_" + product_share_chk_arr[i]).prop("checked")){
+                                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
+                                        return false;
+                                   }
                               } else {
                                    sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
 
@@ -799,18 +806,42 @@
                                    tr += '<td>'+product_share+'</td>';
                                    tr += '</tr>';
                                    $("#table4 tbody").append(tr);
-
-                                   let tf = '';
-                                   tf += '<tr>';
-                                   tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
-                                   tf += '<td>'+sum_total+'</td>';
-                                   tf += '</tr>';
-                                   $("#table4 tfoot").append(tf);
                               }
+
                          }
                          if (sum_total > parseInt($("#sum_amount_product").text())){
                               notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่เกินจำนวนสินค้าสั่งจอง");
                               return false;
+                         } else {
+                              let tf = '';
+                              tf += '<tr>';
+                              tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
+                              tf += '<td>'+sum_total+'</td>';
+                              tf += '</tr>';
+                              $("#table4 tfoot").append(tf);
+
+                              let tb2_refsocono = $("#tb2_refsocono").text();
+                              let tb2_goodcode = $("#tb2_goodcode").val();
+                              let tb2_shipdate = $("#tb2_shipdate").val();
+                              let tb2_EmpCode = $("#tb2_EmpCode").val();
+                              let tb2_docudate = $("#tb2_docudate").text();
+                              let tb2_date_amount = $("#tb2_date_amount").text();
+                              let tb2_cus_address = $("#tb2_cus_address").text();
+                              let tb2_goodprice = $("#tb2_goodprice").text();
+                              let product_amount_tranqty = $("#product_amount_tranqty").text();
+                              let tr = '';
+
+                              tr += '<tr>';
+                              tr += '<td>'+tb2_refsocono+'</td>';
+                              tr += '<td>'+tb2_docudate+'</td>';
+                              tr += '<td>'+tb2_date_amount+'</td>';
+                              tr += '<td>'+tb2_cus_address+'</td>';
+                              tr += '<td>'+tb2_goodprice+'</td>';
+                              tr += '<td>'+product_amount_tranqty+'</td>';
+                              tr += '<td>'+sum_total+'</td>';
+                              tr += '</tr>';
+                              $("#table5 tbody").append(tr);
+
                          }
                     } else {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
@@ -866,7 +897,7 @@
                          if (rec.datas.length > 0){
                               $.each(rec.datas, function( key, data ) {
                                    if (data.Flag_st.length == 0){
-                                        chkbox = '<input type="checkbox" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                        chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                    } else {
                                         chkbox = '';
                                    }
@@ -880,7 +911,7 @@
                                    tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                    tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                    tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" class="form-control product_share" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><input type="text" class="form-control product_share  number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
