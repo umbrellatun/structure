@@ -232,8 +232,6 @@
                                                 </ul>
                                            </div>
                                            <div id="menu3" class="tab-pane fade">
-
-
                                                 <div class="row">
                                                     <div class="col-md-12">
                                                          <div class="card">
@@ -326,8 +324,84 @@
                                                 </ul>
                                            </div>
                                            <div id="menu4" class="tab-pane fade">
-                                                <h3>Menu 4</h3>
-                                                <p>Some content in menu 4.</p>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                         <div class="card">
+                                                              <div class="card-header">
+                                                                   <h5>สรุปข้อมูล</h5>
+                                                                   <hr/>
+                                                              </div>
+                                                              <div class="card-body">
+                                                                   <div class="card_shared_product">
+                                                                        <div class="card-header">
+                                                                             <h5>แบ่งสินค้ามาจาก</h5>
+                                                                             <hr/>
+                                                                             <div class="form-row">
+                                                                                  <div class="form-group d-inline mr-2">
+                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_1" class="share_product_radio" value="Y">
+                                                                                       <label for="share_product_radio_1">สินค้าตนเอง</label>
+                                                                                  </div>
+                                                                                  <div class="form-group d-inline">
+                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_2" class="share_product_radio" value="N">
+                                                                                       <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
+                                                                                  </div>
+                                                                             </div>
+                                                                        </div>
+                                                                        <div class="form-row form-1 needs-validation" novalidate>
+                                                                             <div class="col-md-12 mb-3">
+                                                                                  <input type="hidden" name="sale_code" id="" value="">
+                                                                                  <input type="hidden" name="customer_id"  value="{{$customer_id}}" >
+                                                                             </div>
+                                                                        </div>
+                                                                   </div>
+                                                              </div>
+                                                              <div class="card-body table-border-style">
+                                                                   <div class="table-responsive">
+                                                                        <table id="table4" class="table table-striped">
+                                                                             <thead>
+                                                                                  <tr>
+                                                                                       <th>เลขที่เอกสาร</th>
+                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>ชื่อลูกค้า</th>
+                                                                                       <th>เลขตู้จัดสินค้า</th>
+                                                                                       <th>สถานะตู้</th>
+                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                       <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                  </tr>
+                                                                             </thead>
+                                                                             <tbody>
+                                                                             </tbody>
+                                                                             <tfoot>
+                                                                                  <tr>
+                                                                                       <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
+                                                                                       <td><span id="sum_amount_product">0</span></td>
+                                                                                  </tr>
+                                                                             </tfoot>
+                                                                        </table>
+                                                                   </div>
+                                                              </div>
+                                                              <div class="card-body table-border-style">
+                                                                   <div class="table-responsive">
+                                                                        <table id="table2" class="table table-striped">
+                                                                             <thead>
+                                                                                  <tr>
+                                                                                       <th>เลขที่เอกสาร</th>
+                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>จำนวนวัน</th>
+                                                                                       <th>สถานที่จัดส่ง</th>
+                                                                                       <th>ราคา/หน่วย</th>
+                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                  </tr>
+                                                                             </thead>
+                                                                             <tbody>
+                                                                             </tbody>
+                                                                        </table>
+                                                                   </div>
+                                                              </div>
+                                                         </div>
+                                                    </div>
+                                               </div>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="4" id="prev-step-4"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="4" id="next-step-4">Next <i class="fa fa-chevron-right"></i></button></li>
@@ -707,28 +781,54 @@
                     }
                }
                else if (data == 3) {
-                    // if (!$('#share_product_radio').val()) {
-                    //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-                    //      $('#share_product_radio').focus();
-                    //      $('.form-1').addClass('was-validated');
-                    //      return false;
-                    // }
                     var valids = new Array();
+                    var product_share_chk_arr = new Array();
                     $('.product_share_chk').each(function(i, obj) {
                          valids.push($(obj).prop("checked"));
+                         product_share_chk_arr.push($(obj).data("value"));
                     });
+
                     if (jQuery.inArray(true, valids) != -1) {
-                         $("#RefSOCONo_").text()
-                         $("#DocuDate_").text()
-                         $("#EmpName_").text()
-                         $("#ContainerNO_").text()
-                         $("#Flag_st_").text()
-                         $("#TranQty_").text()
-                         $("#product_share_").text()
+                         let sum_total = 0;
+                         for (var i = 0; i < product_share_chk_arr.length; i++) {
+                              if($("#product_share_" + product_share_chk_arr[i]).val() == ''){
+                                   notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
+                                   return false;
+                              } else {
+                                   sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
+
+                                   let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
+                                   let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
+                                   let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
+                                   let ContainerNO = $("#ContainerNO_" + product_share_chk_arr[i]).text();
+                                   let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
+                                   let TranQty = $("#TranQty_" + product_share_chk_arr[i]).text();
+                                   let product_share = $("#product_share_" + product_share_chk_arr[i]).val();
+
+                                   let tr = '';
+                                   tr += '<tr>';
+                                   tr += '<td>'+RefSOCONo+'</td>';
+                                   tr += '<td>'+DocuDate+'</td>';
+                                   tr += '<td>'+EmpName+'</td>';
+                                   tr += '<td>'+ContainerNO+'</td>';
+                                   tr += '<td>'+Flag_st+'</td>';
+                                   tr += '<td>'+TranQty+'</td>';
+                                   tr += '<td>'+product_share+'</td>';
+                                   tr += '</tr>';
+                                   $("#table4 tbody").append(tr);
+                              }
+                         }
+                         if (sum_total > parseInt($("#sum_amount_product").text())){
+                              notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่เกินจำนวนสินค้าสั่งจอง");
+                              return false;
+                         }
                     } else {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
                          return false;
                     }
+
+
+
                }
                var next = data+1;
                $("#menu" + data).removeClass('active');
