@@ -233,14 +233,16 @@
                                                 </ul>
                                            </div>
                                            <div id="menu3" class="tab-pane fade">
-                                                <form id="get_product_form">
-                                                     <div class="row">
-                                                         <div class="col-md-12">
-                                                              <div class="card">
-                                                                   <div class="card-header">
-                                                                        <h5>ข้อมูลเอกสาร</h5>
-                                                                        <hr/>
-                                                                   </div>
+
+
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                         <div class="card">
+                                                              <div class="card-header">
+                                                                   <h5>ข้อมูลเอกสาร</h5>
+                                                                   <hr/>
+                                                              </div>
+                                                              <form id="get_product_form">
                                                                    <div class="card-body table-border-style">
                                                                         <div class="table-responsive">
                                                                              <table id="table2" class="table table-striped">
@@ -267,11 +269,11 @@
                                                                                   <hr/>
                                                                                   <div class="form-row">
                                                                                        <div class="form-group d-inline mr-2">
-                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_1" value="Y">
+                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_1" class="share_product_radio" value="Y">
                                                                                             <label for="share_product_radio_1">สินค้าตนเอง</label>
                                                                                        </div>
                                                                                        <div class="form-group d-inline">
-                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_2" value="N">
+                                                                                            <input type="radio" name="share_product_radio" id="share_product_radio_2" class="share_product_radio" value="N">
                                                                                             <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
                                                                                        </div>
                                                                                   </div>
@@ -282,42 +284,43 @@
                                                                                        <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required readonly>
                                                                                   </div> --}}
                                                                                   <div class="col-md-12 mb-3">
-                                                                                       <input type="hidden" class="form-control" name="sale_code" id="sale_code" value="" required readonly>
-                                                                                       <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button>
+                                                                                       <input type="hidden" name="sale_code" id="sale_code" value="">
+                                                                                       <input type="hidden" name="customer_id"  value="{{$customer_id}}" >
+                                                                                       {{-- <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button> --}}
                                                                                   </div>
                                                                              </div>
                                                                         </div>
-                                                                        <div class="card-body table-border-style">
-                                                                             <div class="table-responsive">
-                                                                                  <table id="table3" class="table table-striped">
-                                                                                       <thead>
-                                                                                            <tr>
-                                                                                                 <th>#</th>
-                                                                                                 <th>เลขที่เอกสาร</th>
-                                                                                                 <th>วันที่จอง</th>
-                                                                                                 <th>ชื่อลูกค้า</th>
-                                                                                                 <th>เลขตู้จัดสินค้า</th>
-                                                                                                 <th>สถานะตู้</th>
-                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
-                                                                                            </tr>
-                                                                                       </thead>
-                                                                                       <tbody>
-                                                                                       </tbody>
-                                                                                       <tfoot>
-                                                                                            <tr>
-                                                                                                 <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
-                                                                                                 <td >20</td>
-                                                                                            </tr>
-                                                                                       </tfoot>
-                                                                                  </table>
-                                                                             </div>
-                                                                        </div>
+                                                                   </div>
+                                                              </form>
+                                                              <div class="card-body table-border-style">
+                                                                   <div class="table-responsive">
+                                                                        <table id="table3" class="table table-striped">
+                                                                             <thead>
+                                                                                  <tr>
+                                                                                       <th>#</th>
+                                                                                       <th>เลขที่เอกสาร</th>
+                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>ชื่อลูกค้า</th>
+                                                                                       <th>เลขตู้จัดสินค้า</th>
+                                                                                       <th>สถานะตู้</th>
+                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                       <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                  </tr>
+                                                                             </thead>
+                                                                             <tbody>
+                                                                             </tbody>
+                                                                             <tfoot>
+                                                                                  <tr>
+                                                                                       <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
+                                                                                       <td><span id="sum_amount_product">0</span></td>
+                                                                                  </tr>
+                                                                             </tfoot>
+                                                                        </table>
                                                                    </div>
                                                               </div>
                                                          </div>
                                                     </div>
-                                                </form>
+                                               </div>
                                                 <ul class="list-unstyled list-inline pull-right">
                                                      <li><button type="button" class="btn btn-default prev-step" data-id="3" id="prev-step-3"><i class="fa fa-chevron-left"></i> Back</button></li>
                                                      <li><button type="button" class="btn btn-info next-step" data-id="3" id="next-step-3">Next <i class="fa fa-chevron-right"></i></button></li>
@@ -543,6 +546,7 @@
                                         // tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
                                         // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
                                         tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
+                                        tr += '<input type="hidden" id="EmpCode'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
                                         tr += '</td>';
                                         tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
                                         tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
@@ -566,7 +570,10 @@
                     });
                }
                else if(data == 2) {
+                    $("#share_product_radio_1").prop("checked", true);
+                    $("#share_product_radio_2").prop("checked", false);
                     $("#table2 tbody").empty();
+                    $("#table3 tbody").empty();
                     var valids = new Array();
                     var doc_ids = new Array();
                     $('.ref_soco_id').each(function(i, obj) {
@@ -584,17 +591,75 @@
                                    let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
                                    let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
                                    let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
-                                   let shipdate = $("#ship_date_"+doc_ids[i]).text();
+                                   let shipdate = $("#ship_date_"+doc_ids[i]).val();
+                                   let goodcode = $("#GoodCode").val();
+                                   let EmpCode = $("#EmpCode"+doc_ids[i]).val();
                                    tr += '<tr>';
-                                   tr += '<td>'+ref_soco_no+'</td>';
+                                   tr += '<td>'+ref_soco_no+'';
+                                   tr += '<input type="hidden" name="goodcode" value="'+goodcode+'">';
+                                   tr += '<input type="hidden" name="shipdate" value="'+shipdate+'">';
+                                   tr += '<input type="hidden" name="EmpCode" value="'+EmpCode+'">';
+                                   tr += '</td>';
                                    tr += '<td>'+docudate+'</td>';
                                    tr += '<td>'+date_amount+'</td>';
                                    tr += '<td>'+cus_address+'</td>';
                                    tr += '<td>'+goodprice+'</td>';
                                    tr += '<td>'+tranqty+'</td>';
-                                   tr += '<td>0</td>';
+                                   tr += '<td><span id="product_amount_sent">0</span></td>';
                                    tr += '</tr>';
                                    $("#table2 tbody").append(tr);
+
+                                   $.ajax({
+                                        method : "post",
+                                        url : '{{ route('customer.get_default_product')}}',
+                                        dataType : 'json',
+                                        data : $("#get_product_form").serialize(),
+                                        headers: {
+                                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                                        },
+                                        beforeSend: function() {
+                                             $("#preloaders").css("display", "block");
+                                        },
+                                   }).done(function(rec){
+                                        $("#preloaders").css("display", "none");
+                                        $("#table3 tbody").empty();
+                                        if(rec.status==1){
+                                             let tr = '';
+                                             if (rec.datas.length > 0){
+                                                  $.each(rec.datas, function( key, data ) {
+                                                       tr += '<tr>';
+                                                       tr += '<td>';
+                                                       tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                       tr += '</td>';
+                                                       tr += '<td>'+data.RefSOCONo+'</td>';
+                                                       tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
+                                                       tr += '<td>'+data.EmpName+'</td>';
+                                                       tr += '<td>'+data.ContainerNO+'</td>';
+                                                       tr += '<td>'+data.Flag_st+'</td>';
+                                                       tr += '<td>'+data.TranQty+'</td>';
+                                                       tr += '<td><input type="text" class="form-control product_share" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                       tr += '</tr>';
+                                                  });
+                                             } else {
+                                                  tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                                             }
+                                             $("#table3 tbody").append(tr);
+
+                                             $('.product_share_chk').on('click', function() {
+                                                  var data = $(this).data("value");
+                                                  if ($(this).is(':checked')) {
+                                                       $("#product_share_" + data).attr("readonly", false);
+                                                  } else {
+                                                       $("#product_share_" + data).attr("readonly", true);
+                                                  }
+                                             });
+                                        } else {
+                                             swal("", rec.content, "warning");
+                                        }
+                                   }).fail(function(){
+                                        $("#preloaders").css("display", "none");
+                                        swal("", rec.content, "error");
+                                   });
                               }
                          }
                     } else {
@@ -603,12 +668,6 @@
                     }
                }
                else if (data == 3) {
-                    // if (!$('#sale_code').val()) {
-                    //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-                    //      $('#sale_code').focus();
-                    //      $('.form-1').addClass('was-validated');
-                    //      return false;
-                    // }
                     if (!$('#share_product_radio').val()) {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
                          $('#share_product_radio').focus();
@@ -653,25 +712,6 @@
           });
 
           $('input[name=share_product_radio]').on('change', function() {
-               if($(this).val() == 'Y'){
-                    $("#sale_code").val(emp_code);
-                    // $("#sale_code").attr("readonly", true);
-               } else {
-                    $("#sale_code").val("");
-                    // $("#sale_code").attr("placeholder", "กรุณาระบุรหัสพนักงานขาย");
-                    // $("#sale_code").attr("readonly", false);
-               }
-          });
-
-          $("#btn-get-product").on('click', function (e){
-               e.preventDefault();
-               // if ($("#sale_code").val() == ''){
-               //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-               //      $("#sale_code").focus();
-               //      return false;
-               // } else {
-               //
-               // }
                $.ajax({
                     method : "post",
                     url : '{{ route('customer.get_product')}}',
@@ -699,8 +739,8 @@
                                    tr += '<td>'+data.EmpName+'</td>';
                                    tr += '<td>'+data.ContainerNO+'</td>';
                                    tr += '<td>'+data.Flag_st+'</td>';
-                                   tr += '<td>'+data.TranQty+'</td>';
-                                   tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><span id="tran_qty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                   tr += '<td><input type="text" class="form-control product_share" data-value="'+data.RefSOCOID+'" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
@@ -714,6 +754,18 @@
                                    $("#product_share_" + data).attr("readonly", false);
                               } else {
                                    $("#product_share_" + data).attr("readonly", true);
+                                   $("#product_share_" + data).val("");
+                              }
+                         });
+
+                         $('.product_share').on('keyup', function() {
+                              var data = $(this).val();
+                              var data_value = $(this).data("value");
+                              var tran_qty = $("#tran_qty_"+data_value).text();
+                              if (parseInt(data) > parseInt(tran_qty)) {
+                                   notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
+                                   $(this).val("");
+                                   $(this).focus();
                               }
                          });
                     } else {
@@ -724,6 +776,76 @@
                     swal("", rec.content, "error");
                });
           });
+
+
+
+          // $("#btn-get-product").on('click', function (e){
+          //      e.preventDefault();
+          //      // if ($("#sale_code").val() == ''){
+          //      //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+          //      //      $("#sale_code").focus();
+          //      //      return false;
+          //      // } else {
+          //      //
+          //      // }
+          //      if ($(".share_product_radio").is(':checked') == false) {
+          //           notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกว่าแบ่งสินค้ามาจากใคร");
+          //           $("#sale_code").focus();
+          //           return false;
+          //      } else {
+          //           $.ajax({
+          //                method : "post",
+          //                url : '{{ route('customer.get_product')}}',
+          //                dataType : 'json',
+          //                data : $("#get_product_form").serialize(),
+          //                headers: {
+          //                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
+          //                },
+          //                beforeSend: function() {
+          //                     $("#preloaders").css("display", "block");
+          //                },
+          //           }).done(function(rec){
+          //                $("#preloaders").css("display", "none");
+          //                $("#table3 tbody").empty();
+          //                if(rec.status==1){
+          //                     let tr = '';
+          //                     if (rec.datas.length > 0){
+          //                          $.each(rec.datas, function( key, data ) {
+          //                               tr += '<tr>';
+          //                               tr += '<td>';
+          //                               tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+          //                               tr += '</td>';
+          //                               tr += '<td>'+data.RefSOCONo+'</td>';
+          //                               tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
+          //                               tr += '<td>'+data.EmpName+'</td>';
+          //                               tr += '<td>'+data.ContainerNO+'</td>';
+          //                               tr += '<td>'+data.Flag_st+'</td>';
+          //                               tr += '<td>'+data.TranQty+'</td>';
+          //                               tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+          //                               tr += '</tr>';
+          //                          });
+          //                     } else {
+          //                          tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+          //                     }
+          //                     $("#table3 tbody").append(tr);
+          //
+          //                     $('.product_share_chk').on('click', function() {
+          //                          var data = $(this).data("value");
+          //                          if ($(this).is(':checked')) {
+          //                               $("#product_share_" + data).attr("readonly", false);
+          //                          } else {
+          //                               $("#product_share_" + data).attr("readonly", true);
+          //                          }
+          //                     });
+          //                } else {
+          //                     swal("", rec.content, "warning");
+          //                }
+          //           }).fail(function(){
+          //                $("#preloaders").css("display", "none");
+          //                swal("", rec.content, "error");
+          //           });
+          //      }
+          // });
      });
     </script>
 </body>
