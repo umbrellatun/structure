@@ -336,50 +336,31 @@
                                                                         <div class="card-header">
                                                                              <h5>แบ่งสินค้ามาจาก</h5>
                                                                              <hr/>
-                                                                             <div class="form-row">
-                                                                                  <div class="form-group d-inline mr-2">
-                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_1" class="share_product_radio" value="Y">
-                                                                                       <label for="share_product_radio_1">สินค้าตนเอง</label>
-                                                                                  </div>
-                                                                                  <div class="form-group d-inline">
-                                                                                       <input type="radio" name="share_product_radio" id="share_product_radio_2" class="share_product_radio" value="N">
-                                                                                       <label for="share_product_radio_2">สินค้าของพนักงานขายคนอื่น</label>
-                                                                                  </div>
-                                                                             </div>
                                                                         </div>
-                                                                        <div class="form-row form-1 needs-validation" novalidate>
-                                                                             <div class="col-md-12 mb-3">
-                                                                                  <input type="hidden" name="sale_code" id="" value="">
-                                                                                  <input type="hidden" name="customer_id"  value="{{$customer_id}}" >
+                                                                        <div class="card-body table-border-style">
+                                                                             <div class="table-responsive">
+                                                                                  <table id="table4" class="table table-striped">
+                                                                                       <thead>
+                                                                                            <tr>
+                                                                                                 <th>เลขที่เอกสาร</th>
+                                                                                                 <th>วันที่จอง</th>
+                                                                                                 <th>ชื่อลูกค้า</th>
+                                                                                                 <th>เลขตู้จัดสินค้า</th>
+                                                                                                 <th>สถานะตู้</th>
+                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                            </tr>
+                                                                                       </thead>
+                                                                                       <tbody>
+                                                                                       </tbody>
+                                                                                       <tfoot>
+                                                                                       </tfoot>
+                                                                                  </table>
                                                                              </div>
                                                                         </div>
                                                                    </div>
                                                               </div>
-                                                              <div class="card-body table-border-style">
-                                                                   <div class="table-responsive">
-                                                                        <table id="table4" class="table table-striped">
-                                                                             <thead>
-                                                                                  <tr>
-                                                                                       <th>เลขที่เอกสาร</th>
-                                                                                       <th>วันที่จอง</th>
-                                                                                       <th>ชื่อลูกค้า</th>
-                                                                                       <th>เลขตู้จัดสินค้า</th>
-                                                                                       <th>สถานะตู้</th>
-                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                       <th>จำนวนสินค้าแบ่งให้</th>
-                                                                                  </tr>
-                                                                             </thead>
-                                                                             <tbody>
-                                                                             </tbody>
-                                                                             <tfoot>
-                                                                                  <tr>
-                                                                                       <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
-                                                                                       <td><span id="sum_amount_product">0</span></td>
-                                                                                  </tr>
-                                                                             </tfoot>
-                                                                        </table>
-                                                                   </div>
-                                                              </div>
+
                                                               <div class="card-body table-border-style">
                                                                    <div class="table-responsive">
                                                                         <table id="table2" class="table table-striped">
@@ -781,6 +762,8 @@
                     }
                }
                else if (data == 3) {
+                    $("#table4 tbody").empty();
+                    $("#table5 tbody").empty();
                     var valids = new Array();
                     var product_share_chk_arr = new Array();
                     $('.product_share_chk').each(function(i, obj) {
@@ -816,6 +799,13 @@
                                    tr += '<td>'+product_share+'</td>';
                                    tr += '</tr>';
                                    $("#table4 tbody").append(tr);
+
+                                   let tf = '';
+                                   tf += '<tr>';
+                                   tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
+                                   tf += '<td>'+sum_total+'</td>';
+                                   tf += '</tr>';
+                                   $("#table4 tfoot").append(tf);
                               }
                          }
                          if (sum_total > parseInt($("#sum_amount_product").text())){
