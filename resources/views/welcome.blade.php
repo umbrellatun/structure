@@ -133,7 +133,7 @@
                                                      </div>
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab" disabled><h1>3</h1></button>
-                                                          <p><small>Upload<br />images</small></p>
+                                                          <p><small>แบ่งสินค้า<br />เพื่อจัดส่ง</small></p>
                                                      </div>
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><h1>4</h1></button>
@@ -246,7 +246,6 @@
                                                                              <table id="table2" class="table table-striped">
                                                                                   <thead>
                                                                                        <tr>
-                                                                                            <th>#</th>
                                                                                             <th>เลขที่เอกสาร</th>
                                                                                             <th>วันที่จอง</th>
                                                                                             <th>จำนวนวัน</th>
@@ -278,11 +277,12 @@
                                                                                   </div>
                                                                              </div>
                                                                              <div class="form-row form-1 needs-validation" novalidate>
-                                                                                  <div class="col-md-12 mb-3">
+                                                                                  {{-- <div class="col-md-12 mb-3">
                                                                                        <label for="sale_code">รหัสพนักงานขาย</label>
                                                                                        <input type="text" class="form-control" name="sale_code" id="sale_code" placeholder="" value="" required readonly>
-                                                                                  </div>
+                                                                                  </div> --}}
                                                                                   <div class="col-md-12 mb-3">
+                                                                                       <input type="hidden" class="form-control" name="sale_code" id="sale_code" value="" required readonly>
                                                                                        <button type="button" class="btn btn-info" id="btn-get-product"><i class="fa fa-search mr-2"></i>ค้นหา</button>
                                                                                   </div>
                                                                              </div>
@@ -373,299 +373,358 @@
      var url_gb = '{{ url('') }}'
      var emp_code = '{{$result->EmpCode}}';
      function jsDateDiff1(strDate1,strDate2){
-		var theDate1 = Date.parse(strDate1)/1000;
-		var theDate2 = Date.parse(strDate2)/1000;
-		var diff=(theDate2-theDate1)/(60*60*24);
-		return diff;
-	}
+          var theDate1 = Date.parse(strDate1)/1000;
+          var theDate2 = Date.parse(strDate2)/1000;
+          var diff=(theDate2-theDate1)/(60*60*24);
+          return diff;
+     }
 
-   $(document).ready(function() {
-       $("#pcoded").pcodedmenu({
-           themelayout: 'horizontal',
-           MenuTrigger: 'hover',
-           SubMenuTrigger: 'hover',
-       });
+     function formatDate(date) {
+          var d = new Date(date),
+          month = '' + (d.getMonth() + 1),
+          day = '' + d.getDate(),
+          year = d.getFullYear();
 
-       $("#send_appointment").daterangepicker({
-            singleDatePicker: true,
-            showDropdowns: true,
-            minYear: 2020,
-            maxYear: parseInt(moment().format('YYYY'),10),
-            locale: {
-               format: 'DD MMM YYYY'
-           }
-       });
-   });
-        $(function(){
-             function notify(from, align, icon, type, animIn, animOut, title) {
-                  $.notify({
-                       icon: icon,
-                       title:  title,
-                       message: '',
-                       url: ''
-                  }, {
-                       element: 'body',
-                       type: type,
-                       allow_dismiss: true,
-                       placement: {
-                            from: from,
-                            align: align
-                       },
-                       offset: {
-                            x: 30,
-                            y: 30
-                       },
-                       spacing: 10,
-                       z_index: 999999,
-                       delay: 2500,
-                       timer: 1000,
-                       url_target: '_blank',
-                       mouse_over: false,
-                       animate: {
-                            enter: animIn,
-                            exit: animOut
-                       },
-                       icon_type: 'class',
-                       template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-                       '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-                       '<span data-notify="icon"></span> ' +
-                       '<span data-notify="title">{1}</span> ' +
-                       '<span data-notify="message">{2}</span>' +
-                       '<div class="progress" data-notify="progressbar">' +
-                       '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-                       '</div>' +
-                       '<a href="{3}" target="{4}" data-notify="url"></a>' +
-                       '</div>'
-                  });
-             };
+          if (month == 1){
+               month = 'Jan';
+          } else if (month == 2) {
+               month = 'Feb';
+          } else if (month == 3) {
+               month = 'Mar';
+          } else if (month == 4) {
+               month = 'Apr';
+          } else if (month == 5) {
+               month = 'May';
+          } else if (month == 6) {
+               month = 'Jun';
+          } else if (month == 7) {
+               month = 'Jul';
+          } else if (month == 8) {
+               month = 'Aug';
+          } else if (month == 9) {
+               month = 'Sep';
+          } else if (month == 10) {
+               month = 'Oct';
+          } else if (month == 11) {
+               month = 'Nov';
+          } else if (month == 12) {
+               month = 'Dec';
+          }
+          // if (month.length < 2)
+          // month = '0' + month;
+          if (day.length < 2)
+          day = '0' + day;
 
-             $('.btn-circle').on('click',function(){
-                  $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-                  $(this).addClass('btn-info').removeClass('btn-default').blur();
-             });
+          return [day, month, year].join('-');
+     }
 
-             $('.next-step').on('click', function (e){
-                  e.preventDefault();
-                  var data = $(this).data("id");
+     function notify(from, align, icon, type, animIn, animOut, title) {
+          $.notify({
+               icon: icon,
+               title:  title,
+               message: '',
+               url: ''
+          }, {
+               element: 'body',
+               type: type,
+               allow_dismiss: true,
+               placement: {
+                    from: from,
+                    align: align
+               },
+               offset: {
+                    x: 30,
+                    y: 30
+               },
+               spacing: 10,
+               z_index: 999999,
+               delay: 2500,
+               timer: 1000,
+               url_target: '_blank',
+               mouse_over: false,
+               animate: {
+                    enter: animIn,
+                    exit: animOut
+               },
+               icon_type: 'class',
+               template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+               '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+               '<span data-notify="icon"></span> ' +
+               '<span data-notify="title">{1}</span> ' +
+               '<span data-notify="message">{2}</span>' +
+               '<div class="progress" data-notify="progressbar">' +
+               '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+               '</div>' +
+               '<a href="{3}" target="{4}" data-notify="url"></a>' +
+               '</div>'
+          });
+     };
 
-                  if (data == 1){
-                       if (!$('#DocuNO').val()) {
-                            $('#DocuNO').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       if (!$('#DocuDate').val()) {
-                            $('#DocuDate').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       if (!$('#send_appointment').val()) {
-                            $('#send_appointment').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       if (!$('#CustCode').val()) {
-                            $('#CustCode').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       if (!$('#EmpCode').val()) {
-                            $('#EmpCode').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       if (!$('#GoodCode').val()) {
-                            $('#GoodCode').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       $.ajax({
-                            method : "post",
-                            url : '{{ route('customer.get_cust_code')}}',
-                            dataType : 'json',
-                            data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
-                            headers: {
-                                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                            },
-                            beforeSend: function() {
-                                 $("#preloaders").css("display", "block");
-                            },
-                       }).done(function(rec){
-                            $("#preloaders").css("display", "none");
-                            $("#table1 tbody").empty();
-                            if(rec.status==1){
-                                 let tr = '';
-                                 if (rec.datas.length > 0){
-                                      $.each(rec.datas, function( key, data ) {
-                                           tr += '<tr class="tr_'+data.RefSOCOID+'">';
-                                           tr += '<td>';
-                                           tr += '<input type="radio" name="ref_soco_id" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
-                                           tr += '<input type="hidden" name="ref_list_no" id="ref_soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                           tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                           tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
-                                           tr += '</td>';
-                                           tr += '<td>'+data.RefSOCONo+'</td>';
-                                           tr += '<td>'+data.DocuDate+'</td>';
-                                           tr += '<td>'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</td>';
-                                           tr += '<td>'+data.CustAddress+'</td>';
-                                           tr += '<td>'+data.GoodPrice2+'</td>';
-                                           tr += '<td>'+data.TranQty+'</td>';
-                                           tr += '<td>0</td>';
-                                           tr += '</tr>';
-                                      });
-                                 } else {
-                                      tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                                 }
-                                 $("#table1 tbody").append(tr);
-                            } else {
-                                 swal("", rec.content, "warning");
-                            }
-                       }).fail(function(){
-                            $("#preloaders").css("display", "none");
-                            swal("", rec.content, "error");
-                       });
-                  }
-                  else if(data == 2) {
-                       $("#table2 tbody").empty();
-                       var valids = new Array();
-                       var doc_ids = new Array();
-                       $('.ref_soco_id').each(function(i, obj) {
-                            valids.push($(obj).prop("checked"));
-                            doc_ids.push($(obj).val());
-                       });
-                       if (jQuery.inArray( true, valids ) != -1) {
-                              for (var i = 0; i < valids.length; i++) {
-                                   if(valids[i] == true){
-                                        a = $(".tr_"+doc_ids[i]).clone();
-                                        $("#table2 tbody").append(a);
-                                   }
+     $(document).ready(function() {
+          $("#pcoded").pcodedmenu({
+               themelayout: 'horizontal',
+               MenuTrigger: 'hover',
+               SubMenuTrigger: 'hover',
+          });
+
+          $("#send_appointment").daterangepicker({
+               singleDatePicker: true,
+               showDropdowns: true,
+               minYear: 2020,
+               maxYear: parseInt(moment().format('YYYY'),10),
+               locale: {
+                    format: 'DD MMM YYYY'
+               }
+          });
+     });
+
+     $(function(){
+          $('.btn-circle').on('click',function(){
+               $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+               $(this).addClass('btn-info').removeClass('btn-default').blur();
+          });
+
+          $('.next-step').on('click', function (e){
+               e.preventDefault();
+               var data = $(this).data("id");
+
+               if (data == 1){
+                    if (!$('#DocuNO').val()) {
+                         $('#DocuNO').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    if (!$('#DocuDate').val()) {
+                         $('#DocuDate').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    if (!$('#send_appointment').val()) {
+                         $('#send_appointment').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    if (!$('#CustCode').val()) {
+                         $('#CustCode').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    if (!$('#EmpCode').val()) {
+                         $('#EmpCode').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    if (!$('#GoodCode').val()) {
+                         $('#GoodCode').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    $.ajax({
+                         method : "post",
+                         url : '{{ route('customer.get_cust_code')}}',
+                         dataType : 'json',
+                         data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
+                         headers: {
+                              'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                         },
+                         beforeSend: function() {
+                              $("#preloaders").css("display", "block");
+                         },
+                    }).done(function(rec){
+                         $("#preloaders").css("display", "none");
+                         $("#table1 tbody").empty();
+                         if(rec.status==1){
+                              let tr = '';
+                              if (rec.datas.length > 0){
+                                   $.each(rec.datas, function( key, data ) {
+                                        tr += '<tr>';
+                                        tr += '<td>';
+                                        tr += '<input type="radio" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
+                                        // tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                        // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
+                                        tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
+                                        tr += '</td>';
+                                        tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                        tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                        tr += '<td><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
+                                        tr += '<td><span id="span_cus_address_'+data.RefSOCOID+'">'+data.CustAddress+'</span></td>';
+                                        tr += '<td><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
+                                        tr += '<td><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                        tr += '<td>0</td>';
+                                        tr += '</tr>';
+                                   });
+                              } else {
+                                   tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
                               }
-                       } else {
-                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
-                            return false;
-                       }
-                  }
-                  else if (data == 3) {
-                       if (!$('#sale_code').val()) {
-                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-                            $('#sale_code').focus();
-                            $('.form-1').addClass('was-validated');
-                            return false;
-                       }
-                       var valids = new Array();
-                       $('.product_share_chk').each(function(i, obj) {
-                            valids.push($(obj).prop("checked"));
-                       });
-                       if (jQuery.inArray( true, valids ) != -1) {
+                              $("#table1 tbody").append(tr);
+                         } else {
+                              swal("", rec.content, "warning");
+                         }
+                    }).fail(function(){
+                         $("#preloaders").css("display", "none");
+                         swal("", rec.content, "error");
+                    });
+               }
+               else if(data == 2) {
+                    $("#table2 tbody").empty();
+                    var valids = new Array();
+                    var doc_ids = new Array();
+                    $('.ref_soco_id').each(function(i, obj) {
+                         valids.push($(obj).prop("checked"));
+                         doc_ids.push($(obj).val());
+                    });
+                    if (jQuery.inArray( true, valids ) != -1) {
+                         for (var i = 0; i < valids.length; i++) {
+                              if(valids[i] == true){
+                                   let tr = '';
+                                   // a = $(".tr_"+doc_ids[i]).clone();
+                                   let ref_soco_no = $("#span_ref_soco_no_"+doc_ids[i]).text();
+                                   let docudate = $("#span_docudate_"+doc_ids[i]).text();
+                                   let date_amount = $("#span_date_amount_"+doc_ids[i]).text();
+                                   let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
+                                   let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
+                                   let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
+                                   let shipdate = $("#ship_date_"+doc_ids[i]).text();
+                                   tr += '<tr>';
+                                   tr += '<td>'+ref_soco_no+'</td>';
+                                   tr += '<td>'+docudate+'</td>';
+                                   tr += '<td>'+date_amount+'</td>';
+                                   tr += '<td>'+cus_address+'</td>';
+                                   tr += '<td>'+goodprice+'</td>';
+                                   tr += '<td>'+tranqty+'</td>';
+                                   tr += '<td>0</td>';
+                                   tr += '</tr>';
+                                   $("#table2 tbody").append(tr);
+                              }
+                         }
+                    } else {
+                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                         return false;
+                    }
+               }
+               else if (data == 3) {
+                    // if (!$('#sale_code').val()) {
+                    //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+                    //      $('#sale_code').focus();
+                    //      $('.form-1').addClass('was-validated');
+                    //      return false;
+                    // }
+                    if (!$('#share_product_radio').val()) {
+                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+                         $('#share_product_radio').focus();
+                         $('.form-1').addClass('was-validated');
+                         return false;
+                    }
+                    var valids = new Array();
+                    $('.product_share_chk').each(function(i, obj) {
+                         valids.push($(obj).prop("checked"));
+                    });
+                    if (jQuery.inArray( true, valids ) != -1) {
 
-                       } else {
-                            notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
-                            return false;
-                       }
-                  }
-                  var next = data+1;
-                  $("#menu" + data).removeClass('active');
-                  $("#menu" + data).removeClass('in');
-                  $("#menu" + next).addClass('active');
-                  $("#menu" + next).addClass('in');
+                    } else {
+                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                         return false;
+                    }
+               }
+               var next = data+1;
+               $("#menu" + data).removeClass('active');
+               $("#menu" + data).removeClass('in');
+               $("#menu" + next).addClass('active');
+               $("#menu" + next).addClass('in');
 
-                  $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-                  $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
-             });
+               $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+               $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
+          });
 
-             $('.prev-step').on('click', function (e){
-                  e.preventDefault();
-                  var data = $(this).data("id");
-                  var prev = data-1;
-                  if (data == 3){
-                       $(".ref_soco_id").prop("checked", false);
-                  }
-                  $("#menu" + data).removeClass('active');
-                  $("#menu" + data).removeClass('in');
-                  $("#menu" + prev).addClass('active');
-                  $("#menu" + prev).addClass('in');
+          $('.prev-step').on('click', function (e){
+               e.preventDefault();
+               var data = $(this).data("id");
+               var prev = data-1;
+               if (data == 3){
+                    $(".ref_soco_id").prop("checked", false);
+               }
+               $("#menu" + data).removeClass('active');
+               $("#menu" + data).removeClass('in');
+               $("#menu" + prev).addClass('active');
+               $("#menu" + prev).addClass('in');
 
-                  $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-                  $("#icon-"+prev).addClass('btn-info').removeClass('btn-default');
-             });
+               $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+               $("#icon-"+prev).addClass('btn-info').removeClass('btn-default');
+          });
 
-             $('input[name=share_product_radio]').on('change', function() {
-                  if($(this).val() == 'Y'){
-                       $("#sale_code").val(emp_code);
-                       $("#sale_code").attr("readonly", true);
-                  } else {
-                       $("#sale_code").val("");
-                       $("#sale_code").attr("placeholder", "กรุณาระบุรหัสพนักงานขาย");
-                       $("#sale_code").attr("readonly", false);
-                  }
-             });
+          $('input[name=share_product_radio]').on('change', function() {
+               if($(this).val() == 'Y'){
+                    $("#sale_code").val(emp_code);
+                    // $("#sale_code").attr("readonly", true);
+               } else {
+                    $("#sale_code").val("");
+                    // $("#sale_code").attr("placeholder", "กรุณาระบุรหัสพนักงานขาย");
+                    // $("#sale_code").attr("readonly", false);
+               }
+          });
 
+          $("#btn-get-product").on('click', function (e){
+               e.preventDefault();
+               // if ($("#sale_code").val() == ''){
+               //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+               //      $("#sale_code").focus();
+               //      return false;
+               // } else {
+               //
+               // }
+               $.ajax({
+                    method : "post",
+                    url : '{{ route('customer.get_product')}}',
+                    dataType : 'json',
+                    data : $("#get_product_form").serialize(),
+                    headers: {
+                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                         $("#preloaders").css("display", "block");
+                    },
+               }).done(function(rec){
+                    $("#preloaders").css("display", "none");
+                    $("#table3 tbody").empty();
+                    if(rec.status==1){
+                         let tr = '';
+                         if (rec.datas.length > 0){
+                              $.each(rec.datas, function( key, data ) {
+                                   tr += '<tr>';
+                                   tr += '<td>';
+                                   tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                   tr += '</td>';
+                                   tr += '<td>'+data.RefSOCONo+'</td>';
+                                   tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
+                                   tr += '<td>'+data.EmpName+'</td>';
+                                   tr += '<td>'+data.ContainerNO+'</td>';
+                                   tr += '<td>'+data.Flag_st+'</td>';
+                                   tr += '<td>'+data.TranQty+'</td>';
+                                   tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '</tr>';
+                              });
+                         } else {
+                              tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                         }
+                         $("#table3 tbody").append(tr);
 
-
-
-             $("#btn-get-product").on('click', function (e){
-                  e.preventDefault();
-                  if ($("#sale_code").val() == ''){
-                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-                       $("#sale_code").focus();
-                       return false;
-                  } else {
-                       $.ajax({
-                           method : "post",
-                           url : '{{ route('customer.get_product')}}',
-                           dataType : 'json',
-                           data : $("#get_product_form").serialize(),
-                           headers: {
-                                'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                           },
-                           beforeSend: function() {
-                                $("#preloaders").css("display", "block");
-                           },
-                      }).done(function(rec){
-                           $("#preloaders").css("display", "none");
-                           $("#table3 tbody").empty();
-                           if(rec.status==1){
-                                let tr = '';
-                                if (rec.datas.length > 0){
-                                     $.each(rec.datas, function( key, data ) {
-                                          tr += '<tr>';
-                                          tr += '<td>';
-                                          tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                          tr += '</td>';
-                                          tr += '<td>'+data.RefSOCONo+'</td>';
-                                          tr += '<td></td>';
-                                          tr += '<td>'+data.EmpName+'</td>';
-                                          tr += '<td>'+data.ContainerNO+'</td>';
-                                          tr += '<td>'+data.Flag_st+'</td>';
-                                          tr += '<td>'+data.TranQty+'</td>';
-                                          tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                          tr += '</tr>';
-                                     });
-                                } else {
-                                     tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                                }
-                                $("#table3 tbody").append(tr);
-
-                                $('.product_share_chk').on('click', function() {
-                                     var data = $(this).data("value");
-                                     if ($(this).is(':checked')) {
-                                          $("#product_share_" + data).attr("readonly", false);
-                                     } else {
-                                          $("#product_share_" + data).attr("readonly", true);
-                                     }
-                                });
-                           } else {
-                                swal("", rec.content, "warning");
-                           }
-                      }).fail(function(){
-                           $("#preloaders").css("display", "none");
-                           swal("", rec.content, "error");
-                      });
-                  }
-             });
-
-
-        });
+                         $('.product_share_chk').on('click', function() {
+                              var data = $(this).data("value");
+                              if ($(this).is(':checked')) {
+                                   $("#product_share_" + data).attr("readonly", false);
+                              } else {
+                                   $("#product_share_" + data).attr("readonly", true);
+                              }
+                         });
+                    } else {
+                         swal("", rec.content, "warning");
+                    }
+               }).fail(function(){
+                    $("#preloaders").css("display", "none");
+                    swal("", rec.content, "error");
+               });
+          });
+     });
     </script>
 </body>
 

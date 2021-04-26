@@ -85,11 +85,17 @@ class HomeController extends Controller
     public function get_product(Request $request)
     {
          // dd($request->all());
+         $share_product = $request->share_product_radio;
          $validator = Validator::make($request->all(), [
 
          ]);
          if (!$validator->fails()) {
               try {
+                   // if ($share_product == 'Y') {
+                   //      $emp_code = $request->sale_code;
+                   // } else {
+                   //
+                   // }
                    $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                    $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
                    $q .= " FROM tmConTain_bk";
@@ -129,7 +135,6 @@ class HomeController extends Controller
                    $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
                    $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '20210427'";
 
-                   // dd($q);
                    $return["datas"] =  \DB::select($q);
                    $return['status'] = 1;
               } catch (Exception $e) {
