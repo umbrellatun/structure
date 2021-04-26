@@ -87,7 +87,7 @@
                 <i class="feather icon-more-vertical"></i>
             </a>
         </div>
-        <div class="collapse navbar-collapse">
+        {{-- <div class="collapse navbar-collapse">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a href="#!" class="pop-search"><i class="feather icon-search"></i></a>
@@ -102,8 +102,7 @@
                     <a href="#!" class="full-screen" onclick="javascript:toggleFullScreen()"><i class="feather icon-maximize"></i></a>
                 </li>
             </ul>
-
-        </div>
+        </div> --}}
     </header>
     <!-- [ Header ] end -->
 
@@ -125,19 +124,19 @@
                                                 <div class="process-row nav nav-tabs">
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-info btn-circle" id="icon-1" data-toggle="tab" disabled><h1>1</h1></button>
-                                                          <p><small>ข้อมูล<br />ลูกค้า</small></p>
+                                                          <p><small>ข้อมูลลูกค้า</small></p>
                                                      </div>
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-2" data-toggle="tab" disabled><h1>2</h1></button>
-                                                          <p><small>ข้อมูล<br />เอกสาร</small></p>
+                                                          <p><small>ข้อมูลเอกสาร</small></p>
                                                      </div>
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-3" data-toggle="tab" disabled><h1>3</h1></button>
-                                                          <p><small>แบ่งสินค้า<br />เพื่อจัดส่ง</small></p>
+                                                          <p><small>แบ่งสินค้าเพื่อจัดส่ง</small></p>
                                                      </div>
                                                      <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-4" data-toggle="tab" disabled><h1>4</h1></button>
-                                                          <p><small>สรุป<br />ข้อมูล</small></p>
+                                                          <p><small>สรุปข้อมูล</small></p>
                                                      </div>
                                                      {{-- <div class="process-step">
                                                           <button type="button" class="btn btn-default btn-circle" id="icon-5" data-toggle="tab" disabled><h1>5</h1></button>
@@ -375,6 +374,22 @@
     <script>
      var url_gb = '{{ url('') }}'
      var emp_code = '{{$result->EmpCode}}';
+     $('body').on('keydown','.number-only',function (e) {
+          // Allow: backspace, delete, tab, escape, enter and .
+          if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+          // Allow: Ctrl+A, Command+A
+          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+          // Allow: home, end, left, right, down, up
+          (e.keyCode >= 35 && e.keyCode <= 40)) {
+               // let it happen, don't do anything
+               return;
+          }
+          // Ensure that it is a number and stop the keypress
+          if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+               e.preventDefault();
+          }
+     });
+
      function jsDateDiff1(strDate1,strDate2){
           var theDate1 = Date.parse(strDate1)/1000;
           var theDate2 = Date.parse(strDate2)/1000;
@@ -465,14 +480,22 @@
 
      function numIndex() {
           let allSum = 0;
+          amount_tranqty = $("#product_amount_tranqty").text();
           $.each($('#table3').find('.product_share'), function (index, el) {
                if ($(this).val() != ''){
                     let sum_list = parseInt($(this).val());
                     allSum += sum_list;
+                    if (allSum > parseInt(amount_tranqty)){
+                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่มากกว่าจำนวนสินค้าสั่งจอง");
+                         $(this).val("");
+                         $(this).focus();
+                         return false;
+                    }
                }
           });
           $("#sum_amount_product").text(allSum);
           $("#product_amount_sent").text(allSum);
+
      }
 
      $(document).ready(function() {
@@ -616,7 +639,7 @@
                                    tr += '<td>'+date_amount+'</td>';
                                    tr += '<td>'+cus_address+'</td>';
                                    tr += '<td>'+goodprice+'</td>';
-                                   tr += '<td>'+tranqty+'</td>';
+                                   tr += '<td><span id="product_amount_tranqty">'+tranqty+'</span></td>';
                                    tr += '<td><span id="product_amount_sent">0</span></td>';
                                    tr += '</tr>';
                                    $("#table2 tbody").append(tr);
@@ -637,11 +660,15 @@
                                         $("#table3 tbody").empty();
                                         if(rec.status==1){
                                              let tr = '';
+                                             let chkbox = '';
                                              if (rec.datas.length > 0){
                                                   $.each(rec.datas, function( key, data ) {
+                                                       if (data.Flag_st.length == 0){
+                                                            chkbox = '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                       }
                                                        tr += '<tr>';
                                                        tr += '<td>';
-                                                       tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                       tr += chkbox;
                                                        tr += '</td>';
                                                        tr += '<td>'+data.RefSOCONo+'</td>';
                                                        tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
@@ -680,18 +707,18 @@
                     }
                }
                else if (data == 3) {
-                    if (!$('#share_product_radio').val()) {
-                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-                         $('#share_product_radio').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
+                    // if (!$('#share_product_radio').val()) {
+                    //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
+                    //      $('#share_product_radio').focus();
+                    //      $('.form-1').addClass('was-validated');
+                    //      return false;
+                    // }
                     var valids = new Array();
                     $('.product_share_chk').each(function(i, obj) {
                          valids.push($(obj).prop("checked"));
                     });
-                    if (jQuery.inArray( true, valids ) != -1) {
-
+                    if (jQuery.inArray(true, valids) != -1) {
+                         
                     } else {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
                          return false;
@@ -742,9 +769,15 @@
                          let tr = '';
                          if (rec.datas.length > 0){
                               $.each(rec.datas, function( key, data ) {
+                                   console.log(data.Flag_st.length);
+                                   if (data.Flag_st.length == 0){
+                                        chkbox = '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                   } else {
+                                        chkbox = '';
+                                   }
                                    tr += '<tr>';
                                    tr += '<td>';
-                                   tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                   tr += chkbox;
                                    tr += '</td>';
                                    tr += '<td>'+data.RefSOCONo+'</td>';
                                    tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
@@ -752,7 +785,7 @@
                                    tr += '<td>'+data.ContainerNO+'</td>';
                                    tr += '<td>'+data.Flag_st+'</td>';
                                    tr += '<td><span id="tran_qty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" class="form-control product_share" data-value="'+data.RefSOCOID+'" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><input type="text" class="form-control product_share number-only" data-value="'+data.RefSOCOID+'" name="product_share['+data.RefSOCOID+']" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
