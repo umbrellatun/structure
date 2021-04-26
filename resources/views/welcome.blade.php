@@ -887,7 +887,7 @@
                                    tr += '<td><span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
                                    tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                    tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
-                                   tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
+                                   tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                    tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                    tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                    tr += '<td><input type="text" class="form-control product_share" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
