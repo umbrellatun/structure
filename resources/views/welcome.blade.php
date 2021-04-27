@@ -1035,6 +1035,7 @@
                  validate_errorplacement(error, element);
              },
              submitHandler: function (form) {
+                 $("#FormAdd").find('[type="submit"]').prop('disabled', true);;
                  share_product_radio = $('input[name=share_product_radio]:checked').val();
                  data = $("#FormAdd").serializeArray();
                  data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
@@ -1051,7 +1052,7 @@
                      data : data,
                      headers: {
                           'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                     }
+                     },
                  }).done(function(rec){
                      if (rec.status == 1) {
                           notify("bottom", "left", "fas fa-check-circle", "success", "", "", "สำเร็จ");
