@@ -314,9 +314,22 @@ class HomeController extends Controller
                   \DB::table('icGodSplit_hd')->insert($data);
 
                   for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
-                       
+                       $data = [
+                            'DocuNO' => $DocuNO[$i]
+                            ,'RefSOCOID' => $tb4_RefSOCOID[$i]
+                            ,'RefListNO' => $tb4_RefListNO[$i]
+                            ,'RefSOCONo' => $tb4_RefSOCONo[$i]
+                            ,'RefSOCODate' =>
+                            ,'CustName' => $tb4_CustName[$i]
+                            ,'EmpCode' => $tb4_EmpCode[$i]
+                            ,'EmpName' => $tb4_EmpName[$i]
+                            ,'ContainerNO' => $tb4_ContainerNO[$i]
+                            ,'Flag_st' => $tb4_Flag_st[$i]
+                            ,'TranQty' => $tb4_TranQty[$i]
+                            ,'SplitQty' => $tb4_SplitQty[$i]
+                       ];
+                       \DB::table('icGodSplit_dt')->insert($data);
                   }
-
                   \DB::commit();
                   $return['status'] = 1;
                   $return['content'] = 'จัดเก็บสำเร็จ';
