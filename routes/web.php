@@ -18,6 +18,7 @@ use Illuminate\Support\Facades\Route;
 // });
 Route::get('/godsplit', 'GodSplitController@index');
 Route::post('/godsplit/get_detail', 'GodSplitController@get_detail')->name('godsplit.get_detail');
+Route::post('/godsplit/updateAppvStatus', 'GodSplitController@updateAppvStatus')->name('godsplit.updateAppvStatus');
 
 Route::get('/customer/{customer_id}', 'HomeController@index');
 Route::post('/customer/get_cust_code', 'HomeController@get_cust_code')->name('customer.get_cust_code');

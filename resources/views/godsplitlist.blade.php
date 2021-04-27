@@ -80,10 +80,10 @@
                                    </div>
                          </div>
                          <div class="modal-footer">
-                              <button class="btn btn-success text-white" data-value="" data-toggle="modal" data-target="#ModalEdit">
+                              <button class="btn btn-success text-white" name="AppvStatus" value="Y">
                                    <i class="fas fa-check-circle bigger-120"></i> Approve
                               </button>
-                              <button class="btn btn-danger text-white" data-value="" data-toggle="modal" data-target="#ModalEdit">
+                              <button class="btn btn-danger text-white" name="AppvStatus" value="C">
                                    <i class="fas fa-trash bigger-120"></i> Cancel
                               </button>
                          </div>
@@ -290,22 +290,18 @@
             validate_errorplacement(error, element);
          },
          submitHandler: function (form) {
-            var btn = $("#FormEdit").find('[type="submit"]');
-            btn.button("loading");
             $.ajax({
                  method : "POST",
-                 url : '{{ route('godsplit') }}',
+                 url : '{{ route('godsplit.updateAppvStatus') }}',
                  dataType : 'json',
                  data : $("#FormEdit").serialize(),
                  headers: {
                       'X-CSRF-TOKEN': "{{ csrf_token() }}"
                  }
             }).done(function(rec){
-                  btn.button("reset");
                   if (rec.status == 1) {
-                       swal("", rec.content, "success").then(function(){
-                            window.location.href = "{{ route('menu') }}";
-                       });
+                       swal("", rec.content, "success");
+                       $("#ModalEdit").hide();
                   } else {
                        swal("", rec.content, "warning");
                   }
