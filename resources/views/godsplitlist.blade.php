@@ -50,50 +50,7 @@
           </div>
      </div>
      <!-- [ Pre-loader ] End -->
-     <!-- Modal Edit -->
-     <div class="modal fade bd-example-modal-lg" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-          <div class="modal-dialog modal-lg">
-               <div class="modal-content">
-                    <form id="FormEdit">
-                         <div class="modal-header">
-                              <h5 class="modal-title h4" id="myLargeModalLabel">รายละเอียด</h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                         </div>
-                         <div class="modal-body">
-                                   <div class="dt-responsive table-responsive">
-                                        <table id="simpletable2" class="table table-striped table-bordered nowrap">
-                                             <thead>
-                                                  <tr>
-                                                       <th class="border-top-0 text-center">No</th>
-                                                       <th class="border-top-0 text-center">เลขที่เอกสาร</th>
-                                                       <th class="border-top-0 text-center">วันที่จอง</th>
-                                                       <th class="border-top-0 text-center">ชื่อลูกค้า</th>
-                                                       <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
-                                                       <th class="border-top-0 text-center">สถานะตู้</th>
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
-                                                  </tr>
-                                             </thead>
-                                             <tbody>
-                                             </tbody>
-                                        </table>
-                                   </div>
-                         </div>
-                         <div class="modal-footer">
-                              <button class="btn btn-success text-white" name="AppvStatus" value="Y">
-                                   <i class="fas fa-check-circle bigger-120"></i> Approve
-                              </button>
-                              <button class="btn btn-danger text-white" name="AppvStatus" value="C">
-                                   <i class="fas fa-trash bigger-120"></i> Cancel
-                              </button>
-                         </div>
-                    </form>
-               </div>
-          </div>
-     </div>
 
-
-     <!-- end Modal edit -->
      <!-- [ navigation menu ] start -->
      <nav class="pcoded-navbar theme-horizontal menu-light brand-blue" style="display: none;">
 
@@ -136,33 +93,49 @@
                                                             <th class="border-top-0 text-center">เลขที่เอกสาร</th>
                                                             <th class="border-top-0 text-center">วันที่เอกสาร</th>
                                                             <th class="border-top-0 text-center">วันที่นัดส่ง</th>
-                                                            <th class="border-top-0 text-center">รหัสลูกค้า</th>
-                                                            <th class="border-top-0 text-center">รหัสพนักงานขาย</th>
-                                                            <th class="border-top-0 text-center">รหัสสินค้า</th>
+                                                            <th class="border-top-0 text-center">ชื่อลูกค้า</th>
+                                                            <th class="border-top-0 text-center">ชื่อพนักงานขาย</th>
+                                                            <th class="border-top-0 text-center">ชื่อสินค้า</th>
                                                             <th class="border-top-0 text-center">action</th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
                                                        @php $i=1; @endphp
-                                                       @foreach ($headers as $key => $header)
+                                                       @if (count($headers) > 0)
+                                                            @foreach ($headers as $key => $header)
+
+                                                                 <tr>
+                                                                      <td>{{$i}}</td>
+                                                                      <td>{{$header->DocuNO}}</td>
+                                                                      <td>{{ date_format(date_create($header->DocuDate), "d-M-Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->ShipDate), "d-M-Y")}}</td>
+                                                                      <td>{{$header->CustName}}</td>
+                                                                      <td>{{$header->EmpName}}</td>
+                                                                      <td>{{$header->GoodName1}}</td>
+                                                                      <td class="text-center">
+                                                                           @if ($header->AppvStatus == 'N')
+                                                                                <div class="btn-group btn-group-sm">
+                                                                                     <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                          <i class="ace-icon feather icon-edit-1 bigger-120"></i>
+                                                                                     </button>
+                                                                                </div>
+                                                                           @else
+                                                                                <div class="btn-group btn-group-sm">
+                                                                                     <button class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                          <i class="fas fa-eye bigger-120"></i>
+                                                                                     </button>
+                                                                                </div>
+                                                                           @endif
+                                                                      </td>
+                                                                 </tr>
+                                                                 @php $i++; @endphp
+                                                            @endforeach
+                                                       @else
                                                             <tr>
-                                                                 <td>{{$i}}</td>
-                                                                 <td>{{$header->DocuNO}}</td>
-                                                                 <td>{{$header->DocuDate}}</td>
-                                                                 <td>{{$header->ShipDate}}</td>
-                                                                 <td>{{$header->CustCode}}</td>
-                                                                 <td>{{$header->EmpCode}}</td>
-                                                                 <td>{{$header->GoodCode}}</td>
-                                                                 <td class="text-center">
-                                                                      <div class="btn-group btn-group-sm">
-                                                                           <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
-                                                                                <i class="ace-icon feather icon-edit-1 bigger-120"></i>
-                                                                           </button>
-                                                                      </div>
-                                                                 </td>
+                                                                 <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
                                                             </tr>
-                                                            @php $i++; @endphp
-                                                       @endforeach
+                                                       @endif
+
                                                   </tbody>
                                              </table>
                                         </div>
@@ -174,6 +147,49 @@
                </div>
           </div>
      </div>
+
+     <!-- Modal Edit -->
+     <div class="modal fade bd-example-modal-lg" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
+          <div class="modal-dialog modal-lg">
+               <div class="modal-content">
+                    <form id="FormEdit">
+                         <div class="modal-header">
+                              <h5 class="modal-title h4" id="myLargeModalLabel">แบ่งจาก</h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                         </div>
+                         <div class="modal-body">
+                                   <div class="dt-responsive table-responsive">
+                                        <table id="simpletable2" class="table table-striped table-bordered nowrap">
+                                             <thead>
+                                                  <tr>
+                                                       <th class="border-top-0 text-center">No</th>
+                                                       <th class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                       <th class="border-top-0 text-center">วันที่จอง</th>
+                                                       <th class="border-top-0 text-center">ชื่อลูกค้า</th>
+                                                       <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
+                                                       <th class="border-top-0 text-center">สถานะตู้</th>
+                                                       <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
+                                                       <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
+                                                  </tr>
+                                             </thead>
+                                             <tbody>
+                                             </tbody>
+                                        </table>
+                                   </div>
+                         </div>
+                         <div class="modal-footer">
+                              <button class="btn btn-success text-white" name="AppvStatus" value="Y">
+                                   <i class="fas fa-check-circle bigger-120"></i> Approve
+                              </button>
+                              <button class="btn btn-danger text-white" name="AppvStatus" value="C">
+                                   <i class="fas fa-trash bigger-120"></i> Cancel
+                              </button>
+                         </div>
+                    </form>
+               </div>
+          </div>
+     </div>
+     <!-- end Modal edit -->
      <!-- Required Js -->
      <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
      <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
@@ -242,6 +258,8 @@
                if (rec.status == 1){
                     let tr = '';
                     if (rec.details.length > 0){
+                         $("#modal-footer").html("");
+                         $("#simpletable2 tbody").empty();
                          var i = 1;
                          let flag = '';
                          $.each(rec.details, function( key, data ) {
@@ -262,6 +280,19 @@
                          });
                     }
                     $("#simpletable2 tbody").append(tr);
+
+                    if (rec.header.AppvStatus == 'N'){
+                         let btn = '';
+                         btn += '<button class="btn btn-success text-white" name="AppvStatus" value="Y">';
+                         btn += '<i class="fas fa-check-circle bigger-120"></i> Approve';
+                         btn += '</button>';
+                         btn += '<button class="btn btn-danger text-white" name="AppvStatus" value="C">';
+                         btn += '<i class="fas fa-trash bigger-120"></i> Cancel';
+                         btn += '</button>';
+                         $(".modal-footer").html(btn);
+                    } else {
+                         $(".modal-footer").html("");
+                    }
                }
                $("#preloaders").css("display", "none");
           }).fail(function(){
@@ -301,7 +332,33 @@
             }).done(function(rec){
                   if (rec.status == 1) {
                        swal("", rec.content, "success");
-                       $("#ModalEdit").hide();
+                       $("#ModalEdit").modal('hide');
+                       $("#simpletable tbody").empty();
+                       let tr = '';
+                      if (rec.details.length > 0){
+                           var i = 1;
+                           let flag = '';
+                           $.each(rec.details, function( key, data ) {
+                              tr += '<tr>';
+                              tr += '<td>'+i+'</td>';
+                              tr += '<td>'+data.DocuNO+'</td>';
+                              tr += '<td>'+data.DocuDate+'</td>';
+                              tr += '<td>'+data.ShipDate+'</td>';
+                              tr += '<td>'+data.CustCode+'</td>';
+                              tr += '<td>'+data.EmpCode+'</td>';
+                              tr += '<td>'+data.GoodCode+'</td>';
+                              tr += '<td class="text-center">';
+                              tr += '<div class="btn-group btn-group-sm">';
+                              tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                              tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                              tr += '</button>';
+                              tr += '</div>';
+                              tr += '</td>';
+                              tr += '</tr>';
+                              i++;
+                           });
+                      }
+                      $("#simpletable tbody").append(tr);
                   } else {
                        swal("", rec.content, "warning");
                   }
