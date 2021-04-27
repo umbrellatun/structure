@@ -114,9 +114,15 @@
                                                                       <td>{{$header->GoodName1}}</td>
                                                                       <td class="text-center">
                                                                            <div class="btn-group btn-group-sm">
-                                                                                <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
-                                                                                     <i class="ace-icon feather icon-edit-1 bigger-120"></i>
-                                                                                </button>
+                                                                                @if ($header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'Y')
+                                                                                     <button class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                          <i class="fas fa-eye bigger-120"></i>
+                                                                                     </button>
+                                                                                @else
+                                                                                     <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                          <i class="ace-icon feather icon-edit-1 bigger-120"></i>
+                                                                                     </button>
+                                                                                @endif
                                                                            </div>
                                                                       </td>
                                                                  </tr>
@@ -150,30 +156,30 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                          </div>
                          <div class="modal-body">
-                                   <div class="dt-responsive table-responsive">
-                                        <table id="simpletable2" class="table table-striped table-bordered nowrap">
-                                             <thead>
-                                                  <tr>
-                                                       <th class="border-top-0 text-center">No</th>
-                                                       <th class="border-top-0 text-center">เลขที่เอกสาร</th>
-                                                       <th class="border-top-0 text-center">วันที่จอง</th>
-                                                       <th class="border-top-0 text-center">ชื่อลูกค้า</th>
-                                                       <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
-                                                       <th class="border-top-0 text-center">สถานะตู้</th>
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
-                                                  </tr>
-                                             </thead>
-                                             <tbody>
-                                             </tbody>
-                                        </table>
-                                   </div>
+                              <div class="dt-responsive table-responsive">
+                                   <table id="simpletable2" class="table table-striped table-bordered nowrap">
+                                        <thead>
+                                             <tr>
+                                                  <th class="border-top-0 text-center">No</th>
+                                                  <th class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                  <th class="border-top-0 text-center">วันที่จอง</th>
+                                                  <th class="border-top-0 text-center">ชื่อลูกค้า</th>
+                                                  <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
+                                                  <th class="border-top-0 text-center">สถานะตู้</th>
+                                                  <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
+                                                  <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
+                                             </tr>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                   </table>
+                              </div>
                          </div>
                          <div class="modal-footer">
                               <button class="btn btn-success text-white" name="AppvStatus" value="Y">
                                    <i class="fas fa-check-circle bigger-120"></i> Accept
                               </button>
-                              <button class="btn btn-danger text-white" name="AppvStatus" value="C">
+                              <button class="btn btn-danger text-white" name="AppvStatus" value="R">
                                    <i class="fas fa-trash bigger-120"></i> Reject
                               </button>
                          </div>
@@ -237,7 +243,7 @@
           var data = $(this).data('value');
           $.ajax({
                method : "post",
-               url : '{{ route('godsplit.get_detail') }}',
+               url : '{{ route('godsplitApprove.get_detail') }}',
                data : {"DocuNO" : data},
                dataType : 'json',
                headers: {
@@ -272,14 +278,13 @@
                          });
                     }
                     $("#simpletable2 tbody").append(tr);
-
-                    if (rec.header.AppvStatus == 'Y' and rec.header.AppvSplitStatus == ''){
+                    if (rec.header.AppvStatus == 'Y' && (rec.header.AppvSplitStatus == null || rec.header.AppvSplitStatus == '')){
                          let btn = '';
                          btn += '<button class="btn btn-success text-white" name="AppvStatus" value="Y">';
                          btn += '<i class="fas fa-check-circle bigger-120"></i> Approve';
                          btn += '</button>';
                          btn += '<button class="btn btn-danger text-white" name="AppvStatus" value="C">';
-                         btn += '<i class="fas fa-trash bigger-120"></i> Cancel';
+                         btn += '<i class="fas fa-trash bigger-120"></i> Reject';
                          btn += '</button>';
                          $(".modal-footer").html(btn);
                     } else {
@@ -294,73 +299,79 @@
      });
 
      $('#FormEdit').validate({
-         errorElement: 'div',
-         errorClass: 'invalid-feedback',
-         focusInvalid: false,
-         rules: {
+          errorElement: 'div',
+          errorClass: 'invalid-feedback',
+          focusInvalid: false,
+          rules: {
 
-         },
-         messages: {
+          },
+          messages: {
 
-         },
-         highlight: function (e) {
-            validate_highlight(e);
-         },
-         success: function (e) {
-            validate_success(e);
-         },
-         errorPlacement: function (error, element) {
-            validate_errorplacement(error, element);
-         },
-         submitHandler: function (form) {
-            $.ajax({
-                 method : "POST",
-                 url : '{{ route('godsplit.updateAppvStatus') }}',
-                 dataType : 'json',
-                 data : $("#FormEdit").serialize(),
-                 headers: {
-                      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                 }
-            }).done(function(rec){
-                  if (rec.status == 1) {
-                       swal("", rec.content, "success");
-                       $("#ModalEdit").modal('hide');
-                       $("#simpletable tbody").empty();
-                       let tr = '';
-                      if (rec.details.length > 0){
-                           var i = 1;
-                           let flag = '';
-                           $.each(rec.details, function( key, data ) {
-                              tr += '<tr>';
-                              tr += '<td>'+i+'</td>';
-                              tr += '<td>'+data.DocuNO+'</td>';
-                              tr += '<td>'+data.DocuDate+'</td>';
-                              tr += '<td>'+data.ShipDate+'</td>';
-                              tr += '<td>'+data.CustCode+'</td>';
-                              tr += '<td>'+data.EmpCode+'</td>';
-                              tr += '<td>'+data.GoodCode+'</td>';
-                              tr += '<td class="text-center">';
-                              tr += '<div class="btn-group btn-group-sm">';
-                              tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                              tr += '</button>';
-                              tr += '</div>';
-                              tr += '</td>';
-                              tr += '</tr>';
-                              i++;
-                           });
-                      }
-                      $("#simpletable tbody").append(tr);
-                  } else {
-                       swal("", rec.content, "warning");
-                  }
-            }).fail(function(){
-                  btn.button("reset");
-            });
-         },
-         invalidHandler: function (form) {
+          },
+          highlight: function (e) {
+               validate_highlight(e);
+          },
+          success: function (e) {
+               validate_success(e);
+          },
+          errorPlacement: function (error, element) {
+               validate_errorplacement(error, element);
+          },
+          submitHandler: function (form) {
+               $.ajax({
+                    method : "POST",
+                    url : '{{ route('godsplitApprove.updateAppvSplitStatus') }}',
+                    dataType : 'json',
+                    data : $("#FormEdit").serialize(),
+                    headers: {
+                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    }
+               }).done(function(rec){
+                    if (rec.status == 1) {
+                         swal("", rec.content, "success");
+                         $("#ModalEdit").modal('hide');
+                         $("#simpletable tbody").empty();
+                         let tr = '';
+                         if (rec.details.length > 0){
+                              var i = 1;
+                              let flag = '';
+                              $.each(rec.details, function( key, data ) {
+                                   tr += '<tr>';
+                                   tr += '<td>'+i+'</td>';
+                                   tr += '<td>'+data.DocuNO+'</td>';
+                                   tr += '<td>'+data.DocuDate+'</td>';
+                                   tr += '<td>'+formatDate(data.ShipDate)+'</td>';
+                                   tr += '<td>'+data.CustCode+'</td>';
+                                   tr += '<td>'+data.EmpCode+'</td>';
+                                   tr += '<td>'+data.GoodCode+'</td>';
+                                   tr += '<td class="text-center">';
+                                   tr += '<div class="btn-group btn-group-sm">';
+                                   if (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y'){
+                                        tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                        tr += '<i class="fas fa-eye bigger-120"></i>';
+                                        tr += '</button>';
+                                   } else {
+                                        tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                        tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                                        tr += '</button>';
+                                   }
+                                   tr += '</div>';
+                                   tr += '</td>';
+                                   tr += '</tr>';
+                                   i++;
+                              });
+                         }
+                         $("#simpletable tbody").append(tr);
+                    } else {
+                         swal("", rec.content, "warning");
+                    }
+               }).fail(function(){
 
-         }
+               });
+          },
+          invalidHandler: function (form) {
+
+          }
      });
      </script>
 
