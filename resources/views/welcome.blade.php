@@ -18,7 +18,8 @@
     <meta name="author" content="Codedthemes" />
     <!-- Favicon icon -->
     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
-
+    <!-- select2 css -->
+    <link rel="stylesheet" href="{{asset('assets/css/plugins/select2.min.css')}}">
     <!-- prism css -->
     <link rel="stylesheet" href="{{asset('assets/css/plugins/prism-coy.css')}}">
     <!-- vendor css -->
@@ -182,7 +183,7 @@
                                                                         </div>
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="GoodCode">รหัสสินค้า</label>
-                                                                             <select class="form-control" name="GoodCode" id="GoodCode" required>
+                                                                             <select class="form-control js-example-data-array" name="GoodCode" id="GoodCode" required>
                                                                                   @foreach ($products as $key => $product)
                                                                                        <option value="{{$product->GoodCode}}">{{$product->GoodCode}}:{{$product->GoodName1}}</option>
                                                                                   @endforeach
@@ -429,7 +430,8 @@
 
         <!-- notification Js -->
         <script src="{{asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
-
+        <!-- select2 Js -->
+        <script src="{{asset('assets/js/plugins/select2.full.min.js')}}"></script>
     <script>
      var url_gb = '{{ url('') }}'
      var emp_code = '{{$result->EmpCode}}';
@@ -583,6 +585,8 @@
                     format: 'DD MMM YYYY'
                }
           });
+
+          $(".js-example-data-array").select2();
      });
 
      $(function(){
@@ -593,6 +597,7 @@
 
           $('.next-step').on('click', function (e){
                e.preventDefault();
+               numIndex();
                var data = $(this).data("id");
 
                if (data == 1){
@@ -741,7 +746,7 @@
                                              if (rec.datas.length > 0){
                                                   $.each(rec.datas, function( key, data ) {
                                                        if (data.Flag_st.length == 0){
-                                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
                                                        }
                                                        tr += '<tr>';
                                                        tr += '<td>';
@@ -760,7 +765,7 @@
                                                        tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
                                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                                        tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                                       tr += '<td><input type="text" class="form-control product_share number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                       tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                        tr += '</tr>';
                                                   });
                                              } else {
@@ -769,12 +774,16 @@
                                              $("#table3 tbody").append(tr);
 
                                              $('.product_share_chk').on('click', function() {
-                                                  var data = $(this).data("value");
+                                                  var val = $(this).data("value");
+                                                  var container = $(this).data("container");
                                                   if ($(this).is(':checked')) {
-                                                       $("#product_share_" + data).attr("readonly", false);
+                                                       $(".product_share_" + val + "_" + container).attr("readonly", false);
+                                                       $(".product_share_" + val + "_" + container).focus();
                                                   } else {
-                                                       $("#product_share_" + data).attr("readonly", true);
+                                                       $(".product_share_" + val + "_" + container).attr("readonly", true);
+                                                       $(".product_share_" + val + "_" + container).val("");
                                                   }
+                                                  numIndex();
                                              });
                                         } else {
                                              swal("", rec.content, "warning");
@@ -921,6 +930,7 @@
 
           $('.prev-step').on('click', function (e){
                e.preventDefault();
+               numIndex();
                var data = $(this).data("id");
                var prev = data-1;
                if (data == 3){
@@ -956,7 +966,7 @@
                          if (rec.datas.length > 0){
                               $.each(rec.datas, function( key, data ) {
                                    if (data.Flag_st.length == 0){
-                                        chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                        chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
                                    } else {
                                         chkbox = '';
                                    }
@@ -977,7 +987,7 @@
                                    tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                    tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                    tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" class="form-control product_share  number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
@@ -986,12 +996,14 @@
                          $("#table3 tbody").append(tr);
 
                          $('.product_share_chk').on('click', function() {
-                              var data = $(this).data("value");
+                              var val = $(this).data("value");
+                              var container = $(this).data("container");
                               if ($(this).is(':checked')) {
-                                   $("#product_share_" + data).attr("readonly", false);
+                                   $(".product_share_" + val + "_" + container).attr("readonly", false);
+                                   $(".product_share_" + val + "_" + container).focus();
                               } else {
-                                   $("#product_share_" + data).attr("readonly", true);
-                                   $("#product_share_" + data).val("");
+                                   $(".product_share_" + val + "_" + container).attr("readonly", true);
+                                   $(".product_share_" + val + "_" + container).val("");
                               }
                               numIndex();
                          });
