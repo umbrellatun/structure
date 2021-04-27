@@ -9,17 +9,12 @@ use App\Models\ICGodSplitDT;
 
 class GodSplitController extends Controller
 {
-     /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
      public function index()
      {
           $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
           $data["headers"] = ICGodSplitHD::get();
           return view('godsplitlist', $data);
-
      }
 
      public function get_detail(Request $request)
