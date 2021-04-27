@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use App\Models\ICGodSplitHD;
 
 class GodSplitController extends Controller
 {
@@ -15,7 +16,7 @@ class GodSplitController extends Controller
     public function index()
     {
         $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
-        $data["headers"] ICGodSplitHD::get();
+        $data["headers"] = ICGodSplitHD::get();
         return view('godsplitlist', $data);
 
     }

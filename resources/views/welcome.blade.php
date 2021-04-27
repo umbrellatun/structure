@@ -312,7 +312,7 @@
                                                                              <tfoot>
                                                                                   <tr>
                                                                                        <td colspan="7" class="text-right">รวมจำนวนสินค้า</td>
-                                                                                       <td><span id="sum_amount_product">0</span></td>
+                                                                                       <td class="text-right"><span id="sum_amount_product">0</span></td>
                                                                                   </tr>
                                                                              </tfoot>
                                                                         </table>
@@ -661,11 +661,11 @@
                                         tr += '</td>';
                                         tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
                                         tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                        tr += '<td><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
+                                        tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
                                         tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
-                                        tr += '<td><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
-                                        tr += '<td><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                        tr += '<td>0</td>';
+                                        tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
+                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                        tr += '<td class="text-right">0</td>';
                                         tr += '</tr>';
                                    });
                               } else {
@@ -718,11 +718,11 @@
                                    tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
                                    tr += '</td>';
                                    tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
-                                   tr += '<td><span id="tb2_date_amount">'+date_amount+'</span></td>';
+                                   tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
                                    tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
-                                   tr += '<td><span id="tb2_goodprice">'+goodprice+'</span></td>';
-                                   tr += '<td><span id="product_amount_tranqty">'+tranqty+'</span></td>';
-                                   tr += '<td><span id="product_amount_sent">0</span></td>';
+                                   tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
+                                   tr += '<td class="text-right"><span id="product_amount_tranqty">'+tranqty+'</span></td>';
+                                   tr += '<td class="text-right"><span id="product_amount_sent">0</span></td>';
                                    tr += '</tr>';
                                    $("#table2 tbody").append(tr);
 
@@ -764,7 +764,7 @@
                                                        tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
                                                        tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
                                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
-                                                       tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                                       tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                                        tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                        tr += '</tr>';
                                                   });
@@ -854,8 +854,8 @@
                                    tr += '<td>'+EmpName+'</td>';
                                    tr += '<td>'+ContainerNO+'</td>';
                                    tr += '<td>'+Flag_st+'</td>';
-                                   tr += '<td>'+TranQty+'</td>';
-                                   tr += '<td>'+product_share+'</td>';
+                                   tr += '<td class="text-right">'+TranQty+'</td>';
+                                   tr += '<td class="text-right">'+product_share+'</td>';
                                    tr += '</tr>';
                                    $("#table4 tbody").append(tr);
                               }
@@ -868,7 +868,7 @@
                               let tf = '';
                               tf += '<tr>';
                               tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
-                              tf += '<td>'+sum_total+'</td>';
+                              tf += '<td class="text-right">'+sum_total+'</td>';
                               tf += '</tr>';
                               $("#table4 tfoot").append(tf);
 
@@ -903,12 +903,12 @@
                               tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
                               tr += '<input type="hidden" name="SentQty" value="'+sum_total+'">'
                               tr += '</td>';
-                              tr += '<td>'+tb2_docudate+'</td>';
+                              tr += '<td class="text-right">'+tb2_docudate+'</td>';
                               tr += '<td>'+tb2_date_amount+'</td>';
                               tr += '<td><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
-                              tr += '<td>'+tb2_goodprice+'</td>';
-                              tr += '<td>'+product_amount_tranqty+'</td>';
-                              tr += '<td>'+sum_total+'</td>';
+                              tr += '<td class="text-right">'+tb2_goodprice+'</td>';
+                              tr += '<td class="text-right">'+product_amount_tranqty+'</td>';
+                              tr += '<td class="text-right">'+sum_total+'</td>';
                               tr += '</tr>';
                               $("#table5 tbody").append(tr);
                          }
@@ -986,7 +986,7 @@
                                    tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
                                    tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                    tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
-                                   tr += '<td><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                   tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                    tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });

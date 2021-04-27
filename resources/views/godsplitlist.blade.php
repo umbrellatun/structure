@@ -103,30 +103,74 @@
                                     <h5>{{$title}}</h5>
                                </div>
                                <div class="card-body">
+                                    <!-- Modal Edit -->
+                                    <div class="modal fade" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                       <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                   <h5 class="modal-title" id="exampleModalLabel"><i class="feather icon-user mr-1"></i>แก้ไข</h5>
+                                                   <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                        <span aria-hidden="true">&times;</span>
+                                                   </button>
+                                                </div>
+                                                <form id="FormEdit">
+                                                   <div class="modal-body text-left">
+                                                        <div class="form-group">
+                                                           <label>ชื่อบทบาท</label>
+                                                           <input type="hidden" class="form-control" id="menu_id" name="menu_id">
+                                                           <input type="text" class="form-control" id="menu_name" name="menu_name" placeholder="">
+                                                        </div>
+                                                        <div class="form-group">
+                                                             <div class="switch d-inline m-r-10">
+                                                                  <input type="checkbox"  class="switcher-input" id="use_flag" name="use_flag" value="Y">
+                                                                  <label for="use_flag" class="cr"></label>
+                                                             </div>
+                                                             <label>ใช้งาน</label>
+                                                        </div>
+                                                   </div>
+                                                   <div class="modal-footer">
+                                                        <button type="button" class="btn waves-effect waves-light btn-secondary" data-dismiss="modal">ปิด</button>
+                                                        <button type="submit" class="btn waves-effect waves-light btn-primary"><i class="fas fa-save"></i> บันทึก</button>
+                                                   </div>
+                                                </form>
+                                            </div>
+                                       </div>
+                                    </div>
+                                    <!-- end Modal edit -->
                                     <div class="dt-responsive table-responsive">
                                        <table id="simpletable" class="table table-striped table-bordered nowrap">
                                             <thead>
                                               <tr>
-                                                   <th class="border-top-0">เลขที่เอกสาร</th>
-                                                   <th class="border-top-0">วันที่เอกสาร</th>
-                                                   <th class="border-top-0">วันที่นัดส่ง</th>
-                                                   <th class="border-top-0">รหัสลูกค้า</th>
-                                                   <th class="border-top-0">รหัสพนักงานขาย</th>
-                                                   <th class="border-top-0">รหัสสินค้า</th>
-                                                   <th class="border-top-0">action</th>
+                                                   <th class="border-top-0 text-center">No</th>
+                                                   <th class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                   <th class="border-top-0 text-center">วันที่เอกสาร</th>
+                                                   <th class="border-top-0 text-center">วันที่นัดส่ง</th>
+                                                   <th class="border-top-0 text-center">รหัสลูกค้า</th>
+                                                   <th class="border-top-0 text-center">รหัสพนักงานขาย</th>
+                                                   <th class="border-top-0 text-center">รหัสสินค้า</th>
+                                                   <th class="border-top-0 text-center">action</th>
                                               </tr>
                                             </thead>
                                             <tbody>
+                                                 @php $i=1; @endphp
                                                  @foreach ($headers as $key => $header)
                                                       <tr>
-                                                           <td></td>
-                                                           <td></td>
-                                                           <td></td>
-                                                           <td></td>
-                                                           <td></td>
-                                                           <td></td>
-                                                           <td></td>
+                                                           <td>{{$i}}</td>
+                                                           <td>{{$header->DocuNO}}</td>
+                                                           <td>{{$header->DocuDate}}</td>
+                                                           <td>{{$header->ShipDate}}</td>
+                                                           <td>{{$header->CustCode}}</td>
+                                                           <td>{{$header->EmpCode}}</td>
+                                                           <td>{{$header->GoodCode}}</td>
+                                                           <td class="text-center">
+                                                                <div class="btn-group btn-group-sm">
+                                                                     <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                          <i class="ace-icon feather icon-edit-1 bigger-120"></i>
+                                                                     </button>
+                                                                </div>
+                                                           </td>
                                                       </tr>
+                                                      @php $i++; @endphp
                                                  @endforeach
                                             </tbody>
                                        </table>
