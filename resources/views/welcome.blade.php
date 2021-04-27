@@ -184,7 +184,7 @@
                                                                              <label for="GoodCode">รหัสสินค้า</label>
                                                                              <select class="form-control" name="GoodCode" id="GoodCode" required>
                                                                                   @foreach ($products as $key => $product)
-                                                                                       <option value="{{$product->GoodCode}}">{{$product->GoodCode}} {{$product->GoodName1}}</option>
+                                                                                       <option value="{{$product->GoodCode}}">{{$product->GoodCode}}:{{$product->GoodName1}}</option>
                                                                                   @endforeach
                                                                              </select>
                                                                         </div>
@@ -388,7 +388,7 @@
                                                     </div>
                                                      <ul class="list-unstyled list-inline pull-right">
                                                           <li><button type="button" class="btn btn-default prev-step" data-id="4" id="prev-step-4"><i class="fa fa-chevron-left"></i> Back</button></li>
-                                                          <li><button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Save</button></li>
+                                                          <li><button type="submit" id="btn-submit" class="btn btn-info"><i class="fa fa-save"></i> Save</button></li>
                                                      </ul>
                                                 </form>
                                            </div>
@@ -557,6 +557,16 @@
 
      }
 
+     function truncateString(str, num) {
+          // If the length of str is less than or equal to num
+          // just return str--don't truncate it.
+          if (str.length <= num) {
+               return str
+          }
+          // Return str truncated with '...' concatenated to the end of str.
+          return str.slice(0, num) + '...'
+     }
+
      $(document).ready(function() {
           $("#pcoded").pcodedmenu({
                themelayout: 'horizontal',
@@ -642,11 +652,12 @@
                                         tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                         tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
                                         tr += '<input type="hidden" id="EmpCode'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                        tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                         tr += '</td>';
                                         tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
                                         tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                         tr += '<td><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
-                                        tr += '<td><span id="span_cus_address_'+data.RefSOCOID+'">'+data.CustAddress+'</span></td>';
+                                        tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
                                         tr += '<td><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
                                         tr += '<td><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                         tr += '<td>0</td>';
@@ -691,6 +702,7 @@
                                    let EmpCode = $("#EmpCode"+doc_ids[i]).val();
                                    let refsocoid = $("#soco_id_"+doc_ids[i]).val();
                                    let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
+                                   let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
                                    tr += '<tr>';
                                    tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
                                    tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
@@ -698,10 +710,11 @@
                                    tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
                                    tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
                                    tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
+                                   tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
                                    tr += '</td>';
                                    tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
                                    tr += '<td><span id="tb2_date_amount">'+date_amount+'</span></td>';
-                                   tr += '<td><span id="tb2_cus_address">'+cus_address+'</span></td>';
+                                   tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
                                    tr += '<td><span id="tb2_goodprice">'+goodprice+'</span></td>';
                                    tr += '<td><span id="product_amount_tranqty">'+tranqty+'</span></td>';
                                    tr += '<td><span id="product_amount_sent">0</span></td>';
@@ -805,7 +818,7 @@
                                    let EmpCode = $("#EmpCode_" + product_share_chk_arr[i]).val();
                                    let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
                                    let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
-                                   let DocuDate2_ = $("#DocuDate2_" + product_share_chk_arr[i]).text();
+                                   let DocuDate2 = $("#DocuDate2_" + product_share_chk_arr[i]).val();
                                    let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
                                    let ContainerNO = $("#ContainerNO_" + product_share_chk_arr[i]).text();
                                    let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
@@ -819,7 +832,7 @@
                                    tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
                                    tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
                                    tr += '<input type="hidden" name="tb4_RefSOCONo[]" value="'+RefSOCONo+'">';
-                                   tr += '<input type="hidden" name="tb4_DocuDate[]" value="'+DocuDate2_+'">';
+                                   tr += '<input type="hidden" name="tb4_DocuDate[]" value="'+DocuDate2+'">';
                                    tr += '<input type="hidden" name="tb4_CustName[]" value="'+CustName+'">';
                                    tr += '<input type="hidden" name="tb4_EmpCode[]" value="'+EmpCode+'">';
                                    tr += '<input type="hidden" name="tb4_EmpName[]" value="'+EmpName+'">';
@@ -852,6 +865,7 @@
 
                               let tb2_refsocoid = $("#tb2_refsocoid").val();
                               let tb2_RefListNO = $("#tb2_RefListNO").val();
+                              let tb2_DocuDate2 = $("#tb2_DocuDate2").val();
                               let tb2_refsocono = $("#tb2_refsocono").text();
                               let tb2_goodcode = $("#tb2_goodcode").val();
                               let tb2_shipdate = $("#tb2_shipdate").val();
@@ -863,14 +877,18 @@
                               let product_amount_tranqty = $("#product_amount_tranqty").text();
                               let tr = '';
 
+                              var modify_good_name = ($("#GoodCode option:selected").text());
+                              var a = modify_good_name.split(":");
                               tr += '<tr>';
                               tr += '<td>';
                               tr += tb2_refsocono;
                               tr += '<input type="hidden" name="GoodCode" value="'+tb2_goodcode+'">'
+                              tr += '<input type="hidden" name="GoodName1" value="'+a[1]+'">'
                               tr += '<input type="hidden" name="ShipDate" value="'+tb2_shipdate+'">'
                               tr += '<input type="hidden" name="RefSOCOID" value="'+tb2_refsocoid+'">'
                               tr += '<input type="hidden" name="RefListNO" value="'+tb2_RefListNO+'">'
                               tr += '<input type="hidden" name="RefSOCONo" value="'+tb2_refsocono+'">'
+                              tr += '<input type="hidden" name="DocuDate2" value="'+tb2_DocuDate2+'">'
                               tr += '<input type="hidden" name="CustAddress" value="'+tb2_cus_address+'">'
                               tr += '<input type="hidden" name="GoodPrice2" value="'+tb2_goodprice+'">'
                               tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
@@ -878,7 +896,7 @@
                               tr += '</td>';
                               tr += '<td>'+tb2_docudate+'</td>';
                               tr += '<td>'+tb2_date_amount+'</td>';
-                              tr += '<td>'+tb2_cus_address+'</td>';
+                              tr += '<td><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
                               tr += '<td>'+tb2_goodprice+'</td>';
                               tr += '<td>'+product_amount_tranqty+'</td>';
                               tr += '<td>'+sum_total+'</td>';
@@ -974,6 +992,7 @@
                                    $("#product_share_" + data).attr("readonly", true);
                                    $("#product_share_" + data).val("");
                               }
+                              numIndex();
                          });
 
                          $('.product_share').on('keyup', function() {
@@ -1016,6 +1035,7 @@
                  validate_errorplacement(error, element);
              },
              submitHandler: function (form) {
+                 share_product_radio = $('input[name=share_product_radio]:checked').val();
                  data = $("#FormAdd").serializeArray();
                  data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
                  data.push({ name: 'DocuDate', value: $("#DocuDate").val()});
@@ -1023,6 +1043,7 @@
                  data.push({ name: 'CustName', value: $("#CustName").val()});
                  data.push({ name: 'EmpCode', value: $("#EmpCode").val()});
                  data.push({ name: 'empname', value: $("#empname").val()});
+                 data.push({ name: 'share_product_radio', value: share_product_radio});
                  $.ajax({
                      method : "POST",
                      url : '{{ route('customer.store') }}',
@@ -1033,9 +1054,9 @@
                      }
                  }).done(function(rec){
                      if (rec.status == 1) {
-
+                          notify("bottom", "left", "fas fa-check-circle", "success", "", "", "สำเร็จ");
                      } else {
-
+                          notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
                      }
                  }).fail(function(){
 

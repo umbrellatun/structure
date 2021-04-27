@@ -259,14 +259,17 @@ class HomeController extends Controller
          $EmpCode = $request->EmpCode;
          $empname = $request->empname;
          $GoodCode = $request->GoodCode;
+         $GoodName1 = $request->GoodName1;
          $ShipDate = $request->ShipDate;
          $RefSOCOID = $request->RefSOCOID;
          $RefListNO = $request->RefListNO;
          $RefSOCONo = $request->RefSOCONo;
+         $DocuDate2 = $request->DocuDate2;
          $CustAddress = $request->CustAddress;
          $GoodPrice2 = $request->GoodPrice2;
          $TranQty = $request->TranQty;
          $SentQty = $request->SentQty;
+         $AppvStatus = $request->share_product_radio;
 
          $tb4_RefSOCOID = $request->tb4_RefSOCOID;
          $tb4_RefListNO = $request->tb4_RefListNO;
@@ -294,22 +297,19 @@ class HomeController extends Controller
                        ,'EmpCode' => $EmpCode
                        ,'EmpName' => $empname
                        ,'GoodCode' => $GoodCode
-                       // ,'GoodName1' =>
+                       ,'GoodName1' => $GoodName1
                        ,'ShipDate' => $ShipDate
                        ,'RefSOCOID' => $RefSOCOID
                        ,'RefListNO' => $RefListNO
                        ,'RefSOCONo' => $RefSOCONo
-                       // ,'RefSOCODate' =>
+                       ,'RefSOCODate' => $DocuDate2
                        ,'CustAddress' => $CustAddress
                        ,'GoodPrice2' => $GoodPrice2
                        ,'TranQty' => $TranQty
                        ,'SentQty' => $SentQty
-                       ,'AppvStatus' => 'N'
-                       // ,'AppvName' =>
+                       ,'AppvStatus' => $AppvStatus
                        // ,'AppvSplitStatus' =>
-                       // ,'AppvSplitName' =>
                   ];
-                  // dd($data);
                   \DB::table('icGodSplit_hd')->insert($data);
 
                   for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
