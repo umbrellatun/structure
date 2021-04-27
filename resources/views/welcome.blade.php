@@ -936,6 +936,7 @@
           });
 
           $('input[name=share_product_radio]').on('change', function() {
+               numIndex();
                $.ajax({
                     method : "post",
                     url : '{{ route('customer.get_product')}}',
