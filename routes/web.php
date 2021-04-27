@@ -20,6 +20,7 @@ Route::get('/customer/{customer_id}', 'HomeController@index');
 Route::post('/customer/get_cust_code', 'HomeController@get_cust_code')->name('customer.get_cust_code');
 Route::post('/customer/get_default_product', 'HomeController@get_default_product')->name('customer.get_default_product');
 Route::post('/customer/get_product', 'HomeController@get_product')->name('customer.get_product');
+Route::post('/customer', 'HomeController@store')->name('customer.store');
 
 
 //Clear Cache facade value:

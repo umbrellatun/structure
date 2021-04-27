@@ -249,5 +249,69 @@ class HomeController extends Controller
          return json_encode($return);
     }
 
+    public function store(Request $request)
+    {
+         dd($request->all());
+         GoodCode
+         ShipDate
+         RefSOCOID
+         RefListNO
+         RefSOCONo
+         CustAddress
+         GoodPrice2
+         TranQty
+         SentQty
+         DocuNO
+         DocuDate
+         CustCode
+         CustName
+         EmpCode
+         empname
+         
+         $data = [
+              'DocuNO' =>
+              'DocuDate' =>
+              'CustCode' =>
+              'CustName' =>
+              'EmpCode' =>
+              'EmpName' =>
+              'GoodCode' =>
+              'GoodName1' =>
+              'ShipDate' =>
+              'RefSOCOID' =>
+              'RefListNO' =>
+              'RefSOCONo' =>
+              'RefSOCODate' =>
+              'CustAddress' =>
+              'GoodPrice2' =>
+              'TranQty' =>
+              'SentQty' =>
+              'AppvStatus' =>
+              'AppvName' =>
+              'AppvSplitStatus' =>
+              'AppvSplitName' =>
+         ];
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
 
 }

@@ -171,12 +171,14 @@
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="CustCode">รหัสลูกค้า</label>
                                                                              <input type="text" name="CustCode" id="CustCode" value="{{$result->CustCode}}" class="form-control" required />
+                                                                             <input type="hidden" name="CustName" id="CustName" value="{{$result->CustName}}" />
                                                                         </div>
                                                                    </div>
                                                                    <div class="form-row form-1 needs-validation" novalidate>
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="EmpCode">รหัสพนักงานขาย</label>
                                                                              <input type="text" name="EmpCode" id="EmpCode" value="{{$result->EmpCode}}" class="form-control" required>
+                                                                             <input type="hidden" name="empname" id="empname" value="{{$result->empname}}" class="form-control" required>
                                                                         </div>
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="GoodCode">รหัสสินค้า</label>
@@ -324,69 +326,71 @@
                                                 </ul>
                                            </div>
                                            <div id="menu4" class="tab-pane fade">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                         <div class="card">
-                                                              <div class="card-header">
-                                                                   <h5>สรุปข้อมูล</h5>
-                                                                   <hr/>
-                                                              </div>
-                                                              <div class="card-body">
-                                                                   <h5>แบ่งสินค้ามาจาก</h5>
-                                                                   <hr/>
-                                                                   <div class="card-body table-border-style">
-                                                                        <div class="table-responsive">
-                                                                             <table id="table4" class="table table-striped">
-                                                                                  <thead>
-                                                                                       <tr>
-                                                                                            <th>เลขที่เอกสาร</th>
-                                                                                            <th>วันที่จอง</th>
-                                                                                            <th>ชื่อลูกค้า</th>
-                                                                                            <th>เลขตู้จัดสินค้า</th>
-                                                                                            <th>สถานะตู้</th>
-                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                            <th>จำนวนสินค้าแบ่งให้</th>
-                                                                                       </tr>
-                                                                                  </thead>
-                                                                                  <tbody>
-                                                                                  </tbody>
-                                                                                  <tfoot>
-                                                                                  </tfoot>
-                                                                             </table>
-                                                                        </div>
+                                                <form id="FormAdd">
+                                                     <div class="row">
+                                                         <div class="col-md-12">
+                                                              <div class="card">
+                                                                   <div class="card-header">
+                                                                        <h5>สรุปข้อมูล</h5>
+                                                                        <hr/>
                                                                    </div>
-                                                                   <div class="row">
-                                                                        <div class="col-12 text-center mb-5">
-                                                                             <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 250px; height: 250px;">
+                                                                   <div class="card-body">
+                                                                        <h5>แบ่งสินค้ามาจาก</h5>
+                                                                        <hr/>
+                                                                        <div class="card-body table-border-style">
+                                                                             <div class="table-responsive">
+                                                                                  <table id="table4" class="table table-striped">
+                                                                                       <thead>
+                                                                                            <tr>
+                                                                                                 <th>เลขที่เอกสาร</th>
+                                                                                                 <th>วันที่จอง</th>
+                                                                                                 <th>ชื่อลูกค้า</th>
+                                                                                                 <th>เลขตู้จัดสินค้า</th>
+                                                                                                 <th>สถานะตู้</th>
+                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                            </tr>
+                                                                                       </thead>
+                                                                                       <tbody>
+                                                                                       </tbody>
+                                                                                       <tfoot>
+                                                                                       </tfoot>
+                                                                                  </table>
+                                                                             </div>
                                                                         </div>
-                                                                   </div>
-                                                                   <div class="card-body table-border-style">
-                                                                        <div class="table-responsive">
-                                                                             <table id="table5" class="table table-striped">
-                                                                                  <thead>
-                                                                                       <tr>
-                                                                                            <th>เลขที่เอกสาร</th>
-                                                                                            <th>วันที่จอง</th>
-                                                                                            <th>จำนวนวัน</th>
-                                                                                            <th>สถานที่จัดส่ง</th>
-                                                                                            <th>ราคา/หน่วย</th>
-                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                            <th>จำนวนสินค้าต้องการส่ง</th>
-                                                                                       </tr>
-                                                                                  </thead>
-                                                                                  <tbody>
-                                                                                  </tbody>
-                                                                             </table>
+                                                                        <div class="row">
+                                                                             <div class="col-12 text-center mb-5">
+                                                                                  <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 100px; height: 100px;">
+                                                                             </div>
+                                                                        </div>
+                                                                        <div class="card-body table-border-style">
+                                                                             <div class="table-responsive">
+                                                                                  <table id="table5" class="table table-striped">
+                                                                                       <thead>
+                                                                                            <tr>
+                                                                                                 <th>เลขที่เอกสาร</th>
+                                                                                                 <th>วันที่จอง</th>
+                                                                                                 <th>จำนวนวัน</th>
+                                                                                                 <th>สถานที่จัดส่ง</th>
+                                                                                                 <th>ราคา/หน่วย</th>
+                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
+                                                                                                 <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                            </tr>
+                                                                                       </thead>
+                                                                                       <tbody>
+                                                                                       </tbody>
+                                                                                  </table>
+                                                                             </div>
                                                                         </div>
                                                                    </div>
                                                               </div>
                                                          </div>
                                                     </div>
-                                               </div>
-                                                <ul class="list-unstyled list-inline pull-right">
-                                                     <li><button type="button" class="btn btn-default prev-step" data-id="4" id="prev-step-4"><i class="fa fa-chevron-left"></i> Back</button></li>
-                                                     <li><button type="button" class="btn btn-info" data-id="4"><i class="fa fa-save"></i> Save</button></li>
-                                                </ul>
+                                                     <ul class="list-unstyled list-inline pull-right">
+                                                          <li><button type="button" class="btn btn-default prev-step" data-id="4" id="prev-step-4"><i class="fa fa-chevron-left"></i> Back</button></li>
+                                                          <li><button type="submit" class="btn btn-info"><i class="fa fa-save"></i> Save</button></li>
+                                                     </ul>
+                                                </form>
                                            </div>
                                            {{-- <div id="menu5" class="tab-pane fade">
                                                 <h3>Menu 5</h3>
@@ -633,8 +637,9 @@
                                         tr += '<tr>';
                                         tr += '<td>';
                                         tr += '<input type="radio" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
-                                        // tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                        tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
                                         // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
+                                        tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                         tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
                                         tr += '<input type="hidden" id="EmpCode'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
                                         tr += '</td>';
@@ -684,11 +689,15 @@
                                    let shipdate = $("#ship_date_"+doc_ids[i]).val();
                                    let goodcode = $("#GoodCode").val();
                                    let EmpCode = $("#EmpCode"+doc_ids[i]).val();
+                                   let refsocoid = $("#soco_id_"+doc_ids[i]).val();
+                                   let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
                                    tr += '<tr>';
                                    tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
+                                   tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
                                    tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
                                    tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
                                    tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
+                                   tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
                                    tr += '</td>';
                                    tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
                                    tr += '<td><span id="tb2_date_amount">'+date_amount+'</span></td>';
@@ -816,6 +825,8 @@
                               tf += '</tr>';
                               $("#table4 tfoot").append(tf);
 
+                              let tb2_refsocoid = $("#tb2_refsocoid").val();
+                              let tb2_RefListNO = $("#tb2_RefListNO").val();
                               let tb2_refsocono = $("#tb2_refsocono").text();
                               let tb2_goodcode = $("#tb2_goodcode").val();
                               let tb2_shipdate = $("#tb2_shipdate").val();
@@ -828,7 +839,18 @@
                               let tr = '';
 
                               tr += '<tr>';
-                              tr += '<td>'+tb2_refsocono+'</td>';
+                              tr += '<td>';
+                              tr += tb2_refsocono;
+                              tr += '<input type="hidden" name="GoodCode" value="'+tb2_goodcode+'">'
+                              tr += '<input type="hidden" name="ShipDate" value="'+tb2_shipdate+'">'
+                              tr += '<input type="hidden" name="RefSOCOID" value="'+tb2_refsocoid+'">'
+                              tr += '<input type="hidden" name="RefListNO" value="'+tb2_RefListNO+'">'
+                              tr += '<input type="hidden" name="RefSOCONo" value="'+tb2_refsocono+'">'
+                              tr += '<input type="hidden" name="CustAddress" value="'+tb2_cus_address+'">'
+                              tr += '<input type="hidden" name="GoodPrice2" value="'+tb2_goodprice+'">'
+                              tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
+                              tr += '<input type="hidden" name="SentQty" value="'+sum_total+'">'
+                              tr += '</td>';
                               tr += '<td>'+tb2_docudate+'</td>';
                               tr += '<td>'+tb2_date_amount+'</td>';
                               tr += '<td>'+tb2_cus_address+'</td>';
@@ -837,14 +859,11 @@
                               tr += '<td>'+sum_total+'</td>';
                               tr += '</tr>';
                               $("#table5 tbody").append(tr);
-
                          }
                     } else {
                          notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
                          return false;
                     }
-
-
 
                }
                var next = data+1;
@@ -945,75 +964,56 @@
                });
           });
 
+          $('#FormAdd').validate({
+             errorElement: 'div',
+             errorClass: 'invalid-feedback',
+             focusInvalid: false,
+             rules: {
 
+             },
+             messages: {
 
-          // $("#btn-get-product").on('click', function (e){
-          //      e.preventDefault();
-          //      // if ($("#sale_code").val() == ''){
-          //      //      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสพนักงานขาย");
-          //      //      $("#sale_code").focus();
-          //      //      return false;
-          //      // } else {
-          //      //
-          //      // }
-          //      if ($(".share_product_radio").is(':checked') == false) {
-          //           notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกว่าแบ่งสินค้ามาจากใคร");
-          //           $("#sale_code").focus();
-          //           return false;
-          //      } else {
-          //           $.ajax({
-          //                method : "post",
-          //                url : '{{ route('customer.get_product')}}',
-          //                dataType : 'json',
-          //                data : $("#get_product_form").serialize(),
-          //                headers: {
-          //                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
-          //                },
-          //                beforeSend: function() {
-          //                     $("#preloaders").css("display", "block");
-          //                },
-          //           }).done(function(rec){
-          //                $("#preloaders").css("display", "none");
-          //                $("#table3 tbody").empty();
-          //                if(rec.status==1){
-          //                     let tr = '';
-          //                     if (rec.datas.length > 0){
-          //                          $.each(rec.datas, function( key, data ) {
-          //                               tr += '<tr>';
-          //                               tr += '<td>';
-          //                               tr += '<input type="checkbox" name="product_share_chk[]" class="form-check-input product_share_chk" data-value="'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-          //                               tr += '</td>';
-          //                               tr += '<td>'+data.RefSOCONo+'</td>';
-          //                               tr += '<td>'+ formatDate(data.DocuDate) +'</td>';
-          //                               tr += '<td>'+data.EmpName+'</td>';
-          //                               tr += '<td>'+data.ContainerNO+'</td>';
-          //                               tr += '<td>'+data.Flag_st+'</td>';
-          //                               tr += '<td>'+data.TranQty+'</td>';
-          //                               tr += '<td><input type="text" class="form-control" name="product_share[]" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-          //                               tr += '</tr>';
-          //                          });
-          //                     } else {
-          //                          tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-          //                     }
-          //                     $("#table3 tbody").append(tr);
-          //
-          //                     $('.product_share_chk').on('click', function() {
-          //                          var data = $(this).data("value");
-          //                          if ($(this).is(':checked')) {
-          //                               $("#product_share_" + data).attr("readonly", false);
-          //                          } else {
-          //                               $("#product_share_" + data).attr("readonly", true);
-          //                          }
-          //                     });
-          //                } else {
-          //                     swal("", rec.content, "warning");
-          //                }
-          //           }).fail(function(){
-          //                $("#preloaders").css("display", "none");
-          //                swal("", rec.content, "error");
-          //           });
-          //      }
-          // });
+             },
+             highlight: function (e) {
+                 validate_highlight(e);
+             },
+             success: function (e) {
+                 validate_success(e);
+             },
+             errorPlacement: function (error, element) {
+                 validate_errorplacement(error, element);
+             },
+             submitHandler: function (form) {
+                 data = $("#FormAdd").serializeArray();
+                 data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
+                 data.push({ name: 'DocuDate', value: $("#DocuDate").val()});
+                 data.push({ name: 'CustCode', value: $("#CustCode").val()});
+                 data.push({ name: 'CustName', value: $("#CustName").val()});
+                 data.push({ name: 'EmpCode', value: $("#EmpCode").val()});
+                 data.push({ name: 'empname', value: $("#empname").val()});
+                 $.ajax({
+                     method : "POST",
+                     url : '{{ route('customer.store') }}',
+                     dataType : 'json',
+                     data : data,
+                     headers: {
+                          'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                     }
+                 }).done(function(rec){
+                     if (rec.status == 1) {
+
+                     } else {
+
+                     }
+                 }).fail(function(){
+
+                 });
+             },
+             invalidHandler: function (form) {
+
+             }
+         });
+
      });
     </script>
 </body>
