@@ -96,6 +96,8 @@
                                                             <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                             <th class="border-top-0 text-center">ชื่อพนักงานขาย</th>
                                                             <th class="border-top-0 text-center">ชื่อสินค้า</th>
+                                                            <th class="border-top-0 text-center">AppvStatus</th>
+                                                            <th class="border-top-0 text-center">AppvSplitStatus</th>
                                                             <th class="border-top-0 text-center">action</th>
                                                        </tr>
                                                   </thead>
@@ -112,6 +114,8 @@
                                                                       <td>{{$header->CustName}}</td>
                                                                       <td>{{$header->EmpName}}</td>
                                                                       <td>{{$header->GoodName1}}</td>
+                                                                      <td>{{$header->AppvStatus}}</td>
+                                                                      <td>{{$header->AppvSplitStatus}}</td>
                                                                       <td class="text-center">
                                                                            <div class="btn-group btn-group-sm">
                                                                                 @if ($header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'Y')
@@ -344,6 +348,8 @@
                                    tr += '<td>'+data.CustCode+'</td>';
                                    tr += '<td>'+data.EmpCode+'</td>';
                                    tr += '<td>'+data.GoodCode+'</td>';
+                                   tr += '<td>'+data.AppvStatus+'</td>';
+                                   tr += '<td>'+data.AppvSplitStatus+'</td>';
                                    tr += '<td class="text-center">';
                                    tr += '<div class="btn-group btn-group-sm">';
                                    if (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y'){

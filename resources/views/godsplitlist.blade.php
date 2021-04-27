@@ -96,6 +96,8 @@
                                                             <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                             <th class="border-top-0 text-center">ชื่อพนักงานขาย</th>
                                                             <th class="border-top-0 text-center">ชื่อสินค้า</th>
+                                                            <th class="border-top-0 text-center">AppvStatus</th>
+                                                            <th class="border-top-0 text-center">AppvSplitStatus</th>
                                                             <th class="border-top-0 text-center">action</th>
                                                        </tr>
                                                   </thead>
@@ -112,6 +114,8 @@
                                                                       <td>{{$header->CustName}}</td>
                                                                       <td>{{$header->EmpName}}</td>
                                                                       <td>{{$header->GoodName1}}</td>
+                                                                      <td>{{$header->AppvStatus}}</td>
+                                                                      <td>{{$header->AppvSplitStatus}}</td>
                                                                       <td class="text-center">
                                                                            @if ($header->AppvStatus == 'N')
                                                                                 <div class="btn-group btn-group-sm">
@@ -347,11 +351,20 @@
                               tr += '<td>'+data.CustCode+'</td>';
                               tr += '<td>'+data.EmpCode+'</td>';
                               tr += '<td>'+data.GoodCode+'</td>';
+                              tr += '<td>'+data.AppvStatus+'</td>';
+                              tr += '<td>'+data.AppvSplitStatus+'</td>';
                               tr += '<td class="text-center">';
                               tr += '<div class="btn-group btn-group-sm">';
-                              tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                              tr += '</button>';
+                              if(data.AppvStatus = 'N'){
+                                   tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                                   tr += '</button>';
+                              } else {
+                                   tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   tr += '<i class="fas fa-eye bigger-120"></i>';
+                                   tr += '</button>';
+                              }
+
                               tr += '</div>';
                               tr += '</td>';
                               tr += '</tr>';
