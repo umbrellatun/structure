@@ -251,7 +251,7 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
-         dd($request->all());
+         // dd($request->all());
          $DocuNO = $request->DocuNO;
          $DocuDate = $request->DocuDate;
          $CustCode = $request->CustCode;
@@ -271,6 +271,7 @@ class HomeController extends Controller
          $tb4_RefSOCOID = $request->tb4_RefSOCOID;
          $tb4_RefListNO = $request->tb4_RefListNO;
          $tb4_RefSOCONo = $request->tb4_RefSOCONo;
+         $tb4_DocuDate = $request->tb4_DocuDate;
          $tb4_CustName = $request->tb4_CustName;
          $tb4_EmpCode = $request->tb4_EmpCode;
          $tb4_EmpName = $request->tb4_EmpName;
@@ -278,8 +279,6 @@ class HomeController extends Controller
          $tb4_Flag_st = $request->tb4_Flag_st;
          $tb4_TranQty = $request->tb4_TranQty;
          $tb4_SplitQty = $request->tb4_SplitQty;
-
-
 
          $validator = Validator::make($request->all(), [
 
@@ -315,11 +314,11 @@ class HomeController extends Controller
 
                   for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
                        $data = [
-                            'DocuNO' => $DocuNO[$i]
+                            'DocuNO' => $DocuNO
                             ,'RefSOCOID' => $tb4_RefSOCOID[$i]
                             ,'RefListNO' => $tb4_RefListNO[$i]
                             ,'RefSOCONo' => $tb4_RefSOCONo[$i]
-                            ,'RefSOCODate' =>
+                            ,'RefSOCODate' => $tb4_DocuDate[$i]
                             ,'CustName' => $tb4_CustName[$i]
                             ,'EmpCode' => $tb4_EmpCode[$i]
                             ,'EmpName' => $tb4_EmpName[$i]

@@ -735,10 +735,11 @@
                                                        tr += chkbox;
                                                        tr += '</td>';
                                                        tr += '<td>';
-                                                       tr += '<input type="hidden" name="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                                       tr += '<input type="hidden" name="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                                       tr += '<input type="hidden" name="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
-                                                       tr += '<input type="hidden" name="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                                       tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                       tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                                       tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                                       tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                                        tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                                        tr += '</td>';
                                                        tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
@@ -804,6 +805,7 @@
                                    let EmpCode = $("#EmpCode_" + product_share_chk_arr[i]).val();
                                    let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
                                    let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
+                                   let DocuDate2_ = $("#DocuDate2_" + product_share_chk_arr[i]).text();
                                    let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
                                    let ContainerNO = $("#ContainerNO_" + product_share_chk_arr[i]).text();
                                    let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
@@ -817,6 +819,7 @@
                                    tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
                                    tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
                                    tr += '<input type="hidden" name="tb4_RefSOCONo[]" value="'+RefSOCONo+'">';
+                                   tr += '<input type="hidden" name="tb4_DocuDate[]" value="'+DocuDate2_+'">';
                                    tr += '<input type="hidden" name="tb4_CustName[]" value="'+CustName+'">';
                                    tr += '<input type="hidden" name="tb4_EmpCode[]" value="'+EmpCode+'">';
                                    tr += '<input type="hidden" name="tb4_EmpName[]" value="'+EmpName+'">';
@@ -947,6 +950,7 @@
                                    tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
                                    tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
                                    tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                   tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                    tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                    tr += '</td>';
                                    tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
