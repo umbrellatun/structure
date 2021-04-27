@@ -252,65 +252,83 @@ class HomeController extends Controller
     public function store(Request $request)
     {
          dd($request->all());
-         GoodCode
-         ShipDate
-         RefSOCOID
-         RefListNO
-         RefSOCONo
-         CustAddress
-         GoodPrice2
-         TranQty
-         SentQty
-         DocuNO
-         DocuDate
-         CustCode
-         CustName
-         EmpCode
-         empname
-         
-         $data = [
-              'DocuNO' =>
-              'DocuDate' =>
-              'CustCode' =>
-              'CustName' =>
-              'EmpCode' =>
-              'EmpName' =>
-              'GoodCode' =>
-              'GoodName1' =>
-              'ShipDate' =>
-              'RefSOCOID' =>
-              'RefListNO' =>
-              'RefSOCONo' =>
-              'RefSOCODate' =>
-              'CustAddress' =>
-              'GoodPrice2' =>
-              'TranQty' =>
-              'SentQty' =>
-              'AppvStatus' =>
-              'AppvName' =>
-              'AppvSplitStatus' =>
-              'AppvSplitName' =>
-         ];
+         $DocuNO = $request->DocuNO;
+         $DocuDate = $request->DocuDate;
+         $CustCode = $request->CustCode;
+         $CustName = $request->CustName;
+         $EmpCode = $request->EmpCode;
+         $empname = $request->empname;
+         $GoodCode = $request->GoodCode;
+         $ShipDate = $request->ShipDate;
+         $RefSOCOID = $request->RefSOCOID;
+         $RefListNO = $request->RefListNO;
+         $RefSOCONo = $request->RefSOCONo;
+         $CustAddress = $request->CustAddress;
+         $GoodPrice2 = $request->GoodPrice2;
+         $TranQty = $request->TranQty;
+         $SentQty = $request->SentQty;
+
+         $tb4_RefSOCOID = $request->tb4_RefSOCOID;
+         $tb4_RefListNO = $request->tb4_RefListNO;
+         $tb4_RefSOCONo = $request->tb4_RefSOCONo;
+         $tb4_CustName = $request->tb4_CustName;
+         $tb4_EmpCode = $request->tb4_EmpCode;
+         $tb4_EmpName = $request->tb4_EmpName;
+         $tb4_ContainerNO = $request->tb4_ContainerNO;
+         $tb4_Flag_st = $request->tb4_Flag_st;
+         $tb4_TranQty = $request->tb4_TranQty;
+         $tb4_SplitQty = $request->tb4_SplitQty;
 
 
 
+         $validator = Validator::make($request->all(), [
 
+         ]);
+         if (!$validator->fails()) {
+              \DB::beginTransaction();
+              try {
+                   $data = [
+                       'DocuNO' => $DocuNO
+                       ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')
+                       ,'CustCode' => $CustCode
+                       ,'CustName' => $CustName
+                       ,'EmpCode' => $EmpCode
+                       ,'EmpName' => $empname
+                       ,'GoodCode' => $GoodCode
+                       // ,'GoodName1' =>
+                       ,'ShipDate' => $ShipDate
+                       ,'RefSOCOID' => $RefSOCOID
+                       ,'RefListNO' => $RefListNO
+                       ,'RefSOCONo' => $RefSOCONo
+                       // ,'RefSOCODate' =>
+                       ,'CustAddress' => $CustAddress
+                       ,'GoodPrice2' => $GoodPrice2
+                       ,'TranQty' => $TranQty
+                       ,'SentQty' => $SentQty
+                       ,'AppvStatus' => 'N'
+                       // ,'AppvName' =>
+                       // ,'AppvSplitStatus' =>
+                       // ,'AppvSplitName' =>
+                  ];
+                  // dd($data);
+                  \DB::table('icGodSplit_hd')->insert($data);
 
+                  for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
+                       
+                  }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+                  \DB::commit();
+                  $return['status'] = 1;
+                  $return['content'] = 'จัดเก็บสำเร็จ';
+              } catch (Exception $e) {
+                   \DB::rollBack();
+                   $return['status'] = 0;
+                   $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         return json_encode($return);
 
     }
 

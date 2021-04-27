@@ -734,7 +734,13 @@
                                                        tr += '<td>';
                                                        tr += chkbox;
                                                        tr += '</td>';
-                                                       tr += '<td><span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                                       tr += '<td>';
+                                                       tr += '<input type="hidden" name="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                       tr += '<input type="hidden" name="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                                       tr += '<input type="hidden" name="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                                       tr += '<input type="hidden" name="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
+                                                       tr += '</td>';
                                                        tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                                        tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
                                                        tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
@@ -792,6 +798,10 @@
                               } else {
                                    sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
 
+                                   let RefSOCOID = $("#RefSOCOID_" + product_share_chk_arr[i]).val();
+                                   let RefListNO = $("#RefListNO_" + product_share_chk_arr[i]).val();
+                                   let CustName = $("#CustName_" + product_share_chk_arr[i]).val();
+                                   let EmpCode = $("#EmpCode_" + product_share_chk_arr[i]).val();
                                    let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
                                    let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
                                    let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
@@ -802,7 +812,19 @@
 
                                    let tr = '';
                                    tr += '<tr>';
-                                   tr += '<td>'+RefSOCONo+'</td>';
+                                   tr += '<td>';
+                                   tr += RefSOCONo;
+                                   tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
+                                   tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
+                                   tr += '<input type="hidden" name="tb4_RefSOCONo[]" value="'+RefSOCONo+'">';
+                                   tr += '<input type="hidden" name="tb4_CustName[]" value="'+CustName+'">';
+                                   tr += '<input type="hidden" name="tb4_EmpCode[]" value="'+EmpCode+'">';
+                                   tr += '<input type="hidden" name="tb4_EmpName[]" value="'+EmpName+'">';
+                                   tr += '<input type="hidden" name="tb4_ContainerNO[]" value="'+ContainerNO+'">';
+                                   tr += '<input type="hidden" name="tb4_Flag_st[]" value="'+Flag_st+'">';
+                                   tr += '<input type="hidden" name="tb4_TranQty[]" value="'+TranQty+'">';
+                                   tr += '<input type="hidden" name="tb4_SplitQty[]" value="'+product_share+'">';
+                                   tr += '</td>';
                                    tr += '<td>'+DocuDate+'</td>';
                                    tr += '<td>'+EmpName+'</td>';
                                    tr += '<td>'+ContainerNO+'</td>';
@@ -920,7 +942,13 @@
                                    tr += '<td>';
                                    tr += chkbox;
                                    tr += '</td>';
-                                   tr += '<td><span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                   tr += '<td>';
+                                   tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                   tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                   tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                   tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                   tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
+                                   tr += '</td>';
                                    tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                    tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
                                    tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
