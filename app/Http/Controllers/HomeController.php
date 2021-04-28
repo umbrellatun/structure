@@ -237,7 +237,7 @@ class HomeController extends Controller
                         $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    }
-
+                   // dd($q);
                    $return["datas"] =  \DB::select($q);
                    $return['status'] = 1;
               } catch (Exception $e) {

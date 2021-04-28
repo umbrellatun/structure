@@ -541,6 +541,7 @@
 
      function numIndex() {
           let allSum = 0;
+          let allSum2 = 0;
           amount_tranqty = $("#product_amount_tranqty").text();
           $.each($('#table3').find('.product_share'), function (index, el) {
                if ($(this).val() != ''){
@@ -551,11 +552,14 @@
                          $(this).val("");
                          $(this).focus();
                          return false;
+                    } else {
+                         allSum2 += sum_list;
+
                     }
                }
           });
-          $("#sum_amount_product").text(allSum);
-          $("#product_amount_sent").text(allSum);
+          $("#sum_amount_product").text(allSum2);
+          $("#product_amount_sent").text(allSum2);
 
      }
 
@@ -1016,8 +1020,9 @@
                                    notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
                                    $(this).val("");
                                    $(this).focus();
+                              } else {
+                                   numIndex();
                               }
-                              numIndex();
                          });
                     } else {
                          swal("", rec.content, "warning");
