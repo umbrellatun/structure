@@ -179,7 +179,7 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                          </div>
                          <div class="modal-body">
-                                   <div class="dt-responsive table-responsive">
+                                   <div class="dt-responsive table-responsive" style=" overflow-x: hidden !important;">
                                         <table id="simpletable2" class="table table-striped table-bordered nowrap">
                                              <thead>
                                                   <tr>
@@ -188,8 +188,8 @@
                                                        <th class="border-top-0 text-center">วันที่จอง</th>
                                                        <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                        <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
-                                                       <th class="border-top-0 text-center">สถานะตู้</th>
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
+                                                       {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
+                                                       {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
                                                        <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
                                                   </tr>
                                              </thead>
@@ -284,18 +284,21 @@
                          var i = 1;
                          let flag = '';
                          $.each(rec.details, function( key, data ) {
+                              let cnt_str = (data.CustName.length);
+                              let customer_name = data.CustName.slice(0, cnt_str/2);
+                              let customer_name2 = data.CustName.slice(cnt_str/2+1, cnt_str);
                               tr += '<tr>';
-                              tr += '<td>'+i+'</td>';
-                              tr += '<td>';
+                              tr += '<td class="text-center">'+i+'</td>';
+                              tr += '<td class="text-center">';
                               tr += data.DocuNO;
                               tr += '<input type="hidden" name="DocuNO" value="'+data.DocuNO+'"/>';
                               tr += '</td>';
-                              tr += '<td>'+formatDate(data.RefSOCODate)+'</td>';
-                              tr += '<td>'+data.EmpName+'</td>';
-                              tr += '<td>'+data.ContainerNO+'</td>';
-                              tr += '<td>'+data.Flag_st+'</td>';
-                              tr += '<td>'+data.TranQty+'</td>';
-                              tr += '<td>'+data.SplitQty+'</td>';
+                              tr += '<td class="text-center">'+formatDate(data.RefSOCODate)+'</td>';
+                              tr += '<td class="text-left">'+customer_name+'<br/>'+customer_name2+'</td>';
+                              tr += '<td class="text-center">'+data.ContainerNO+'</td>';
+                              // tr += '<td>'+data.Flag_st+'</td>';
+                              // tr += '<td>'+data.TranQty+'</td>';
+                              tr += '<td class="text-center">'+data.SplitQty+'</td>';
 
                               tr += '</tr>';
                               i++;

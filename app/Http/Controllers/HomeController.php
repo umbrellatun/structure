@@ -170,7 +170,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode = '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -183,7 +183,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode = '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                         $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -196,7 +196,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode = '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    } else {
                         $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
@@ -209,7 +209,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode <> '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -222,7 +222,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode <> '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                         $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
@@ -235,7 +235,7 @@ class HomeController extends Controller
                         $q .= " AND CustCode <> '$customer_id'";
                         $q .= " AND GoodCode = '$goodcode'";
                         $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
-                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    }
 
                    $return["datas"] =  \DB::select($q);
