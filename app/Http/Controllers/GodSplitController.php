@@ -12,8 +12,8 @@ class GodSplitController extends Controller
 
      public function index()
      {
-          $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
-          $data["headers"] = ICGodSplitHD::get();
+          $data["title"] = "อนุมัติคำขอแบ่งสินค้า";
+          $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
           return view('godsplitlist', $data);
      }
 
@@ -54,7 +54,7 @@ class GodSplitController extends Controller
                     ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                     \DB::commit();
 
-                    $details = ICGodSplitHD::get();
+                    $details = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                     $return['details'] = $details;
                     $return['status'] = 1;
                     $return['content'] = 'จัดเก็บสำเร็จ';

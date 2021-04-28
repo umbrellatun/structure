@@ -11,8 +11,8 @@ class GodSplitApproveController extends Controller
 {
      public function index()
      {
-          $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
-          $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')->get();
+          $data["title"] = "ยืนยันแบ่งสินค้า";
+          $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
           return view('godapprovesplitlist', $data);
      }
 
@@ -53,7 +53,7 @@ class GodSplitApproveController extends Controller
                     ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                     \DB::commit();
 
-                    $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->get();
+                    $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
                     $return['details'] = $details;
                     $return['status'] = 1;
                     $return['content'] = 'จัดเก็บสำเร็จ';

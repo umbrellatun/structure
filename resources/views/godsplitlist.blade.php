@@ -96,8 +96,8 @@
                                                             <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                             <th class="border-top-0 text-center">ชื่อพนักงานขาย</th>
                                                             <th class="border-top-0 text-center">ชื่อสินค้า</th>
-                                                            <th class="border-top-0 text-center">AppvStatus</th>
-                                                            <th class="border-top-0 text-center">AppvSplitStatus</th>
+                                                            <th class="border-top-0 text-center">อนุมัติคำขอ</th>
+                                                            <th class="border-top-0 text-center">ยืนยัน<br/>แบ่งสินค้า</th>
                                                             <th class="border-top-0 text-center">action</th>
                                                        </tr>
                                                   </thead>
@@ -109,13 +109,31 @@
                                                                  <tr>
                                                                       <td>{{$i}}</td>
                                                                       <td>{{$header->DocuNO}}</td>
-                                                                      <td>{{ date_format(date_create($header->DocuDate), "d-M-Y")}}</td>
-                                                                      <td>{{ date_format(date_create($header->ShipDate), "d-M-Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->DocuDate), "d/m/Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->ShipDate), "d/m/Y")}}</td>
                                                                       <td>{{$header->CustName}}</td>
                                                                       <td>{{$header->EmpName}}</td>
                                                                       <td>{{$header->GoodName1}}</td>
-                                                                      <td>{{$header->AppvStatus}}</td>
-                                                                      <td>{{$header->AppvSplitStatus}}</td>
+                                                                      <td class="text-center">
+                                                                           {{-- {{$header->AppvStatus}} --}}
+                                                                           @if ($header->AppvStatus == 'N')
+                                                                                <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
+                                                                           @elseif($header->AppvStatus == 'Y')
+                                                                                <span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>
+                                                                           @elseif($header->AppvStatus == 'C')
+                                                                                <span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
+                                                                           @endif
+                                                                      </td>
+                                                                      <td class="text-center">
+                                                                           {{-- {{$header->AppvSplitStatus}} --}}
+                                                                           @if ($header->AppvSplitStatus == 'N')
+                                                                                <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
+                                                                           @elseif($header->AppvSplitStatus == 'Y')
+                                                                                <span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>
+                                                                           @elseif($header->AppvSplitStatus == 'R')
+                                                                                <span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
+                                                                           @endif
+                                                                      </td>
                                                                       <td class="text-center">
                                                                            @if ($header->AppvStatus == 'N')
                                                                                 <div class="btn-group btn-group-sm">
@@ -136,10 +154,9 @@
                                                             @endforeach
                                                        @else
                                                             <tr>
-                                                                 <td colspan="8" class="text-center">ไม่พบข้อมูล</td>
+                                                                 <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
                                                             </tr>
                                                        @endif
-
                                                   </tbody>
                                              </table>
                                         </div>
@@ -212,36 +229,36 @@
           year = d.getFullYear();
 
           if (month == 1){
-               month = 'Jan';
+               month = '01';
           } else if (month == 2) {
-               month = 'Feb';
+               month = '02';
           } else if (month == 3) {
-               month = 'Mar';
+               month = '03';
           } else if (month == 4) {
-               month = 'Apr';
+               month = '04';
           } else if (month == 5) {
-               month = 'May';
+               month = '05';
           } else if (month == 6) {
-               month = 'Jun';
+               month = '06';
           } else if (month == 7) {
-               month = 'Jul';
+               month = '07';
           } else if (month == 8) {
-               month = 'Aug';
+               month = '08';
           } else if (month == 9) {
-               month = 'Sep';
+               month = '09';
           } else if (month == 10) {
-               month = 'Oct';
+               month = '10';
           } else if (month == 11) {
-               month = 'Nov';
+               month = '11';
           } else if (month == 12) {
-               month = 'Dec';
+               month = '12';
           }
           // if (month.length < 2)
           // month = '0' + month;
           if (day.length < 2)
           day = '0' + day;
 
-          return [day, month, year].join('-');
+          return [day, month, year].join('/');
      }
 
      $('body').on('click', '.btn-edit', function (e) {
@@ -279,6 +296,7 @@
                               tr += '<td>'+data.Flag_st+'</td>';
                               tr += '<td>'+data.TranQty+'</td>';
                               tr += '<td>'+data.SplitQty+'</td>';
+
                               tr += '</tr>';
                               i++;
                          });
@@ -351,8 +369,24 @@
                               tr += '<td>'+data.CustCode+'</td>';
                               tr += '<td>'+data.EmpCode+'</td>';
                               tr += '<td>'+data.GoodCode+'</td>';
-                              tr += '<td>'+data.AppvStatus+'</td>';
-                              tr += '<td>'+data.AppvSplitStatus+'</td>';
+                              tr += '<td>';
+                              if (data.AppvStatus == 'N') {
+                                   tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvStatus == 'Y'){
+                                   tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvStatus == 'C'){
+                                   tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              tr += '</td>';
+                              tr += '<td>';
+                              if (data.AppvSplitStatus == 'N') {
+                                   tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvSplitStatus == 'Y'){
+                                   tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvSplitStatus == 'R'){
+                                   tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              tr += '</td>';
                               tr += '<td class="text-center">';
                               tr += '<div class="btn-group btn-group-sm">';
                               if(data.AppvStatus = 'N'){
