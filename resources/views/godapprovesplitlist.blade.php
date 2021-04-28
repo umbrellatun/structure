@@ -136,7 +136,7 @@
                                                                       </td>
                                                                       <td class="text-center">
                                                                            <div class="btn-group btn-group-sm">
-                                                                                @if ($header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'Y')
+                                                                                @if ($header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'Y' or $header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'R')
                                                                                      <button class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
                                                                                           <i class="fas fa-eye bigger-120"></i>
                                                                                      </button>
@@ -187,13 +187,15 @@
                                                   <th class="border-top-0 text-center">วันที่จอง</th>
                                                   <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                   <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
-                                                  <th class="border-top-0 text-center">สถานะตู้</th>
-                                                  <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th>
-                                                  <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
+                                                  {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
+                                                  {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
+                                                  <th class="border-top-0 text-center">จำนวนสินค้า<br/>แบ่งให้</th>
                                              </tr>
                                         </thead>
                                         <tbody>
                                         </tbody>
+                                        <tfoot>
+                                        </tfoot>
                                    </table>
                               </div>
                          </div>
@@ -277,27 +279,40 @@
           }).done(function(rec){
                if (rec.status == 1){
                     let tr = '';
+                    let tf = '';
+                    let sum = 0;
                     if (rec.details.length > 0){
                          $("#modal-footer").html("");
                          $("#simpletable2 tbody").empty();
+                         $("#simpletable2 tfoot").empty();
                          var i = 1;
-                         let flag = '';
                          $.each(rec.details, function( key, data ) {
+                              let cnt_str = (data.CustName.length);
+                              let customer_name = data.CustName.slice(0, cnt_str/2);
+                              let customer_name2 = data.CustName.slice(cnt_str/2+1, cnt_str);
                               tr += '<tr>';
-                              tr += '<td>'+i+'</td>';
-                              tr += '<td>';
+                              tr += '<td class="text-center">'+i+'</td>';
+                              tr += '<td class="text-center">';
                               tr += data.DocuNO;
                               tr += '<input type="hidden" name="DocuNO" value="'+data.DocuNO+'"/>';
                               tr += '</td>';
-                              tr += '<td>'+formatDate(data.RefSOCODate)+'</td>';
-                              tr += '<td>'+data.EmpName+'</td>';
-                              tr += '<td>'+data.ContainerNO+'</td>';
-                              tr += '<td>'+data.Flag_st+'</td>';
-                              tr += '<td>'+data.TranQty+'</td>';
-                              tr += '<td>'+data.SplitQty+'</td>';
+                              tr += '<td class="text-center">'+formatDate(data.RefSOCODate)+'</td>';
+                              tr += '<td class="text-left">'+customer_name+'<br/>'+customer_name2+'</td>';
+                              tr += '<td class="text-center">'+data.ContainerNO+'</td>';
+                              // tr += '<td>'+data.Flag_st+'</td>';
+                              // tr += '<td>'+data.TranQty+'</td>';
+                              tr += '<td class="text-center">'+data.SplitQty+'</td>';
                               tr += '</tr>';
+
+                              sum = sum + parseInt(data.SplitQty);
                               i++;
                          });
+
+                         tf += '<tr>';
+                         tf += '<td colspan="5" class="text-right">รวม</td>';
+                         tf += '<td class="text-center">'+sum+'</td>';
+                         tf += '</tr>';
+                         $("#simpletable2 tfoot").append(tf);
                     }
                     $("#simpletable2 tbody").append(tr);
                     if (rec.header.AppvStatus == 'Y' && (rec.header.AppvSplitStatus == null || rec.header.AppvSplitStatus == '')){
@@ -386,7 +401,7 @@
                                    tr += '</td>';
                                    tr += '<td class="text-center">';
                                    tr += '<div class="btn-group btn-group-sm">';
-                                   if (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y'){
+                                   if ((data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y') || (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'N')){
                                         tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
                                         tr += '<i class="fas fa-eye bigger-120"></i>';
                                         tr += '</button>';

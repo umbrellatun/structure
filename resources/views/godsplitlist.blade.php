@@ -190,11 +190,13 @@
                                                        <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
                                                        {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
                                                        {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
-                                                       <th class="border-top-0 text-center">จำนวนสินค้าแบ่งให้</th>
+                                                       <th class="border-top-0 text-center">จำนวนสินค้า<br/>แบ่งให้</th>
                                                   </tr>
                                              </thead>
                                              <tbody>
                                              </tbody>
+                                             <tfoot>
+                                             </tfoot>
                                         </table>
                                    </div>
                          </div>
@@ -278,9 +280,12 @@
           }).done(function(rec){
                if (rec.status == 1){
                     let tr = '';
+                    let tf = '';
+                    let sum = 0;
                     if (rec.details.length > 0){
                          $("#modal-footer").html("");
                          $("#simpletable2 tbody").empty();
+                         $("#simpletable2 tfoot").empty();
                          var i = 1;
                          let flag = '';
                          $.each(rec.details, function( key, data ) {
@@ -299,10 +304,17 @@
                               // tr += '<td>'+data.Flag_st+'</td>';
                               // tr += '<td>'+data.TranQty+'</td>';
                               tr += '<td class="text-center">'+data.SplitQty+'</td>';
-
                               tr += '</tr>';
+
+                              sum = sum + parseInt(data.SplitQty);
                               i++;
                          });
+
+                         tf += '<tr>';
+                         tf += '<td colspan="5" class="text-right">รวม</td>';
+                         tf += '<td class="text-center">'+sum+'</td>';
+                         tf += '</tr>';
+                         $("#simpletable2 tfoot").append(tf);
                     }
                     $("#simpletable2 tbody").append(tr);
 
