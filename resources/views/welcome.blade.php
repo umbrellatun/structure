@@ -157,7 +157,7 @@
                                                               </div>
                                                               <div class="card-body">
                                                                    <div class="form-row form-1 needs-validation" novalidate>
-                                                                        <div class="col-md-3 mb-3">
+                                                                        <div class="col-md-2 mb-3">
                                                                              <label for="DocuNO">เลขที่เอกสาร</label>
                                                                              <input type="text" class="form-control" name="DocuNO" id="DocuNO" value="{{$result->DocuNO}}" required>
                                                                         </div>
@@ -169,21 +169,30 @@
                                                                              <label for="send_appointment">วันที่นัดส่ง</label>
                                                                              <input type="text" class="form-control" name="send_appointment" id="send_appointment" value="" required />
                                                                         </div>
-                                                                        <div class="col-md-3 mb-3">
+                                                                        <div class="col-md-2 mb-3">
                                                                              <label for="CustCode">รหัสลูกค้า</label>
                                                                              <input type="text" name="CustCode" id="CustCode" value="{{$result->CustCode}}" class="form-control" required />
                                                                              <input type="hidden" name="CustName" id="CustName" value="{{$result->CustName}}" />
                                                                         </div>
+                                                                        <div class="col-md-2 mb-3">
+                                                                             <label for="CustCode">ชื่อลูกค้า</label>
+                                                                             <input type="text" class="form-control" value="{{$result->CustName}}" />
+                                                                        </div>
                                                                    </div>
                                                                    <div class="form-row form-1 needs-validation" novalidate>
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-3 mb-3">
                                                                              <label for="EmpCode">รหัสพนักงานขาย</label>
                                                                              <input type="text" name="EmpCode" id="EmpCode" value="{{$result->EmpCode}}" class="form-control" required>
                                                                              <input type="hidden" name="empname" id="empname" value="{{$result->empname}}" class="form-control" required>
                                                                         </div>
+                                                                        <div class="col-md-3 mb-3">
+                                                                             <label for="EmpCode">ชื่อพนักงานขาย</label>
+                                                                             <input type="text"  value="{{$result->empname}}" class="form-control" required>
+                                                                        </div>
                                                                         <div class="col-md-6 mb-3">
                                                                              <label for="GoodCode">รหัสสินค้า</label>
                                                                              <select class="form-control js-example-data-array" name="GoodCode" id="GoodCode" required>
+                                                                                  <option value></option>
                                                                                   @foreach ($products as $key => $product)
                                                                                        <option value="{{$product->GoodCode}}">{{$product->GoodCode}}:{{$product->GoodName1}}</option>
                                                                                   @endforeach
@@ -765,11 +774,11 @@
                                                        tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                                        tr += '</td>';
                                                        tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
+                                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
                                                        tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
                                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                                       tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                        tr += '</tr>';
                                                   });
                                              } else {
@@ -987,11 +996,11 @@
                                    tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                    tr += '</td>';
                                    tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                   tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.EmpName+'</span></td>';
+                                   tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
                                    tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                    tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                    tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                   tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                    tr += '</tr>';
                               });
                          } else {
@@ -1015,7 +1024,8 @@
                          $('.product_share').on('keyup', function() {
                               var data = $(this).val();
                               var data_value = $(this).data("value");
-                              var tran_qty = $("#tran_qty_"+data_value).text();
+                              // var tran_qty = $("#tran_qty_"+data_value).text();
+                              var tran_qty = $("#TranQty_"+data_value).text();
                               if (parseInt(data) > parseInt(tran_qty)) {
                                    notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
                                    $(this).val("");
