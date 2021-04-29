@@ -104,7 +104,7 @@ class HomeController extends Controller
                    $q .= " TranQty <> 0";
                    $q .= " AND tmConTain_bk_dt.EmpCode = '$EmpCode'";
                    $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode <> '$goodcode'";
+                   $q .= " AND GoodCode = '$goodcode'";
                    $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
                    // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    $q .= " UNION ALL";
@@ -117,7 +117,7 @@ class HomeController extends Controller
                    $q .= " TranQty <> 0";
                    $q .= " AND tmConTain_dl_dt.EmpCode = '$EmpCode'";
                    $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode <> '$goodcode'";
+                   $q .= " AND GoodCode = '$goodcode'";
                    $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
                    // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    $q .= " UNION ALL";
@@ -130,7 +130,7 @@ class HomeController extends Controller
                    $q .= " TranQty <> 0";
                    $q .= " AND tmConTain_dt.EmpCode = '$EmpCode'";
                    $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode <> '$goodcode'";
+                   $q .= " AND GoodCode = '$goodcode'";
                    $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
                    // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
 

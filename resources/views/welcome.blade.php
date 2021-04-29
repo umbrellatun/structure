@@ -159,37 +159,37 @@
                                                                    <div class="form-row form-1 needs-validation" novalidate>
                                                                         <div class="col-md-2 mb-3">
                                                                              <label for="DocuNO">เลขที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="DocuNO" id="DocuNO" value="{{$result->DocuNO}}" required>
+                                                                             <input type="text" class="form-control" name="DocuNO" id="DocuNO" value="{{$result->DocuNO}}" required readonly>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="DocuDate">วันที่เอกสาร</label>
-                                                                             <input type="text" class="form-control" name="DocuDate" id="DocuDate" value="{{ date_format(date_create($result->DocuDate), "d M Y H:i:s") }}" required>
+                                                                             <input type="text" class="form-control" name="DocuDate" id="DocuDate" value="{{ date_format(date_create($result->DocuDate), "d M Y H:i:s") }}" required readonly>
                                                                         </div>
-                                                                        <div class="col-md-3 mb-3">
+                                                                        <div class="col-md-2 mb-3">
                                                                              <label for="send_appointment">วันที่นัดส่ง</label>
                                                                              <input type="text" class="form-control" name="send_appointment" id="send_appointment" value="" required />
                                                                         </div>
                                                                         <div class="col-md-2 mb-3">
                                                                              <label for="CustCode">รหัสลูกค้า</label>
-                                                                             <input type="text" name="CustCode" id="CustCode" value="{{$result->CustCode}}" class="form-control" required />
+                                                                             <input type="text" name="CustCode" id="CustCode" value="{{$result->CustCode}}" class="form-control" required readonly />
                                                                              <input type="hidden" name="CustName" id="CustName" value="{{$result->CustName}}" />
                                                                         </div>
-                                                                        <div class="col-md-2 mb-3">
+                                                                        <div class="col-md-3 mb-3">
                                                                              <label for="CustCode">ชื่อลูกค้า</label>
-                                                                             <input type="text" class="form-control" value="{{$result->CustName}}" />
+                                                                             <input type="text" class="form-control" value="{{$result->CustName}}" readonly/>
                                                                         </div>
                                                                    </div>
                                                                    <div class="form-row form-1 needs-validation" novalidate>
-                                                                        <div class="col-md-3 mb-3">
+                                                                        <div class="col-md-2 mb-3">
                                                                              <label for="EmpCode">รหัสพนักงานขาย</label>
-                                                                             <input type="text" name="EmpCode" id="EmpCode" value="{{$result->EmpCode}}" class="form-control" required>
+                                                                             <input type="text" name="EmpCode" id="EmpCode" value="{{$result->EmpCode}}" class="form-control" required readonly>
                                                                              <input type="hidden" name="empname" id="empname" value="{{$result->empname}}" class="form-control" required>
                                                                         </div>
                                                                         <div class="col-md-3 mb-3">
                                                                              <label for="EmpCode">ชื่อพนักงานขาย</label>
-                                                                             <input type="text"  value="{{$result->empname}}" class="form-control" required>
+                                                                             <input type="text"  value="{{$result->empname}}" class="form-control" required readonly>
                                                                         </div>
-                                                                        <div class="col-md-6 mb-3">
+                                                                        <div class="col-md-7 mb-3">
                                                                              <label for="GoodCode">รหัสสินค้า</label>
                                                                              <select class="form-control js-example-data-array" name="GoodCode" id="GoodCode" required>
                                                                                   <option value></option>
@@ -642,6 +642,7 @@
                     if (!$('#GoodCode').val()) {
                          $('#GoodCode').focus();
                          $('.form-1').addClass('was-validated');
+                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสสินค้า");
                          return false;
                     }
                     $.ajax({
@@ -797,6 +798,20 @@
                                                        $(".product_share_" + val + "_" + container).val("");
                                                   }
                                                   numIndex();
+                                             });
+
+                                             $('.product_share').on('keyup', function() {
+                                                  var data = $(this).val();
+                                                  var data_value = $(this).data("value");
+                                                  // var tran_qty = $("#tran_qty_"+data_value).text();
+                                                  var tran_qty = $("#TranQty_"+data_value).text();
+                                                  if (parseInt(data) > parseInt(tran_qty)) {
+                                                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
+                                                       $(this).val("");
+                                                       $(this).focus();
+                                                  } else {
+                                                       numIndex();
+                                                  }
                                              });
                                         } else {
                                              swal("", rec.content, "warning");
