@@ -17,7 +17,8 @@
      <meta name="keywords" content="">
      <meta name="author" content="Codedthemes" />
      <!-- Favicon icon -->
-     <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+     {{-- <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon"> --}}
+     <link rel="icon" href="{{asset('assets/images/JT-01.ico')}}" type="image/x-icon">
      <!-- vendor css -->
      <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
      <style>
@@ -63,8 +64,10 @@
                <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
                <a href="#!" class="b-brand">
                     <!-- ========   change your logo hear   ============ -->
-                    <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
-                    <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb">
+                    {{-- <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
+                    <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb"> --}}
+                    <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="width: 167px; height: 33px;">
+                    <img src="{{asset('assets/images/JT_64X45.png')}}" alt="" class="logo-thumb">
                </a>
                <a href="#!" class="mob-toggler">
                     <i class="feather icon-more-vertical"></i>

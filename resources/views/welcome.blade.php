@@ -17,7 +17,8 @@
     <meta name="keywords" content="">
     <meta name="author" content="Codedthemes" />
     <!-- Favicon icon -->
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
+    {{-- <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon"> --}}
+    <link rel="icon" href="{{asset('assets/images/JT-01.ico')}}" type="image/x-icon">
     <!-- select2 css -->
     <link rel="stylesheet" href="{{asset('assets/css/plugins/select2.min.css')}}">
     <!-- prism css -->
@@ -81,8 +82,11 @@
             <a class="mobile-menu" id="mobile-collapse" href="#!"><span></span></a>
             <a href="#!" class="b-brand">
                 <!-- ========   change your logo hear   ============ -->
-                <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
-                <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb">
+                {{-- <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
+                <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb"> --}}
+
+                <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="width: 167px; height: 33px;">
+                <img src="{{asset('assets/images/JT_64X45.png')}}" alt="" class="logo-thumb">
             </a>
             <a href="#!" class="mob-toggler">
                 <i class="feather icon-more-vertical"></i>
@@ -212,7 +216,7 @@
                                                     <div class="col-md-12">
                                                          <div class="card">
                                                               <div class="card-header">
-                                                                   <h5>ข้อมูลเอกสาร</h5>
+                                                                   <h5>ข้อมูลเอกสาร {{$result->CustName}}</h5>
                                                                    <hr/>
                                                               </div>
                                                               <div class="card-body table-border-style">
@@ -226,8 +230,8 @@
                                                                                        <th>จำนวนวัน</th>
                                                                                        <th>สถานที่จัดส่ง</th>
                                                                                        <th>ราคา/หน่วย</th>
-                                                                                       <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                       <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                       <th>จำนวนสั่งจอง</th>
+                                                                                       <th>จำนวนต้องการส่ง</th>
                                                                                   </tr>
                                                                              </thead>
                                                                              <tbody>
@@ -248,7 +252,7 @@
                                                     <div class="col-md-12">
                                                          <div class="card">
                                                               <div class="card-header">
-                                                                   <h5>ข้อมูลเอกสาร</h5>
+                                                                   <h5>ข้อมูลเอกสาร {{$result->CustName}}</h5>
                                                                    <hr/>
                                                               </div>
                                                               <form id="get_product_form">
@@ -262,8 +266,8 @@
                                                                                             <th>จำนวนวัน</th>
                                                                                             <th>สถานที่จัดส่ง</th>
                                                                                             <th>ราคา/หน่วย</th>
-                                                                                            <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                            <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                            <th>จำนวนสั่งจอง</th>
+                                                                                            <th>จำนวนต้องการส่ง</th>
                                                                                        </tr>
                                                                                   </thead>
                                                                                   <tbody>
@@ -357,8 +361,8 @@
                                                                                                  <th>ชื่อลูกค้า</th>
                                                                                                  <th>เลขตู้จัดสินค้า</th>
                                                                                                  <th>สถานะตู้</th>
-                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                                 <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                                 <th>จำนวนสั่งจอง</th>
+                                                                                                 <th>จำนวนแบ่งให้</th>
                                                                                             </tr>
                                                                                        </thead>
                                                                                        <tbody>
@@ -373,6 +377,8 @@
                                                                                   <img src="{{ asset('assets/images/product/packing.png') }}" style="width: 100px; height: 100px;">
                                                                              </div>
                                                                         </div>
+                                                                        <h5>ผู้รับ: {{$result->CustName}}</h5>
+                                                                        <hr/>
                                                                         <div class="card-body table-border-style">
                                                                              <div class="table-responsive">
                                                                                   <table id="table5" class="table table-striped">
@@ -383,8 +389,8 @@
                                                                                                  <th>จำนวนวัน</th>
                                                                                                  <th>สถานที่จัดส่ง</th>
                                                                                                  <th>ราคา/หน่วย</th>
-                                                                                                 <th>จำนวนสินค้าสั่งจอง</th>
-                                                                                                 <th>จำนวนสินค้าต้องการส่ง</th>
+                                                                                                 <th>จำนวนสั่งจอง</th>
+                                                                                                 <th>จำนวนต้องการส่ง</th>
                                                                                             </tr>
                                                                                        </thead>
                                                                                        <tbody>
@@ -402,14 +408,19 @@
                                                      </ul>
                                                 </form>
                                            </div>
-                                           {{-- <div id="menu5" class="tab-pane fade">
-                                                <h3>Menu 5</h3>
-                                                <p>Some content in menu 5.</p>
-                                                <ul class="list-unstyled list-inline pull-right">
-                                                     <li><button type="button" class="btn btn-default prev-step" data-id="5" id="prev-step-5"><i class="fa fa-chevron-left"></i> Back</button></li>
-                                                     <li><button type="button" class="btn btn-success" data-id="5" id="next-step-5"><i class="fa fa-check"></i> Done!</button></li>
-                                                </ul>
-                                           </div> --}}
+                                           <div id="menu5" class="tab-pane fade text-center">
+                                                <h3 class="text-success">จัดเก็บข้อมูลสำเร็จ</h3>
+                                                <div class="row mb-3">
+                                                    <div class="col-md-12">
+                                                        <img src="{{ asset('assets/images/success-icon.png') }}" style="width: 100px; height: 100px;">
+                                                    </div>
+                                               </div>
+                                               <div class="row">
+                                                   <div class="col-md-12">
+                                                        <a href="{{ route('customer', ['customer_id' => $customer_id])}}" class="btn notifications btn-info" data-type="info" data-from="top" data-align="right" data-notify-icon="feather icon-shopping-cart">กลับหน้าแรก</a>
+                                                   </div>
+                                              </div>
+                                           </div>
                                       </div>
                                    </div>
                                </div>
@@ -776,7 +787,7 @@
                                                        tr += '</td>';
                                                        tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                                        tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
-                                                       tr += '<td><span id="ContainerNO_">'+data.ContainerNO+'</span></td>';
+                                                       tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
                                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                                        tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
@@ -1099,6 +1110,10 @@
                  }).done(function(rec){
                      if (rec.status == 1) {
                           notify("bottom", "left", "fas fa-check-circle", "success", "", "", "สำเร็จ");
+                          $("#menu4").removeClass('active');
+                          $("#menu4").removeClass('in');
+                          $("#menu5").addClass('active');
+                          $("#menu5").addClass('in');
                      } else {
                           notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
                      }
@@ -1110,7 +1125,6 @@
 
              }
          });
-
      });
     </script>
 </body>
