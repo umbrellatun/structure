@@ -22,13 +22,18 @@
     <!-- select2 css -->
     <link rel="stylesheet" href="{{asset('assets/css/plugins/select2.min.css')}}">
     <!-- prism css -->
-    <link rel="stylesheet" href="{{asset('assets/css/plugins/prism-coy.css')}}">
+    {{-- <link rel="stylesheet" href="{{asset('assets/css/plugins/prism-coy.css')}}"> --}}
     <!-- vendor css -->
     <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
-    <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    {{-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css"> --}}
     {{-- <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.0/js/bootstrap.min.js"></script> --}}
-    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
     <link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}">
+
+
+    {{-- <script src="//code.jquery.com/jquery-1.11.3.min.js"></script> --}}
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" id="bootstrap-css">
+    {{-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> --}}
+    {{-- <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> --}}
     <style>
     .process-step .btn:focus{outline:none}
     .process{display:table;width:100%;position:relative}
@@ -121,8 +126,14 @@
                           <div class="card">
                                <div class="card-header">
                                     <h5>{{$title}}</h5>
+                                    <div class="row text-right">
+                                         <div class="col-md-12">
+                                              <button type="button" class="btn btn-primary btn-sm btn-history" data-toggle="modal" data-target="#HistoryModal"><i class="fas fa-history"></i> History</button>
+                                         </div>
+                                    </div>
                                </div>
                                <div class="card-body">
+
                                    <div class="bt-wizard" id="besicwizard">
                                        <ul class="nav nav-pills nav-fill mb-3">
                                            <div class="process">
@@ -429,703 +440,859 @@
                 </div>
                 <!-- [ Main Content ] end -->
             </div>
+
         </div>
     </div>
-        <!-- Required Js -->
-        <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
-        <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
-        <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
-        <script src="{{asset('assets/js/menu-setting.min.js')}}"></script>
 
-        <!-- jquery-validation Js -->
-        <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
-        <!-- sweet alert Js -->
-        <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
-        <!-- datepicker js -->
-        <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
-        <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
-        <!-- prism Js -->
-        <script src="{{asset('assets/js/plugins/prism.js')}}"></script>
-        <script src="{{asset('assets/js/horizontal-menu.js')}}"></script>
+    <!-- Modal -->
+    <div class="modal fade bd-example-modal-lg in" id="HistoryModal" tabindex="-1" role="dialog" aria-labelledby="HistoryModal" aria-hidden="true">
+         <div class="modal-dialog modal-lg modal-xl">
+              <div class="modal-content" style="width: 1200px; margin-left: -180px; height: 560px;">
+                   {{-- style="width: 1200px; margin-left: -180px;" --}}
+                   <div class="modal-header">
+                        <h5 class="modal-title h4">Large Modal</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   </div>
+                   <div class="modal-body">
+                        <div class="card-body table-border-style">
+                            <div class="table-responsive">
+                                 <table id="tableHD" class="table table-striped">
+                                      <thead>
+                                           <tr>
+                                                <th>NO</th>
+                                                <th>เลขที่เอกสาร</th>
+                                                <th>วันที่เอกสาร</th>
+                                                <th>วันที่นัดส่ง</th>
+                                                <th>ชื่อลูกค้า</th>
+                                                <th>ชื่อพนักงานขาย</th>
+                                                <th>ชื่อสินค้า</th>
+                                                <th>Action</th>
+                                           </tr>
+                                      </thead>
+                                      <tbody>
+                                      </tbody>
+                                      <tfoot>
+                                      </tfoot>
+                                 </table>
+                            </div>
+                       </div>
+                   </div>
+              </div>
+         </div>
+   </div>
 
-        <!-- notification Js -->
-        <script src="{{asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
-        <!-- select2 Js -->
-        <script src="{{asset('assets/js/plugins/select2.full.min.js')}}"></script>
+   <div class="modal fade bd-example-modal-lg in" id="ModalView" tabindex="-1" role="dialog" aria-labelledby="ModalView" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                  <div class="modal-header">
+                       <h5 class="modal-title h4">Large Modal</h5>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                       <div class="card-body table-border-style">
+                          <div class="table-responsive">
+                               <table id="tableDT" class="table table-striped">
+                                     <thead>
+                                          <tr>
+                                               <th>NO</th>
+                                               <th>เลขที่เอกสาร</th>
+                                               <th>วันที่เอกสาร</th>
+                                               <th>วันที่นัดส่ง</th>
+                                               <th>ชื่อลูกค้า</th>
+                                               <th>ชื่อพนักงานขาย</th>
+                                               <th>ชื่อสินค้า</th>
+                                               <th>Action</th>
+                                          </tr>
+                                     </thead>
+                                     <tbody>
+                                     </tbody>
+                                     <tfoot>
+                                     </tfoot>
+                               </table>
+                          </div>
+                     </div>
+                  </div>
+            </div>
+        </div>
+ </div>
+    <!-- End Modal -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+    <!-- Required Js -->
+    <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
+    <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
+    {{-- <script src="{{asset('assets/js/menu-setting.min.js')}}"></script> --}}
+
+    <!-- jquery-validation Js -->
+    <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
+    <!-- sweet alert Js -->
+    <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
+    <!-- datepicker js -->
+    <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
+    <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
+    <!-- prism Js -->
+    <script src="{{asset('assets/js/plugins/prism.js')}}"></script>
+    <script src="{{asset('assets/js/horizontal-menu.js')}}"></script>
+
+    <!-- notification Js -->
+    <script src="{{asset('assets/js/plugins/bootstrap-notify.min.js')}}"></script>
+    <!-- select2 Js -->
+    <script src="{{asset('assets/js/plugins/select2.full.min.js')}}"></script>
     <script>
-     var url_gb = '{{ url('') }}'
-     var emp_code = '{{$result->EmpCode}}';
-     $('body').on('keydown','.number-only',function (e) {
-          // Allow: backspace, delete, tab, escape, enter and .
-          if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-          // Allow: Ctrl+A, Command+A
-          (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-          // Allow: home, end, left, right, down, up
-          (e.keyCode >= 35 && e.keyCode <= 40)) {
-               // let it happen, don't do anything
-               return;
-          }
-          // Ensure that it is a number and stop the keypress
-          if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-               e.preventDefault();
-          }
-     });
+    var url_gb = '{{ url('') }}'
+    var emp_code = '{{$result->EmpCode}}';
+    $('body').on('keydown','.number-only',function (e) {
+         // Allow: backspace, delete, tab, escape, enter and .
+         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+         // Allow: Ctrl+A, Command+A
+         (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+         // Allow: home, end, left, right, down, up
+         (e.keyCode >= 35 && e.keyCode <= 40)) {
+              // let it happen, don't do anything
+              return;
+         }
+         // Ensure that it is a number and stop the keypress
+         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+              e.preventDefault();
+         }
+    });
 
-     function jsDateDiff1(strDate1,strDate2){
-          var theDate1 = Date.parse(strDate1)/1000;
-          var theDate2 = Date.parse(strDate2)/1000;
-          var diff=(theDate2-theDate1)/(60*60*24);
-          return diff;
-     }
+    function jsDateDiff1(strDate1,strDate2){
+         var theDate1 = Date.parse(strDate1)/1000;
+         var theDate2 = Date.parse(strDate2)/1000;
+         var diff=(theDate2-theDate1)/(60*60*24);
+         return diff;
+    }
 
-     function formatDate(date) {
-          var d = new Date(date),
-          month = '' + (d.getMonth() + 1),
-          day = '' + d.getDate(),
-          year = d.getFullYear();
+    function formatDate(date) {
+         var d = new Date(date),
+         month = '' + (d.getMonth() + 1),
+         day = '' + d.getDate(),
+         year = d.getFullYear();
 
-          if (month == 1){
-               month = 'Jan';
-          } else if (month == 2) {
-               month = 'Feb';
-          } else if (month == 3) {
-               month = 'Mar';
-          } else if (month == 4) {
-               month = 'Apr';
-          } else if (month == 5) {
-               month = 'May';
-          } else if (month == 6) {
-               month = 'Jun';
-          } else if (month == 7) {
-               month = 'Jul';
-          } else if (month == 8) {
-               month = 'Aug';
-          } else if (month == 9) {
-               month = 'Sep';
-          } else if (month == 10) {
-               month = 'Oct';
-          } else if (month == 11) {
-               month = 'Nov';
-          } else if (month == 12) {
-               month = 'Dec';
-          }
-          // if (month.length < 2)
-          // month = '0' + month;
-          if (day.length < 2)
-          day = '0' + day;
+         if (month == 1){
+              month = 'Jan';
+         } else if (month == 2) {
+              month = 'Feb';
+         } else if (month == 3) {
+              month = 'Mar';
+         } else if (month == 4) {
+              month = 'Apr';
+         } else if (month == 5) {
+              month = 'May';
+         } else if (month == 6) {
+              month = 'Jun';
+         } else if (month == 7) {
+              month = 'Jul';
+         } else if (month == 8) {
+              month = 'Aug';
+         } else if (month == 9) {
+              month = 'Sep';
+         } else if (month == 10) {
+              month = 'Oct';
+         } else if (month == 11) {
+              month = 'Nov';
+         } else if (month == 12) {
+              month = 'Dec';
+         }
+         // if (month.length < 2)
+         // month = '0' + month;
+         if (day.length < 2)
+         day = '0' + day;
 
-          return [day, month, year].join('-');
-     }
+         return [day, month, year].join('-');
+    }
 
-     function notify(from, align, icon, type, animIn, animOut, title) {
-          $.notify({
-               icon: icon,
-               title:  title,
-               message: '',
-               url: ''
-          }, {
-               element: 'body',
-               type: type,
-               allow_dismiss: true,
-               placement: {
-                    from: from,
-                    align: align
-               },
-               offset: {
-                    x: 30,
-                    y: 30
-               },
-               spacing: 10,
-               z_index: 999999,
-               delay: 2500,
-               timer: 1000,
-               url_target: '_blank',
-               mouse_over: false,
-               animate: {
-                    enter: animIn,
-                    exit: animOut
-               },
-               icon_type: 'class',
-               template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
-               '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
-               '<span data-notify="icon"></span> ' +
-               '<span data-notify="title">{1}</span> ' +
-               '<span data-notify="message">{2}</span>' +
-               '<div class="progress" data-notify="progressbar">' +
-               '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
-               '</div>' +
-               '<a href="{3}" target="{4}" data-notify="url"></a>' +
-               '</div>'
-          });
-     };
-
-     function numIndex() {
-          let allSum = 0;
-          let allSum2 = 0;
-          amount_tranqty = $("#product_amount_tranqty").text();
-          $.each($('#table3').find('.product_share'), function (index, el) {
-               if ($(this).val() != ''){
-                    let sum_list = parseInt($(this).val());
-                    allSum += sum_list;
-                    if (allSum > parseInt(amount_tranqty)){
-                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่มากกว่าจำนวนสินค้าสั่งจอง");
-                         $(this).val("");
-                         $(this).focus();
-                         return false;
-                    } else {
-                         allSum2 += sum_list;
-
-                    }
-               }
-          });
-          $("#sum_amount_product").text(allSum2);
-          $("#product_amount_sent").text(allSum2);
-
-     }
-
-     function truncateString(str, num) {
-          // If the length of str is less than or equal to num
-          // just return str--don't truncate it.
-          if (str.length <= num) {
-               return str
-          }
-          // Return str truncated with '...' concatenated to the end of str.
-          return str.slice(0, num) + '...'
-     }
-
-     $(document).ready(function() {
-          $("#pcoded").pcodedmenu({
-               themelayout: 'horizontal',
-               MenuTrigger: 'hover',
-               SubMenuTrigger: 'hover',
-          });
-
-          $("#send_appointment").daterangepicker({
-               singleDatePicker: true,
-               showDropdowns: true,
-               minYear: 2020,
-               maxYear: parseInt(moment().format('YYYY'),10),
-               locale: {
-                    format: 'DD MMM YYYY'
-               }
-          });
-
-          $(".js-example-data-array").select2();
-     });
-
-     $(function(){
-          $('.btn-circle').on('click',function(){
-               $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
-               $(this).addClass('btn-info').removeClass('btn-default').blur();
-          });
-
-          $('.next-step').on('click', function (e){
-               e.preventDefault();
-               numIndex();
-               var data = $(this).data("id");
-
-               if (data == 1){
-                    if (!$('#DocuNO').val()) {
-                         $('#DocuNO').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
-                    if (!$('#DocuDate').val()) {
-                         $('#DocuDate').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
-                    if (!$('#send_appointment').val()) {
-                         $('#send_appointment').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
-                    if (!$('#CustCode').val()) {
-                         $('#CustCode').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
-                    if (!$('#EmpCode').val()) {
-                         $('#EmpCode').focus();
-                         $('.form-1').addClass('was-validated');
-                         return false;
-                    }
-                    if (!$('#GoodCode').val()) {
-                         $('#GoodCode').focus();
-                         $('.form-1').addClass('was-validated');
-                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสสินค้า");
-                         return false;
-                    }
-                    $.ajax({
-                         method : "post",
-                         url : '{{ route('customer.get_cust_code')}}',
-                         dataType : 'json',
-                         data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
-                         headers: {
-                              'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                         },
-                         beforeSend: function() {
-                              $("#preloaders").css("display", "block");
-                         },
-                    }).done(function(rec){
-                         $("#preloaders").css("display", "none");
-                         $("#table1 tbody").empty();
-                         if(rec.status==1){
-                              let tr = '';
-                              if (rec.datas.length > 0){
-                                   $.each(rec.datas, function( key, data ) {
-                                        tr += '<tr>';
-                                        tr += '<td>';
-                                        tr += '<input type="radio" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
-                                        tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                        // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
-                                        tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                        tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
-                                        tr += '<input type="hidden" id="EmpCode'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
-                                        tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
-                                        tr += '</td>';
-                                        tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
-                                        tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                        tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
-                                        tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
-                                        tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
-                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                        tr += '<td class="text-right">0</td>';
-                                        tr += '</tr>';
-                                   });
-                              } else {
-                                   tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                              }
-                              $("#table1 tbody").append(tr);
-                         } else {
-                              swal("", rec.content, "warning");
-                         }
-                    }).fail(function(){
-                         $("#preloaders").css("display", "none");
-                         swal("", rec.content, "error");
-                    });
-               }
-               else if(data == 2) {
-                    $("#share_product_radio_1").prop("checked", true);
-                    $("#share_product_radio_2").prop("checked", false);
-                    $("#table2 tbody").empty();
-                    $("#table3 tbody").empty();
-                    var valids = new Array();
-                    var doc_ids = new Array();
-                    $('.ref_soco_id').each(function(i, obj) {
-                         valids.push($(obj).prop("checked"));
-                         doc_ids.push($(obj).val());
-                    });
-                    if (jQuery.inArray( true, valids ) != -1) {
-                         for (var i = 0; i < valids.length; i++) {
-                              if(valids[i] == true){
-                                   let tr = '';
-                                   // a = $(".tr_"+doc_ids[i]).clone();
-                                   let ref_soco_no = $("#span_ref_soco_no_"+doc_ids[i]).text();
-                                   let docudate = $("#span_docudate_"+doc_ids[i]).text();
-                                   let date_amount = $("#span_date_amount_"+doc_ids[i]).text();
-                                   let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
-                                   let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
-                                   let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
-                                   let shipdate = $("#ship_date_"+doc_ids[i]).val();
-                                   let goodcode = $("#GoodCode").val();
-                                   let EmpCode = $("#EmpCode"+doc_ids[i]).val();
-                                   let refsocoid = $("#soco_id_"+doc_ids[i]).val();
-                                   let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
-                                   let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
-                                   tr += '<tr>';
-                                   tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
-                                   tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
-                                   tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
-                                   tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
-                                   tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
-                                   tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
-                                   tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
-                                   tr += '</td>';
-                                   tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
-                                   tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
-                                   tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
-                                   tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
-                                   tr += '<td class="text-right"><span id="product_amount_tranqty">'+tranqty+'</span></td>';
-                                   tr += '<td class="text-right"><span id="product_amount_sent">0</span></td>';
-                                   tr += '</tr>';
-                                   $("#table2 tbody").append(tr);
-
-                                   $.ajax({
-                                        method : "post",
-                                        url : '{{ route('customer.get_default_product')}}',
-                                        dataType : 'json',
-                                        data : $("#get_product_form").serialize(),
-                                        headers: {
-                                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                                        },
-                                        beforeSend: function() {
-                                             $("#preloaders").css("display", "block");
-                                        },
-                                   }).done(function(rec){
-                                        $("#preloaders").css("display", "none");
-                                        $("#table3 tbody").empty();
-                                        if(rec.status==1){
-                                             let tr = '';
-                                             let chkbox = '';
-                                             if (rec.datas.length > 0){
-                                                  $.each(rec.datas, function( key, data ) {
-                                                       if (data.Flag_st.length == 0){
-                                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
-                                                       }
-                                                       tr += '<tr>';
-                                                       tr += '<td>';
-                                                       tr += chkbox;
-                                                       tr += '</td>';
-                                                       tr += '<td>';
-                                                       tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                                       tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                                       tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
-                                                       tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
-                                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
-                                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
-                                                       tr += '</td>';
-                                                       tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
-                                                       tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
-                                                       tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
-                                                       tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                                       tr += '</tr>';
-                                                  });
-                                             } else {
-                                                  tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                                             }
-                                             $("#table3 tbody").append(tr);
-
-                                             $('.product_share_chk').on('click', function() {
-                                                  var val = $(this).data("value");
-                                                  var container = $(this).data("container");
-                                                  if ($(this).is(':checked')) {
-                                                       $(".product_share_" + val + "_" + container).attr("readonly", false);
-                                                       $(".product_share_" + val + "_" + container).focus();
-                                                  } else {
-                                                       $(".product_share_" + val + "_" + container).attr("readonly", true);
-                                                       $(".product_share_" + val + "_" + container).val("");
-                                                  }
-                                                  numIndex();
-                                             });
-
-                                             $('.product_share').on('keyup', function() {
-                                                  var data = $(this).val();
-                                                  var data_value = $(this).data("value");
-                                                  // var tran_qty = $("#tran_qty_"+data_value).text();
-                                                  var tran_qty = $("#TranQty_"+data_value).text();
-                                                  if (parseInt(data) > parseInt(tran_qty)) {
-                                                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
-                                                       $(this).val("");
-                                                       $(this).focus();
-                                                  } else {
-                                                       numIndex();
-                                                  }
-                                             });
-                                        } else {
-                                             swal("", rec.content, "warning");
-                                        }
-                                   }).fail(function(){
-                                        $("#preloaders").css("display", "none");
-                                        swal("", rec.content, "error");
-                                   });
-                              }
-                         }
-                    } else {
-                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
-                         return false;
-                    }
-               }
-               else if (data == 3) {
-                    $("#table4 tbody").empty();
-                    $("#table4 tfoot").empty();
-                    $("#table5 tbody").empty();
-                    var valids = new Array();
-                    var product_share_chk_arr = new Array();
-                    $('.product_share_chk').each(function(i, obj) {
-                         valids.push($(obj).prop("checked"));
-                         product_share_chk_arr.push($(obj).data("value"));
-                    });
-
-                    if (jQuery.inArray(true, valids) != -1) {
-                         let sum_total = 0;
-                         for (var i = 0; i < product_share_chk_arr.length; i++) {
-                              if($("#product_share_" + product_share_chk_arr[i]).val() == ''){
-                                   if ($("#product_share_chk_" + product_share_chk_arr[i]).prop("checked")){
-                                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
-                                        return false;
-                                   }
-                              } else {
-                                   sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
-
-                                   let RefSOCOID = $("#RefSOCOID_" + product_share_chk_arr[i]).val();
-                                   let RefListNO = $("#RefListNO_" + product_share_chk_arr[i]).val();
-                                   let CustName = $("#CustName_" + product_share_chk_arr[i]).val();
-                                   let EmpCode = $("#EmpCode_" + product_share_chk_arr[i]).val();
-                                   let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
-                                   let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
-                                   let DocuDate2 = $("#DocuDate2_" + product_share_chk_arr[i]).val();
-                                   let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
-                                   let ContainerNO = $("#ContainerNO_" + product_share_chk_arr[i]).text();
-                                   let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
-                                   let TranQty = $("#TranQty_" + product_share_chk_arr[i]).text();
-                                   let product_share = $("#product_share_" + product_share_chk_arr[i]).val();
-
-                                   let tr = '';
-                                   tr += '<tr>';
-                                   tr += '<td>';
-                                   tr += RefSOCONo;
-                                   tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
-                                   tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
-                                   tr += '<input type="hidden" name="tb4_RefSOCONo[]" value="'+RefSOCONo+'">';
-                                   tr += '<input type="hidden" name="tb4_DocuDate[]" value="'+DocuDate2+'">';
-                                   tr += '<input type="hidden" name="tb4_CustName[]" value="'+CustName+'">';
-                                   tr += '<input type="hidden" name="tb4_EmpCode[]" value="'+EmpCode+'">';
-                                   tr += '<input type="hidden" name="tb4_EmpName[]" value="'+EmpName+'">';
-                                   tr += '<input type="hidden" name="tb4_ContainerNO[]" value="'+ContainerNO+'">';
-                                   tr += '<input type="hidden" name="tb4_Flag_st[]" value="'+Flag_st+'">';
-                                   tr += '<input type="hidden" name="tb4_TranQty[]" value="'+TranQty+'">';
-                                   tr += '<input type="hidden" name="tb4_SplitQty[]" value="'+product_share+'">';
-                                   tr += '</td>';
-                                   tr += '<td>'+DocuDate+'</td>';
-                                   tr += '<td>'+EmpName+'</td>';
-                                   tr += '<td>'+ContainerNO+'</td>';
-                                   tr += '<td>'+Flag_st+'</td>';
-                                   tr += '<td class="text-right">'+TranQty+'</td>';
-                                   tr += '<td class="text-right">'+product_share+'</td>';
-                                   tr += '</tr>';
-                                   $("#table4 tbody").append(tr);
-                              }
-
-                         }
-                         if (sum_total > parseInt($("#sum_amount_product").text())){
-                              notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่เกินจำนวนสินค้าสั่งจอง");
-                              return false;
-                         } else {
-                              let tf = '';
-                              tf += '<tr>';
-                              tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
-                              tf += '<td class="text-right">'+sum_total+'</td>';
-                              tf += '</tr>';
-                              $("#table4 tfoot").append(tf);
-
-                              let tb2_refsocoid = $("#tb2_refsocoid").val();
-                              let tb2_RefListNO = $("#tb2_RefListNO").val();
-                              let tb2_DocuDate2 = $("#tb2_DocuDate2").val();
-                              let tb2_refsocono = $("#tb2_refsocono").text();
-                              let tb2_goodcode = $("#tb2_goodcode").val();
-                              let tb2_shipdate = $("#tb2_shipdate").val();
-                              let tb2_EmpCode = $("#tb2_EmpCode").val();
-                              let tb2_docudate = $("#tb2_docudate").text();
-                              let tb2_date_amount = $("#tb2_date_amount").text();
-                              let tb2_cus_address = $("#tb2_cus_address").text();
-                              let tb2_goodprice = $("#tb2_goodprice").text();
-                              let product_amount_tranqty = $("#product_amount_tranqty").text();
-                              let tr = '';
-
-                              var modify_good_name = ($("#GoodCode option:selected").text());
-                              var a = modify_good_name.split(":");
-                              tr += '<tr>';
-                              tr += '<td>';
-                              tr += tb2_refsocono;
-                              tr += '<input type="hidden" name="GoodCode" value="'+tb2_goodcode+'">'
-                              tr += '<input type="hidden" name="GoodName1" value="'+a[1]+'">'
-                              tr += '<input type="hidden" name="ShipDate" value="'+tb2_shipdate+'">'
-                              tr += '<input type="hidden" name="RefSOCOID" value="'+tb2_refsocoid+'">'
-                              tr += '<input type="hidden" name="RefListNO" value="'+tb2_RefListNO+'">'
-                              tr += '<input type="hidden" name="RefSOCONo" value="'+tb2_refsocono+'">'
-                              tr += '<input type="hidden" name="DocuDate2" value="'+tb2_DocuDate2+'">'
-                              tr += '<input type="hidden" name="CustAddress" value="'+tb2_cus_address+'">'
-                              tr += '<input type="hidden" name="GoodPrice2" value="'+tb2_goodprice+'">'
-                              tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
-                              tr += '<input type="hidden" name="SentQty" value="'+sum_total+'">'
-                              tr += '</td>';
-                              tr += '<td class="text-right">'+tb2_docudate+'</td>';
-                              tr += '<td>'+tb2_date_amount+'</td>';
-                              tr += '<td><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
-                              tr += '<td class="text-right">'+tb2_goodprice+'</td>';
-                              tr += '<td class="text-right">'+product_amount_tranqty+'</td>';
-                              tr += '<td class="text-right">'+sum_total+'</td>';
-                              tr += '</tr>';
-                              $("#table5 tbody").append(tr);
-                         }
-                    } else {
-                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
-                         return false;
-                    }
-
-               }
-               var next = data+1;
-               $("#menu" + data).removeClass('active');
-               $("#menu" + data).removeClass('in');
-               $("#menu" + next).addClass('active');
-               $("#menu" + next).addClass('in');
-
-               $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-               $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
-          });
-
-          $('.prev-step').on('click', function (e){
-               e.preventDefault();
-               numIndex();
-               var data = $(this).data("id");
-               var prev = data-1;
-               if (data == 3){
-                    $(".ref_soco_id").prop("checked", false);
-               }
-               $("#menu" + data).removeClass('active');
-               $("#menu" + data).removeClass('in');
-               $("#menu" + prev).addClass('active');
-               $("#menu" + prev).addClass('in');
-
-               $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-               $("#icon-"+prev).addClass('btn-info').removeClass('btn-default');
-          });
-
-          $('input[name=share_product_radio]').on('change', function() {
-               numIndex();
-               $.ajax({
-                    method : "post",
-                    url : '{{ route('customer.get_product')}}',
-                    dataType : 'json',
-                    data : $("#get_product_form").serialize(),
-                    headers: {
-                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    },
-                    beforeSend: function() {
-                         $("#preloaders").css("display", "block");
-                    },
-               }).done(function(rec){
-                    $("#preloaders").css("display", "none");
-                    $("#table3 tbody").empty();
-                    if(rec.status==1){
-                         let tr = '';
-                         if (rec.datas.length > 0){
-                              $.each(rec.datas, function( key, data ) {
-                                   if (data.Flag_st.length == 0){
-                                        chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
-                                   } else {
-                                        chkbox = '';
-                                   }
-                                   tr += '<tr>';
-                                   tr += '<td>';
-                                   tr += chkbox;
-                                   tr += '</td>';
-                                   tr += '<td>';
-                                   tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
-                                   tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                   tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
-                                   tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
-                                   tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
-                                   tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
-                                   tr += '</td>';
-                                   tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                   tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
-                                   tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
-                                   tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
-                                   tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
-                                   tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                   tr += '</tr>';
-                              });
-                         } else {
-                              tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                         }
-                         $("#table3 tbody").append(tr);
-
-                         $('.product_share_chk').on('click', function() {
-                              var val = $(this).data("value");
-                              var container = $(this).data("container");
-                              if ($(this).is(':checked')) {
-                                   $(".product_share_" + val + "_" + container).attr("readonly", false);
-                                   $(".product_share_" + val + "_" + container).focus();
-                              } else {
-                                   $(".product_share_" + val + "_" + container).attr("readonly", true);
-                                   $(".product_share_" + val + "_" + container).val("");
-                              }
-                              numIndex();
-                         });
-
-                         $('.product_share').on('keyup', function() {
-                              var data = $(this).val();
-                              var data_value = $(this).data("value");
-                              // var tran_qty = $("#tran_qty_"+data_value).text();
-                              var tran_qty = $("#TranQty_"+data_value).text();
-                              if (parseInt(data) > parseInt(tran_qty)) {
-                                   notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
-                                   $(this).val("");
-                                   $(this).focus();
-                              } else {
-                                   numIndex();
-                              }
-                         });
-                    } else {
-                         swal("", rec.content, "warning");
-                    }
-               }).fail(function(){
-                    $("#preloaders").css("display", "none");
-                    swal("", rec.content, "error");
-               });
-          });
-
-          $('#FormAdd').validate({
-             errorElement: 'div',
-             errorClass: 'invalid-feedback',
-             focusInvalid: false,
-             rules: {
-
-             },
-             messages: {
-
-             },
-             highlight: function (e) {
-                 validate_highlight(e);
-             },
-             success: function (e) {
-                 validate_success(e);
-             },
-             errorPlacement: function (error, element) {
-                 validate_errorplacement(error, element);
-             },
-             submitHandler: function (form) {
-                 $("#FormAdd").find('[type="submit"]').prop('disabled', true);;
-                 share_product_radio = $('input[name=share_product_radio]:checked').val();
-                 data = $("#FormAdd").serializeArray();
-                 data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
-                 data.push({ name: 'DocuDate', value: $("#DocuDate").val()});
-                 data.push({ name: 'CustCode', value: $("#CustCode").val()});
-                 data.push({ name: 'CustName', value: $("#CustName").val()});
-                 data.push({ name: 'EmpCode', value: $("#EmpCode").val()});
-                 data.push({ name: 'empname', value: $("#empname").val()});
-                 data.push({ name: 'share_product_radio', value: share_product_radio});
-                 $.ajax({
-                     method : "POST",
-                     url : '{{ route('customer.store') }}',
-                     dataType : 'json',
-                     data : data,
-                     headers: {
-                          'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                     },
-                 }).done(function(rec){
-                     if (rec.status == 1) {
-                          notify("bottom", "left", "fas fa-check-circle", "success", "", "", "สำเร็จ");
-                          $("#menu4").removeClass('active');
-                          $("#menu4").removeClass('in');
-                          $("#menu5").addClass('active');
-                          $("#menu5").addClass('in');
-                     } else {
-                          notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
-                     }
-                 }).fail(function(){
-
-                 });
-             },
-             invalidHandler: function (form) {
-
-             }
+    function notify(from, align, icon, type, animIn, animOut, title) {
+         $.notify({
+              icon: icon,
+              title:  title,
+              message: '',
+              url: ''
+         }, {
+              element: 'body',
+              type: type,
+              allow_dismiss: true,
+              placement: {
+                   from: from,
+                   align: align
+              },
+              offset: {
+                   x: 30,
+                   y: 30
+              },
+              spacing: 10,
+              z_index: 999999,
+              delay: 2500,
+              timer: 1000,
+              url_target: '_blank',
+              mouse_over: false,
+              animate: {
+                   enter: animIn,
+                   exit: animOut
+              },
+              icon_type: 'class',
+              template: '<div data-notify="container" class="col-xs-11 col-sm-3 alert alert-{0}" role="alert">' +
+              '<button type="button" aria-hidden="true" class="close" data-notify="dismiss">×</button>' +
+              '<span data-notify="icon"></span> ' +
+              '<span data-notify="title">{1}</span> ' +
+              '<span data-notify="message">{2}</span>' +
+              '<div class="progress" data-notify="progressbar">' +
+              '<div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div>' +
+              '</div>' +
+              '<a href="{3}" target="{4}" data-notify="url"></a>' +
+              '</div>'
          });
-     });
+    };
+
+    function numIndex() {
+         let allSum = 0;
+         let allSum2 = 0;
+         amount_tranqty = $("#product_amount_tranqty").text();
+         $.each($('#table3').find('.product_share'), function (index, el) {
+              if ($(this).val() != ''){
+                   let sum_list = parseInt($(this).val());
+                   allSum += sum_list;
+                   if (allSum > parseInt(amount_tranqty)){
+                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่มากกว่าจำนวนสินค้าสั่งจอง");
+                        $(this).val("");
+                        $(this).focus();
+                        return false;
+                   } else {
+                        allSum2 += sum_list;
+
+                   }
+              }
+         });
+         $("#sum_amount_product").text(allSum2);
+         $("#product_amount_sent").text(allSum2);
+
+    }
+
+    function truncateString(str, num) {
+         // If the length of str is less than or equal to num
+         // just return str--don't truncate it.
+         if (str.length <= num) {
+              return str
+         }
+         // Return str truncated with '...' concatenated to the end of str.
+         return str.slice(0, num) + '...'
+    }
+    $(document).ready(function() {
+         $("#pcoded").pcodedmenu({
+              themelayout: 'horizontal',
+              MenuTrigger: 'hover',
+              SubMenuTrigger: 'hover',
+         });
+
+         $('.btn-history').on('click',function(){
+              $("#tableHD tbody").empty();
+              $.ajax({
+                   method : "POST",
+                   url : '{{ route('customer.getSelfProduct') }}',
+                   dataType : 'json',
+                   data : { EmpCode : '{{$result->EmpCode}}'},
+                   headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                   },
+              }).done(function(rec){
+                   if (rec.status == 1) {
+                        let tr = '';
+                        if (rec.hds.length > 0){
+                             let no = 1;
+                             $.each(rec.hds, function( key, hd ) {
+                                  tr += '<tr>';
+                                  tr += '<td class="text-center">'+no+'</td>';
+                                  tr += '<td class="text-center">'+hd.DocuNO+'</td>';
+                                  tr += '<td class="text-center">'+formatDate(hd.DocuDate)+'</td>';
+                                  tr += '<td class="text-center">'+formatDate(hd.ShipDate)+'</td>';
+                                  tr += '<td class="text-center">'+hd.CustName+'</td>';
+                                  tr += '<td class="text-center">'+hd.EmpName+'</td>';
+                                  tr += '<td class="text-center">'+hd.GoodCode+'</td>';
+                                  tr += '<td class="text-center">';
+                                  tr += '<div class="btn-group btn-group-sm">';
+                                  tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView">';
+                                  tr += '<i class="fas fa-eye bigger-120"></i>';
+                                  tr += '</button>';
+                                  tr += '</div>';
+                                  tr += '</td>';
+                                  tr += '</tr>';
+                                  no++;
+                             });
+                        } else {
+                             tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                        }
+                        $("#tableHD tbody").append(tr);
+                        $("#HistoryModal").addClass("in");
+                   } else {
+                        notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
+                   }
+              }).fail(function(){
+
+              });
+         });
+
+         $('.btn-view').on('click',function(){
+              $("#ModalView").addClass("in");
+              // $.ajax({
+              //      method : "POST",
+              //      url : '{{ route('customer.getSelfProductDetail') }}',
+              //      dataType : 'json',
+              //      data : { EmpCode : '{{$result->EmpCode}}'},
+              //      headers: {
+              //           'X-CSRF-TOKEN': "{{ csrf_token() }}"
+              //      },
+              // }).done(function(rec){
+              //      if (rec.status == 1) {
+              //           let tr = '';
+              //           if (rec.hds.length > 0){
+              //                let no = 1;
+              //                $.each(rec.hds, function( key, hd ) {
+              //                     tr += '<tr>';
+              //                     tr += '<td class="text-center">'+no+'</td>';
+              //                     tr += '</tr>';
+              //                     no++;
+              //                });
+              //           } else {
+              //                tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+              //           }
+              //           $("#tableDT tbody").append(tr);
+              //
+              //      } else {
+              //           notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
+              //      }
+              // }).fail(function(){
+              //
+              // });
+         });
+
+         $("#send_appointment").daterangepicker({
+              singleDatePicker: true,
+              showDropdowns: true,
+              minYear: 2020,
+              maxYear: parseInt(moment().format('YYYY'),10),
+              locale: {
+                   format: 'DD MMM YYYY'
+              }
+         });
+
+         $(".js-example-data-array").select2();
+
+         $('.btn-circle').on('click',function(){
+              $('.btn-circle.btn-info').removeClass('btn-info').addClass('btn-default');
+              $(this).addClass('btn-info').removeClass('btn-default').blur();
+         });
+
+         $('.next-step').on('click', function (e){
+              e.preventDefault();
+              numIndex();
+              var data = $(this).data("id");
+
+              if (data == 1){
+                   if (!$('#DocuNO').val()) {
+                        $('#DocuNO').focus();
+                        $('.form-1').addClass('was-validated');
+                        return false;
+                   }
+                   if (!$('#DocuDate').val()) {
+                        $('#DocuDate').focus();
+                        $('.form-1').addClass('was-validated');
+                        return false;
+                   }
+                   if (!$('#send_appointment').val()) {
+                        $('#send_appointment').focus();
+                        $('.form-1').addClass('was-validated');
+                        return false;
+                   }
+                   if (!$('#CustCode').val()) {
+                        $('#CustCode').focus();
+                        $('.form-1').addClass('was-validated');
+                        return false;
+                   }
+                   if (!$('#EmpCode').val()) {
+                        $('#EmpCode').focus();
+                        $('.form-1').addClass('was-validated');
+                        return false;
+                   }
+                   if (!$('#GoodCode').val()) {
+                        $('#GoodCode').focus();
+                        $('.form-1').addClass('was-validated');
+                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาระบุรหัสสินค้า");
+                        return false;
+                   }
+                   $.ajax({
+                        method : "post",
+                        url : '{{ route('customer.get_cust_code')}}',
+                        dataType : 'json',
+                        data : {"CustCode" : $("#CustCode").val(), "GoodCode": $("#GoodCode").val(), "ShipDate": $("#send_appointment").val()},
+                        headers: {
+                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                        beforeSend: function() {
+                             $("#preloaders").css("display", "block");
+                        },
+                   }).done(function(rec){
+                        $("#preloaders").css("display", "none");
+                        $("#table1 tbody").empty();
+                        if(rec.status==1){
+                             let tr = '';
+                             if (rec.datas.length > 0){
+                                  $.each(rec.datas, function( key, data ) {
+                                       tr += '<tr>';
+                                       tr += '<td>';
+                                       tr += '<input type="radio" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
+                                       tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                       // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
+                                       tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                       tr += '<input type="hidden" id="ship_date_'+data.RefSOCOID+'" value="'+data.ShipDate+'">';
+                                       tr += '<input type="hidden" id="EmpCode'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
+                                       tr += '</td>';
+                                       tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
+                                       tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                       tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
+                                       tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
+                                       tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
+                                       tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                       tr += '<td class="text-right">0</td>';
+                                       tr += '</tr>';
+                                  });
+                             } else {
+                                  tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                             }
+                             $("#table1 tbody").append(tr);
+                        } else {
+                             swal("", rec.content, "warning");
+                        }
+                   }).fail(function(){
+                        $("#preloaders").css("display", "none");
+                        swal("", rec.content, "error");
+                   });
+              }
+              else if(data == 2) {
+                   $("#share_product_radio_1").prop("checked", true);
+                   $("#share_product_radio_2").prop("checked", false);
+                   $("#table2 tbody").empty();
+                   $("#table3 tbody").empty();
+                   var valids = new Array();
+                   var doc_ids = new Array();
+                   $('.ref_soco_id').each(function(i, obj) {
+                        valids.push($(obj).prop("checked"));
+                        doc_ids.push($(obj).val());
+                   });
+                   if (jQuery.inArray( true, valids ) != -1) {
+                        for (var i = 0; i < valids.length; i++) {
+                             if(valids[i] == true){
+                                  let tr = '';
+                                  // a = $(".tr_"+doc_ids[i]).clone();
+                                  let ref_soco_no = $("#span_ref_soco_no_"+doc_ids[i]).text();
+                                  let docudate = $("#span_docudate_"+doc_ids[i]).text();
+                                  let date_amount = $("#span_date_amount_"+doc_ids[i]).text();
+                                  let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
+                                  let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
+                                  let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
+                                  let shipdate = $("#ship_date_"+doc_ids[i]).val();
+                                  let goodcode = $("#GoodCode").val();
+                                  let EmpCode = $("#EmpCode"+doc_ids[i]).val();
+                                  let refsocoid = $("#soco_id_"+doc_ids[i]).val();
+                                  let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
+                                  let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
+                                  tr += '<tr>';
+                                  tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
+                                  tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
+                                  tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
+                                  tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
+                                  tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
+                                  tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
+                                  tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
+                                  tr += '</td>';
+                                  tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
+                                  tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
+                                  tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
+                                  tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
+                                  tr += '<td class="text-right"><span id="product_amount_tranqty">'+tranqty+'</span></td>';
+                                  tr += '<td class="text-right"><span id="product_amount_sent">0</span></td>';
+                                  tr += '</tr>';
+                                  $("#table2 tbody").append(tr);
+
+                                  $.ajax({
+                                       method : "post",
+                                       url : '{{ route('customer.get_default_product')}}',
+                                       dataType : 'json',
+                                       data : $("#get_product_form").serialize(),
+                                       headers: {
+                                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                                       },
+                                       beforeSend: function() {
+                                            $("#preloaders").css("display", "block");
+                                       },
+                                  }).done(function(rec){
+                                       $("#preloaders").css("display", "none");
+                                       $("#table3 tbody").empty();
+                                       if(rec.status==1){
+                                            let tr = '';
+                                            let chkbox = '';
+                                            if (rec.datas.length > 0){
+                                                 $.each(rec.datas, function( key, data ) {
+                                                      if (data.Flag_st.length == 0){
+                                                           chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
+                                                      } else {
+                                                           chkbox = '';
+                                                      }
+                                                      tr += '<tr>';
+                                                      tr += '<td>';
+                                                      tr += chkbox;
+                                                      tr += '</td>';
+                                                      tr += '<td>';
+                                                      tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                                      tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                                      tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                                      tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                                      tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
+                                                      tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
+                                                      tr += '</td>';
+                                                      tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                                      tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
+                                                      tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
+                                                      tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
+                                                      tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                                      tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                      tr += '</tr>';
+                                                 });
+                                            } else {
+                                                 tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                                            }
+                                            $("#table3 tbody").append(tr);
+
+                                            $('.product_share_chk').on('click', function() {
+                                                 var val = $(this).data("value");
+                                                 var container = $(this).data("container");
+                                                 if ($(this).is(':checked')) {
+                                                      $(".product_share_" + val + "_" + container).attr("readonly", false);
+                                                      $(".product_share_" + val + "_" + container).focus();
+                                                 } else {
+                                                      $(".product_share_" + val + "_" + container).attr("readonly", true);
+                                                      $(".product_share_" + val + "_" + container).val("");
+                                                 }
+                                                 numIndex();
+                                            });
+
+                                            $('.product_share').on('keyup', function() {
+                                                 var data = $(this).val();
+                                                 var data_value = $(this).data("value");
+                                                 // var tran_qty = $("#tran_qty_"+data_value).text();
+                                                 var tran_qty = $("#TranQty_"+data_value).text();
+                                                 if (parseInt(data) > parseInt(tran_qty)) {
+                                                      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
+                                                      $(this).val("");
+                                                      $(this).focus();
+                                                 } else {
+                                                      numIndex();
+                                                 }
+                                            });
+                                       } else {
+                                            swal("", rec.content, "warning");
+                                       }
+                                  }).fail(function(){
+                                       $("#preloaders").css("display", "none");
+                                       swal("", rec.content, "error");
+                                  });
+                             }
+                        }
+                   } else {
+                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                        return false;
+                   }
+              }
+              else if (data == 3) {
+                   $("#table4 tbody").empty();
+                   $("#table4 tfoot").empty();
+                   $("#table5 tbody").empty();
+                   var valids = new Array();
+                   var product_share_chk_arr = new Array();
+                   $('.product_share_chk').each(function(i, obj) {
+                        valids.push($(obj).prop("checked"));
+                        product_share_chk_arr.push($(obj).data("value"));
+                   });
+
+                   if (jQuery.inArray(true, valids) != -1) {
+                        let sum_total = 0;
+                        for (var i = 0; i < product_share_chk_arr.length; i++) {
+                             if($("#product_share_" + product_share_chk_arr[i]).val() == ''){
+                                  if ($("#product_share_chk_" + product_share_chk_arr[i]).prop("checked")){
+                                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
+                                       return false;
+                                  }
+                             } else {
+                                  sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
+
+                                  let RefSOCOID = $("#RefSOCOID_" + product_share_chk_arr[i]).val();
+                                  let RefListNO = $("#RefListNO_" + product_share_chk_arr[i]).val();
+                                  let CustName = $("#CustName_" + product_share_chk_arr[i]).val();
+                                  let EmpCode = $("#EmpCode_" + product_share_chk_arr[i]).val();
+                                  let RefSOCONo = $("#RefSOCONo_" + product_share_chk_arr[i]).text();
+                                  let DocuDate = $("#DocuDate_" + product_share_chk_arr[i]).text();
+                                  let DocuDate2 = $("#DocuDate2_" + product_share_chk_arr[i]).val();
+                                  let EmpName = $("#EmpName_" + product_share_chk_arr[i]).text();
+                                  let ContainerNO = $("#ContainerNO_" + product_share_chk_arr[i]).text();
+                                  let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
+                                  let TranQty = $("#TranQty_" + product_share_chk_arr[i]).text();
+                                  let product_share = $("#product_share_" + product_share_chk_arr[i]).val();
+
+                                  let tr = '';
+                                  tr += '<tr>';
+                                  tr += '<td>';
+                                  tr += RefSOCONo;
+                                  tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
+                                  tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
+                                  tr += '<input type="hidden" name="tb4_RefSOCONo[]" value="'+RefSOCONo+'">';
+                                  tr += '<input type="hidden" name="tb4_DocuDate[]" value="'+DocuDate2+'">';
+                                  tr += '<input type="hidden" name="tb4_CustName[]" value="'+CustName+'">';
+                                  tr += '<input type="hidden" name="tb4_EmpCode[]" value="'+EmpCode+'">';
+                                  tr += '<input type="hidden" name="tb4_EmpName[]" value="'+EmpName+'">';
+                                  tr += '<input type="hidden" name="tb4_ContainerNO[]" value="'+ContainerNO+'">';
+                                  tr += '<input type="hidden" name="tb4_Flag_st[]" value="'+Flag_st+'">';
+                                  tr += '<input type="hidden" name="tb4_TranQty[]" value="'+TranQty+'">';
+                                  tr += '<input type="hidden" name="tb4_SplitQty[]" value="'+product_share+'">';
+                                  tr += '</td>';
+                                  tr += '<td>'+DocuDate+'</td>';
+                                  tr += '<td>'+EmpName+'</td>';
+                                  tr += '<td>'+ContainerNO+'</td>';
+                                  tr += '<td>'+Flag_st+'</td>';
+                                  tr += '<td class="text-right">'+TranQty+'</td>';
+                                  tr += '<td class="text-right">'+product_share+'</td>';
+                                  tr += '</tr>';
+                                  $("#table4 tbody").append(tr);
+                             }
+
+                        }
+                        if (sum_total > parseInt($("#sum_amount_product").text())){
+                             notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่เกินจำนวนสินค้าสั่งจอง");
+                             return false;
+                        } else {
+                             let tf = '';
+                             tf += '<tr>';
+                             tf += '<td colspan="6" class="text-right">รวมจำนวนสินค้า</td>';
+                             tf += '<td class="text-right">'+sum_total+'</td>';
+                             tf += '</tr>';
+                             $("#table4 tfoot").append(tf);
+
+                             let tb2_refsocoid = $("#tb2_refsocoid").val();
+                             let tb2_RefListNO = $("#tb2_RefListNO").val();
+                             let tb2_DocuDate2 = $("#tb2_DocuDate2").val();
+                             let tb2_refsocono = $("#tb2_refsocono").text();
+                             let tb2_goodcode = $("#tb2_goodcode").val();
+                             let tb2_shipdate = $("#tb2_shipdate").val();
+                             let tb2_EmpCode = $("#tb2_EmpCode").val();
+                             let tb2_docudate = $("#tb2_docudate").text();
+                             let tb2_date_amount = $("#tb2_date_amount").text();
+                             let tb2_cus_address = $("#tb2_cus_address").text();
+                             let tb2_goodprice = $("#tb2_goodprice").text();
+                             let product_amount_tranqty = $("#product_amount_tranqty").text();
+                             let tr = '';
+
+                             var modify_good_name = ($("#GoodCode option:selected").text());
+                             var a = modify_good_name.split(":");
+                             tr += '<tr>';
+                             tr += '<td>';
+                             tr += tb2_refsocono;
+                             tr += '<input type="hidden" name="GoodCode" value="'+tb2_goodcode+'">'
+                             tr += '<input type="hidden" name="GoodName1" value="'+a[1]+'">'
+                             tr += '<input type="hidden" name="ShipDate" value="'+tb2_shipdate+'">'
+                             tr += '<input type="hidden" name="RefSOCOID" value="'+tb2_refsocoid+'">'
+                             tr += '<input type="hidden" name="RefListNO" value="'+tb2_RefListNO+'">'
+                             tr += '<input type="hidden" name="RefSOCONo" value="'+tb2_refsocono+'">'
+                             tr += '<input type="hidden" name="DocuDate2" value="'+tb2_DocuDate2+'">'
+                             tr += '<input type="hidden" name="CustAddress" value="'+tb2_cus_address+'">'
+                             tr += '<input type="hidden" name="GoodPrice2" value="'+tb2_goodprice+'">'
+                             tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
+                             tr += '<input type="hidden" name="SentQty" value="'+sum_total+'">'
+                             tr += '</td>';
+                             tr += '<td class="text-right">'+tb2_docudate+'</td>';
+                             tr += '<td>'+tb2_date_amount+'</td>';
+                             tr += '<td><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
+                             tr += '<td class="text-right">'+tb2_goodprice+'</td>';
+                             tr += '<td class="text-right">'+product_amount_tranqty+'</td>';
+                             tr += '<td class="text-right">'+sum_total+'</td>';
+                             tr += '</tr>';
+                             $("#table5 tbody").append(tr);
+                        }
+                   } else {
+                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
+                        return false;
+                   }
+
+              }
+              var next = data+1;
+              $("#menu" + data).removeClass('active');
+              $("#menu" + data).removeClass('in');
+              $("#menu" + next).addClass('active');
+              $("#menu" + next).addClass('in');
+
+              $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+              $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
+         });
+
+         $('.prev-step').on('click', function (e){
+              e.preventDefault();
+              numIndex();
+              var data = $(this).data("id");
+              var prev = data-1;
+              if (data == 3){
+                   $(".ref_soco_id").prop("checked", false);
+              }
+              $("#menu" + data).removeClass('active');
+              $("#menu" + data).removeClass('in');
+              $("#menu" + prev).addClass('active');
+              $("#menu" + prev).addClass('in');
+
+              $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+              $("#icon-"+prev).addClass('btn-info').removeClass('btn-default');
+         });
+
+         $('input[name=share_product_radio]').on('change', function() {
+              numIndex();
+              $.ajax({
+                   method : "post",
+                   url : '{{ route('customer.get_product')}}',
+                   dataType : 'json',
+                   data : $("#get_product_form").serialize(),
+                   headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                   },
+                   beforeSend: function() {
+                        $("#preloaders").css("display", "block");
+                   },
+              }).done(function(rec){
+                   $("#preloaders").css("display", "none");
+                   $("#table3 tbody").empty();
+                   if(rec.status==1){
+                        let tr = '';
+                        if (rec.datas.length > 0){
+                             $.each(rec.datas, function( key, data ) {
+                                  if (data.Flag_st.length == 0){
+                                       chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
+                                  } else {
+                                       chkbox = '';
+                                  }
+                                  tr += '<tr>';
+                                  tr += '<td>';
+                                  tr += chkbox;
+                                  tr += '</td>';
+                                  tr += '<td>';
+                                  tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
+                                  tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
+                                  tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                  tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
+                                  tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
+                                  tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
+                                  tr += '</td>';
+                                  tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                  tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
+                                  tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
+                                  tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
+                                  tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
+                                  tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                  tr += '</tr>';
+                             });
+                        } else {
+                             tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                        }
+                        $("#table3 tbody").append(tr);
+
+                        $('.product_share_chk').on('click', function() {
+                             var val = $(this).data("value");
+                             var container = $(this).data("container");
+                             if ($(this).is(':checked')) {
+                                  $(".product_share_" + val + "_" + container).attr("readonly", false);
+                                  $(".product_share_" + val + "_" + container).focus();
+                             } else {
+                                  $(".product_share_" + val + "_" + container).attr("readonly", true);
+                                  $(".product_share_" + val + "_" + container).val("");
+                             }
+                             numIndex();
+                        });
+
+                        $('.product_share').on('keyup', function() {
+                             var data = $(this).val();
+                             var data_value = $(this).data("value");
+                             // var tran_qty = $("#tran_qty_"+data_value).text();
+                             var tran_qty = $("#TranQty_"+data_value).text();
+                             if (parseInt(data) > parseInt(tran_qty)) {
+                                  notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
+                                  $(this).val("");
+                                  $(this).focus();
+                             } else {
+                                  numIndex();
+                             }
+                        });
+                   } else {
+                        swal("", rec.content, "warning");
+                   }
+              }).fail(function(){
+                   $("#preloaders").css("display", "none");
+                   swal("", rec.content, "error");
+              });
+         });
+
+         $('#FormAdd').validate({
+              errorElement: 'div',
+              errorClass: 'invalid-feedback',
+              focusInvalid: false,
+              rules: {
+
+              },
+              messages: {
+
+              },
+              highlight: function (e) {
+                   validate_highlight(e);
+              },
+              success: function (e) {
+                   validate_success(e);
+              },
+              errorPlacement: function (error, element) {
+                   validate_errorplacement(error, element);
+              },
+              submitHandler: function (form) {
+                   $("#FormAdd").find('[type="submit"]').prop('disabled', true);;
+                   share_product_radio = $('input[name=share_product_radio]:checked').val();
+                   data = $("#FormAdd").serializeArray();
+                   data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
+                   data.push({ name: 'DocuDate', value: $("#DocuDate").val()});
+                   data.push({ name: 'CustCode', value: $("#CustCode").val()});
+                   data.push({ name: 'CustName', value: $("#CustName").val()});
+                   data.push({ name: 'EmpCode', value: $("#EmpCode").val()});
+                   data.push({ name: 'empname', value: $("#empname").val()});
+                   data.push({ name: 'share_product_radio', value: share_product_radio});
+                   $.ajax({
+                        method : "POST",
+                        url : '{{ route('customer.store') }}',
+                        dataType : 'json',
+                        data : data,
+                        headers: {
+                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                        },
+                   }).done(function(rec){
+                        if (rec.status == 1) {
+                             notify("bottom", "left", "fas fa-check-circle", "success", "", "", "สำเร็จ");
+                             $("#menu4").removeClass('active');
+                             $("#menu4").removeClass('in');
+                             $("#menu5").addClass('active');
+                             $("#menu5").addClass('in');
+                        } else {
+                             notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
+                        }
+                   }).fail(function(){
+
+                   });
+              },
+              invalidHandler: function (form) {
+
+              }
+         });
+    });
+
     </script>
 </body>
 

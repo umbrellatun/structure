@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Validator;
+use App\Models\ICGodSplitHD;
+use App\Models\ICGodSplitDT;
 
 class HomeController extends Controller
 {
@@ -342,6 +344,34 @@ class HomeController extends Controller
          }
          return json_encode($return);
 
+    }
+
+    public function getSelfProduct(Request $request)
+    {
+         $empCode = $request->EmpCode;
+         $validator = Validator::make($request->all(), [
+
+         ]);
+         if (!$validator->fails()) {
+              try {
+                   $hds = ICGodSplitHD::where('empCode', '=', $empCode)->get();
+
+                   $return['status'] = 1;
+                   $return['hds'] = $hds;
+                   $return['content'] = 'จัดเก็บสำเร็จ';
+              } catch (Exception $e) {
+                   $return['status'] = 0;
+                   $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         return json_encode($return);
+    }
+
+    public function getSelfProductDetail(Request $request)
+    {
+         dd($request->all());
     }
 
 }
