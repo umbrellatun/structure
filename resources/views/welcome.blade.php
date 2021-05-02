@@ -496,12 +496,10 @@
                                           <tr>
                                                <th>NO</th>
                                                <th>เลขที่เอกสาร</th>
-                                               <th>วันที่เอกสาร</th>
-                                               <th>วันที่นัดส่ง</th>
+                                               <th>วันที่จอง</th>
                                                <th>ชื่อลูกค้า</th>
-                                               <th>ชื่อพนักงานขาย</th>
-                                               <th>ชื่อสินค้า</th>
-                                               <th>Action</th>
+                                               <th>เลขตู้จัดสินค้า</th>
+                                               <th>จำนวนสินค้า<br/>แบ่งให้</th>
                                           </tr>
                                      </thead>
                                      <tbody>
@@ -724,6 +722,10 @@
                         }
                         $("#tableHD tbody").append(tr);
                         $("#HistoryModal").addClass("in");
+
+                        $('.btn-view').on('click',function(){
+                             btn_view($(this).data("value"));
+                        });
                    } else {
                         notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
                    }
@@ -732,39 +734,45 @@
               });
          });
 
-         $('.btn-view').on('click',function(){
+         function btn_view (doc_no) {
               $("#ModalView").addClass("in");
-              // $.ajax({
-              //      method : "POST",
-              //      url : '{{ route('customer.getSelfProductDetail') }}',
-              //      dataType : 'json',
-              //      data : { EmpCode : '{{$result->EmpCode}}'},
-              //      headers: {
-              //           'X-CSRF-TOKEN': "{{ csrf_token() }}"
-              //      },
-              // }).done(function(rec){
-              //      if (rec.status == 1) {
-              //           let tr = '';
-              //           if (rec.hds.length > 0){
-              //                let no = 1;
-              //                $.each(rec.hds, function( key, hd ) {
-              //                     tr += '<tr>';
-              //                     tr += '<td class="text-center">'+no+'</td>';
-              //                     tr += '</tr>';
-              //                     no++;
-              //                });
-              //           } else {
-              //                tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-              //           }
-              //           $("#tableDT tbody").append(tr);
-              //
-              //      } else {
-              //           notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
-              //      }
-              // }).fail(function(){
-              //
-              // });
-         });
+              $.ajax({
+                   method : "POST",
+                   url : '{{ route('customer.getSelfProductDetail') }}',
+                   dataType : 'json',
+                   data : { DocuNO : doc_no },
+                   headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                   },
+              }).done(function(rec){
+                   if (rec.status == 1) {
+                        let tr = '';
+                        if (rec.dts.length > 0){
+                             let no = 1;
+                             $.each(rec.dts, function( key, hd ) {
+                                  tr += '<tr>';
+                                  tr += '<td class="text-center">'+no+'</td>';
+                                  tr += '<td class="text-center">'+hd.DocuNO+'</td>';
+                                  tr += '<td class="text-center">'+hd.RefSOCODate+'</td>';
+                                  tr += '<td class="text-center">'+hd.CustName+'</td>';
+                                  tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
+                                  tr += '<td class="text-center">'+hd.SplitQty+'</td>';
+                                  tr += '</tr>';
+                                  no++;
+                             });
+                        } else {
+                             tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                        }
+                        $("#tableDT tbody").append(tr);
+
+                   } else {
+                        notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
+                   }
+              }).fail(function(){
+
+              });
+         }
+
 
          $("#send_appointment").daterangepicker({
               singleDatePicker: true,
