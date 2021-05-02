@@ -450,7 +450,7 @@
               <div class="modal-content" style="width: 1200px; margin-left: -180px; height: 560px;">
                    {{-- style="width: 1200px; margin-left: -180px;" --}}
                    <div class="modal-header">
-                        <h5 class="modal-title h4">Large Modal</h5>
+                        <h5 class="modal-title h4">คำขอแบ่งสินค้า</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                    </div>
                    <div class="modal-body">
@@ -485,7 +485,7 @@
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                   <div class="modal-header">
-                       <h5 class="modal-title h4">Large Modal</h5>
+                       <h5 class="modal-title h4">แบ่งจาก</h5>
                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                   </div>
                   <div class="modal-body">
@@ -701,12 +701,12 @@
                              $.each(rec.hds, function( key, hd ) {
                                   tr += '<tr>';
                                   tr += '<td class="text-center">'+no+'</td>';
-                                  tr += '<td class="text-center">'+hd.DocuNO+'</td>';
-                                  tr += '<td class="text-center">'+formatDate(hd.DocuDate)+'</td>';
-                                  tr += '<td class="text-center">'+formatDate(hd.ShipDate)+'</td>';
-                                  tr += '<td class="text-center">'+hd.CustName+'</td>';
-                                  tr += '<td class="text-center">'+hd.EmpName+'</td>';
-                                  tr += '<td class="text-center">'+hd.GoodCode+'</td>';
+                                  tr += '<td class="text-left">'+hd.DocuNO+'</td>';
+                                  tr += '<td class="text-left">'+formatDate(hd.DocuDate)+'</td>';
+                                  tr += '<td class="text-left">'+formatDate(hd.ShipDate)+'</td>';
+                                  tr += '<td class="text-left">'+hd.CustName+'</td>';
+                                  tr += '<td class="text-left">'+hd.EmpName+'</td>';
+                                  tr += '<td class="text-left">'+hd.GoodCode+'</td>';
                                   tr += '<td class="text-center">';
                                   tr += '<div class="btn-group btn-group-sm">';
                                   tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView">';
@@ -755,7 +755,7 @@
                                   tr += '<td class="text-center">'+no+'</td>';
                                   tr += '<td class="text-center">'+hd.DocuNO+'</td>';
                                   tr += '<td class="text-center">'+hd.RefSOCODate+'</td>';
-                                  tr += '<td class="text-center">'+hd.CustName+'</td>';
+                                  tr += '<td class="text-left">'+hd.CustName+'</td>';
                                   tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
                                   tr += '<td class="text-center">'+hd.SplitQty+'</td>';
                                   tr += '</tr>';
