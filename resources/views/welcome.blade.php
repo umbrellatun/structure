@@ -736,6 +736,7 @@
 
          function btn_view (doc_no) {
               $("#ModalView").addClass("in");
+              $("#tableDT tbody").empty();
               $.ajax({
                    method : "POST",
                    url : '{{ route('customer.getSelfProductDetail') }}',
@@ -758,7 +759,7 @@
                                   tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
                                   tr += '<td class="text-center">'+hd.SplitQty+'</td>';
                                   tr += '</tr>';
-                                  no++;
+                                  no = parseInt(no) + 1;
                              });
                         } else {
                              tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
