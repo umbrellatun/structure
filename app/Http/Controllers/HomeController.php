@@ -59,19 +59,19 @@ class HomeController extends Controller
                    $q .= " FROM tmConTain_bk_dt_Temp INNER JOIN";
                    $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID";
                    $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
-                   $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
                    $q .= " UNION ALL";
                    $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate, EmpCode";
                    $q .= " FROM tmConTain_dl_dt_Temp INNER JOIN";
                    $q .= " SOHD ON tmConTain_dl_dt_Temp.RefSOCOID = SOHD.SOID";
                    $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
-                   $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
                    $q .= " UNION ALL";
                    $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate, EmpCode";
                    $q .= " FROM tmConTain_dt_Temp INNER JOIN";
                    $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID";
                    $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
-                   $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
+                   // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
 
                    // dd($q);
                    $return["datas"] =  \DB::select($q);
@@ -99,62 +99,63 @@ class HomeController extends Controller
          ]);
          if (!$validator->fails()) {
               try {
-                   $hds = ICGodSplitHD::where('ReflistNo', '=', $RefListNO)->where('RefSOCONo', '=', $ref_soco_no)->get();
-                   if(sizeif($hds) > 0));
-                   // if () {
-                   //
-                   // }
+                   $hd = ICGodSplitHD::where('ReflistNo', '=', $RefListNO)->where('RefSOCONo', '=', $ref_soco_no)
+                                            ->whereNull('AppvSplitStatus')
+                                            ->first();
+                   if(isset($hd)){
+                        $return['status'] = 2;
+                   } else {
+                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
+                        $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
+                        $q .= " FROM tmConTain_bk";
+                        $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
+                        $q .= " INNER JOIN SOHD ON tmConTain_bk_dt.RefSOCOID = SOHD.SOID";
+                        $q .= " WHERE";
+                        $q .= " TranQty <> 0";
+                        $q .= " AND tmConTain_bk_dt.EmpCode = '$EmpCode'";
+                        $q .= " AND CustCode <> '$customer_id'";
+                        $q .= " AND GoodCode = '$goodcode'";
+                        $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
+                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        $q .= " UNION ALL";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
+                        $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
+                        $q .= " FROM tmConTain_dl";
+                        $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
+                        $q .= " INNER JOIN SOHD ON tmConTain_dl_dt.RefSOCOID = SOHD.SOID";
+                        $q .= " WHERE";
+                        $q .= " TranQty <> 0";
+                        $q .= " AND tmConTain_dl_dt.EmpCode = '$EmpCode'";
+                        $q .= " AND CustCode <> '$customer_id'";
+                        $q .= " AND GoodCode = '$goodcode'";
+                        $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
+                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
+                        $q .= " UNION ALL";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
+                        $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
+                        $q .= " FROM tmConTain";
+                        $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";
+                        $q .= " INNER JOIN SOHD ON tmConTain_dt.RefSOCOID = SOHD.SOID";
+                        $q .= " WHERE";
+                        $q .= " TranQty <> 0";
+                        $q .= " AND tmConTain_dt.EmpCode = '$EmpCode'";
+                        $q .= " AND CustCode <> '$customer_id'";
+                        $q .= " AND GoodCode = '$goodcode'";
+                        $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
+                        $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
 
-                   $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
-                   $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
-                   $q .= " FROM tmConTain_bk";
-                   $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
-                   $q .= " INNER JOIN SOHD ON tmConTain_bk_dt.RefSOCOID = SOHD.SOID";
-                   $q .= " WHERE";
-                   $q .= " TranQty <> 0";
-                   $q .= " AND tmConTain_bk_dt.EmpCode = '$EmpCode'";
-                   $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode = '$goodcode'";
-                   $q .= " AND tmConTain_bk.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
-                   $q .= " UNION ALL";
-                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
-                   $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
-                   $q .= " FROM tmConTain_dl";
-                   $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
-                   $q .= " INNER JOIN SOHD ON tmConTain_dl_dt.RefSOCOID = SOHD.SOID";
-                   $q .= " WHERE";
-                   $q .= " TranQty <> 0";
-                   $q .= " AND tmConTain_dl_dt.EmpCode = '$EmpCode'";
-                   $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode = '$goodcode'";
-                   $q .= " AND tmConTain_dl.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
-                   $q .= " UNION ALL";
-                   $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
-                   $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
-                   $q .= " FROM tmConTain";
-                   $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";
-                   $q .= " INNER JOIN SOHD ON tmConTain_dt.RefSOCOID = SOHD.SOID";
-                   $q .= " WHERE";
-                   $q .= " TranQty <> 0";
-                   $q .= " AND tmConTain_dt.EmpCode = '$EmpCode'";
-                   $q .= " AND CustCode <> '$customer_id'";
-                   $q .= " AND GoodCode = '$goodcode'";
-                   $q .= " AND tmConTain.Flag_st IN ( 'N', 'Y', 'R' )";
-                   // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
-
-                   $return["datas"] =  \DB::select($q);
-                  $return['status'] = 1;
-            } catch (Exception $e) {
-                  $return['status'] = 0;
-            }
-       } else{
-            $return['status'] = 0;
-       }
-       return json_encode($return);
-
+                        $return["datas"] =  \DB::select($q);
+                        $return['status'] = 1;
+                   }
+              } catch (Exception $e) {
+                   $return['status'] = 0;
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         return json_encode($return);
     }
+
     public function get_product(Request $request)
     {
          $share_product = $request->share_product_radio;
@@ -356,13 +357,13 @@ class HomeController extends Controller
 
     public function getSelfProduct(Request $request)
     {
-         $empCode = $request->EmpCode;
+         $CustCode = $request->CustCode;
          $validator = Validator::make($request->all(), [
 
          ]);
          if (!$validator->fails()) {
               try {
-                   $hds = ICGodSplitHD::where('empCode', '=', $empCode)
+                   $hds = ICGodSplitHD::where('CustCode', '=', $CustCode)
                                         ->orderBy('DocuNO', 'desc')
                                         ->get();
 

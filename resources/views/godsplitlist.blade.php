@@ -66,7 +66,7 @@
                     <!-- ========   change your logo hear   ============ -->
                     {{-- <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
                     <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb"> --}}
-                    <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="width: 167px; height: 33px;">
+                    <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="height: 65px; margin-top: 7px;">
                     <img src="{{asset('assets/images/JT_64X45.png')}}" alt="" class="logo-thumb">
                </a>
                <a href="#!" class="mob-toggler">
@@ -94,6 +94,7 @@
                                                        <tr>
                                                             <th class="border-top-0 text-center">No</th>
                                                             <th class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                            <th class="border-top-0 text-center">เลขที่ใบจอง</th>
                                                             <th class="border-top-0 text-center">วันที่เอกสาร</th>
                                                             <th class="border-top-0 text-center">วันที่นัดส่ง</th>
                                                             <th class="border-top-0 text-center">ชื่อลูกค้า</th>
@@ -112,6 +113,7 @@
                                                                  <tr>
                                                                       <td>{{$i}}</td>
                                                                       <td>{{$header->DocuNO}}</td>
+                                                                      <td>{{$header->RefSOCONo}}</td>
                                                                       <td>{{ date_format(date_create($header->DocuDate), "d/m/Y")}}</td>
                                                                       <td>{{ date_format(date_create($header->ShipDate), "d/m/Y")}}</td>
                                                                       <td>{{$header->CustName}}</td>
@@ -220,7 +222,7 @@
      <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
      <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
      <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
-     <script src="{{asset('assets/js/menu-setting.min.js')}}"></script>
+     {{-- <script src="{{asset('assets/js/menu-setting.min.js')}}"></script> --}}
 
      <!-- jquery-validation Js -->
      <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>

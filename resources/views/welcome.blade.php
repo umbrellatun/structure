@@ -90,7 +90,7 @@
                 {{-- <img src="{{asset('assets/images/logo.png')}}" alt="" class="logo">
                 <img src="{{asset('assets/images/logo-icon.png')}}" alt="" class="logo-thumb"> --}}
 
-                <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="width: 167px; height: 33px;">
+                <img src="{{asset('assets/images/LOGOJT.png')}}" alt="" class="logo" style="height: 65px; margin-top: 7px;">
                 <img src="{{asset('assets/images/JT_64X45.png')}}" alt="" class="logo-thumb">
             </a>
             <a href="#!" class="mob-toggler">
@@ -235,14 +235,14 @@
                                                                         <table id="table1" class="table table-striped">
                                                                              <thead>
                                                                                   <tr>
-                                                                                       <th>#</th>
-                                                                                       <th>เลขที่เอกสาร</th>
-                                                                                       <th>วันที่จอง</th>
-                                                                                       <th>จำนวนวัน</th>
-                                                                                       <th>สถานที่จัดส่ง</th>
-                                                                                       <th>ราคา/หน่วย</th>
-                                                                                       <th>จำนวนสั่งจอง</th>
-                                                                                       <th>จำนวนต้องการส่ง</th>
+                                                                                       <th class="text-center">#</th>
+                                                                                       <th class="text-center">เลขที่เอกสาร</th>
+                                                                                       <th class="text-center">วันที่จอง</th>
+                                                                                       <th class="text-right">จำนวนวัน</th>
+                                                                                       <th class="text-left">สถานที่จัดส่ง</th>
+                                                                                       <th class="text-right">ราคา/หน่วย</th>
+                                                                                       <th class="text-right">จำนวนสั่งจอง</th>
+                                                                                       <th class="text-right">จำนวนต้องการส่ง</th>
                                                                                   </tr>
                                                                              </thead>
                                                                              <tbody>
@@ -272,13 +272,13 @@
                                                                              <table id="table2" class="table table-striped">
                                                                                   <thead>
                                                                                        <tr>
-                                                                                            <th>เลขที่เอกสาร</th>
-                                                                                            <th>วันที่จอง</th>
-                                                                                            <th>จำนวนวัน</th>
-                                                                                            <th>สถานที่จัดส่ง</th>
-                                                                                            <th>ราคา/หน่วย</th>
-                                                                                            <th>จำนวนสั่งจอง</th>
-                                                                                            <th>จำนวนต้องการส่ง</th>
+                                                                                            <th class="text-center">เลขที่เอกสาร</th>
+                                                                                            <th class="text-right">วันที่จอง</th>
+                                                                                            <th class="text-center">จำนวนวัน</th>
+                                                                                            <th class="text-left">สถานที่จัดส่ง</th>
+                                                                                            <th class="text-right">ราคา/หน่วย</th>
+                                                                                            <th class="text-right">จำนวนสั่งจอง</th>
+                                                                                            <th class="text-right">จำนวนต้องการส่ง</th>
                                                                                        </tr>
                                                                                   </thead>
                                                                                   <tbody>
@@ -461,11 +461,14 @@
                                            <tr>
                                                 <th>NO</th>
                                                 <th>เลขที่เอกสาร</th>
+                                                <th>เลขที่ใบจอง</th>
                                                 <th>วันที่เอกสาร</th>
                                                 <th>วันที่นัดส่ง</th>
                                                 <th>ชื่อลูกค้า</th>
-                                                <th>ชื่อพนักงานขาย</th>
+                                                {{-- <th>ชื่อพนักงานขาย</th> --}}
                                                 <th>ชื่อสินค้า</th>
+                                                <th>อนุมัติคำขอ</th>
+                                                <th>ยืนยัน<br/>แบ่งสินค้า</th>
                                                 <th>Action</th>
                                            </tr>
                                       </thead>
@@ -676,6 +679,7 @@
          // Return str truncated with '...' concatenated to the end of str.
          return str.slice(0, num) + '...'
     }
+
     $(document).ready(function() {
          $("#pcoded").pcodedmenu({
               themelayout: 'horizontal',
@@ -689,27 +693,47 @@
                    method : "POST",
                    url : '{{ route('customer.getSelfProduct') }}',
                    dataType : 'json',
-                   data : { EmpCode : '{{$result->EmpCode}}'},
+                   data : { CustCode : '{{$result->CustCode}}'},
                    headers: {
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                    },
               }).done(function(rec){
                    if (rec.status == 1) {
                         let tr = '';
+                        var badge1 = '';
+                        var badge2 = '';
+                        // console.log(rec.hds);
                         if (rec.hds.length > 0){
                              let no = 1;
                              $.each(rec.hds, function( key, hd ) {
+                                  if (hd.AppvStatus == 'N'){
+                                       badge1 = '<span class="btn btn-warning btn-sm" title="รออนุมัติ">รออนุมัติ</span>';
+                                  }else if(hd.AppvStatus == 'Y'){
+                                       badge1 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                                  }else if(hd.AppvStatus == 'C'){
+                                       badge1 = '<span class="btn btn-danger btn-sm" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                  }
+                                  if (hd.AppvSplitStatus == 'N'){
+                                       badge2 = '<span class="btn btn-warning btn-sm"  title="รออนุมัติ">รออนุมัติ</span>';
+                                  }else if(hd.AppvSplitStatus == 'Y'){
+                                       badge2 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                                  }else if(hd.AppvSplitStatus == 'R'){
+                                       badge2 = '<span class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                  }
                                   tr += '<tr>';
                                   tr += '<td class="text-center">'+no+'</td>';
                                   tr += '<td class="text-left">'+hd.DocuNO+'</td>';
+                                  tr += '<td class="text-left">'+hd.RefSOCONo+'</td>';
                                   tr += '<td class="text-left">'+formatDate(hd.DocuDate)+'</td>';
                                   tr += '<td class="text-left">'+formatDate(hd.ShipDate)+'</td>';
                                   tr += '<td class="text-left">'+hd.CustName+'</td>';
-                                  tr += '<td class="text-left">'+hd.EmpName+'</td>';
-                                  tr += '<td class="text-left">'+hd.GoodCode+'</td>';
+                                  // tr += '<td class="text-left">'+hd.EmpName+'</td>';
+                                  tr += '<td class="text-left">'+hd.GoodName1+'</td>';
+                                  tr += '<td class="text-center">'+badge1+'</td>';
+                                  tr += '<td class="text-center">'+badge2+'</td>';
                                   tr += '<td class="text-center">';
                                   tr += '<div class="btn-group btn-group-sm">';
-                                  tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView">';
+                                  tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView" title="ดูข้อมูล">';
                                   tr += '<i class="fas fa-eye bigger-120"></i>';
                                   tr += '</button>';
                                   tr += '</div>';
@@ -754,7 +778,7 @@
                                   tr += '<tr>';
                                   tr += '<td class="text-center">'+no+'</td>';
                                   tr += '<td class="text-center">'+hd.DocuNO+'</td>';
-                                  tr += '<td class="text-center">'+hd.RefSOCODate+'</td>';
+                                  tr += '<td class="text-center">'+formatDate(hd.RefSOCODate)+'</td>';
                                   tr += '<td class="text-left">'+hd.CustName+'</td>';
                                   tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
                                   tr += '<td class="text-center">'+hd.SplitQty+'</td>';
@@ -773,7 +797,6 @@
 
               });
          }
-
 
          $("#send_appointment").daterangepicker({
               singleDatePicker: true,
@@ -849,7 +872,7 @@
                                   $.each(rec.datas, function( key, data ) {
                                        tr += '<tr>';
                                        tr += '<td>';
-                                       tr += '<input type="radio" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
+                                       tr += '<input type="radio" name="RefSOCOID" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
                                        tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
                                        // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
                                        tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
@@ -861,7 +884,7 @@
                                        tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                        tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
                                        tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
-                                       tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
+                                       tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+parseInt(data.GoodPrice2).toFixed(2)+'</span></td>';
                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                        tr += '<td class="text-right">0</td>';
                                        tr += '</tr>';
@@ -870,6 +893,15 @@
                                   tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
                              }
                              $("#table1 tbody").append(tr);
+
+                             var next = data+1;
+                             $("#menu" + data).removeClass('active');
+                             $("#menu" + data).removeClass('in');
+                             $("#menu" + next).addClass('active');
+                             $("#menu" + next).addClass('in');
+
+                             $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+                             $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
                         } else {
                              swal("", rec.content, "warning");
                         }
@@ -1000,12 +1032,27 @@
                                                       numIndex();
                                                  }
                                             });
+                                            var next = data+1;
+                                            $("#menu" + data).removeClass('active');
+                                            $("#menu" + data).removeClass('in');
+                                            $("#menu" + next).addClass('active');
+                                            $("#menu" + next).addClass('in');
+
+                                            $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+                                            $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
                                        } else {
-                                            swal("", rec.content, "warning");
+                                            if(rec.status == 2) {
+                                                 notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ");
+                                                 return false;
+                                            } else {
+                                                 notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "มีบางอย่างผิดพลาด");
+                                                 return false;
+                                            }
                                        }
                                   }).fail(function(){
                                        $("#preloaders").css("display", "none");
-                                       swal("", rec.content, "error");
+                                       swal("", "", "error");
+                                       return false;
                                   });
                              }
                         }
@@ -1126,6 +1173,15 @@
                              tr += '<td class="text-right">'+sum_total+'</td>';
                              tr += '</tr>';
                              $("#table5 tbody").append(tr);
+
+                             var next = data+1;
+                             $("#menu" + data).removeClass('active');
+                             $("#menu" + data).removeClass('in');
+                             $("#menu" + next).addClass('active');
+                             $("#menu" + next).addClass('in');
+
+                             $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+                             $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
                         }
                    } else {
                         notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกอย่างน้อย 1 รายการ");
@@ -1133,14 +1189,7 @@
                    }
 
               }
-              var next = data+1;
-              $("#menu" + data).removeClass('active');
-              $("#menu" + data).removeClass('in');
-              $("#menu" + next).addClass('active');
-              $("#menu" + next).addClass('in');
 
-              $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-              $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
          });
 
          $('.prev-step').on('click', function (e){
