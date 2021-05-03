@@ -2,7 +2,7 @@
 <html lang="en">
 
 <head>
-    <title>Gradient Able bootstrap admin template by codedthemes</title>
+    <title>{{$title}}</title>
     <!-- HTML5 Shim and Respond.js IE11 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 11]>
@@ -228,6 +228,7 @@
                                                          <div class="card">
                                                               <div class="card-header">
                                                                    <h5>ข้อมูลเอกสาร {{$result->CustName}}</h5>
+                                                                   <br/><span class="span_product_name"></span>
                                                                    <hr/>
                                                               </div>
                                                               <div class="card-body table-border-style">
@@ -264,6 +265,7 @@
                                                          <div class="card">
                                                               <div class="card-header">
                                                                    <h5>ข้อมูลเอกสาร {{$result->CustName}}</h5>
+                                                                   <br/><span class="span_product_name"></span>
                                                                    <hr/>
                                                               </div>
                                                               <form id="get_product_form">
@@ -273,7 +275,7 @@
                                                                                   <thead>
                                                                                        <tr>
                                                                                             <th class="text-center">เลขที่เอกสาร</th>
-                                                                                            <th class="text-right">วันที่จอง</th>
+                                                                                            <th class="text-center">วันที่จอง</th>
                                                                                             <th class="text-center">จำนวนวัน</th>
                                                                                             <th class="text-left">สถานที่จัดส่ง</th>
                                                                                             <th class="text-right">ราคา/หน่วย</th>
@@ -323,7 +325,7 @@
                                                                                   <tr>
                                                                                        <th>#</th>
                                                                                        <th>เลขที่เอกสาร</th>
-                                                                                       <th>วันที่จอง</th>
+                                                                                       <th>วันที่นัดส่ง</th>
                                                                                        <th>ชื่อลูกค้า</th>
                                                                                        <th>เลขตู้จัดสินค้า</th>
                                                                                        <th>สถานะตู้</th>
@@ -357,6 +359,7 @@
                                                               <div class="card">
                                                                    <div class="card-header">
                                                                         <h5>สรุปข้อมูล</h5>
+                                                                        <br/><span class="span_product_name"></span>
                                                                         <hr/>
                                                                    </div>
                                                                    <div class="card-body">
@@ -367,13 +370,13 @@
                                                                                   <table id="table4" class="table table-striped">
                                                                                        <thead>
                                                                                             <tr>
-                                                                                                 <th>เลขที่เอกสาร</th>
-                                                                                                 <th>วันที่จอง</th>
-                                                                                                 <th>ชื่อลูกค้า</th>
-                                                                                                 <th>เลขตู้จัดสินค้า</th>
-                                                                                                 <th>สถานะตู้</th>
-                                                                                                 <th>จำนวนสั่งจอง</th>
-                                                                                                 <th>จำนวนแบ่งให้</th>
+                                                                                                 <th class="text-center">เลขที่เอกสาร</th>
+                                                                                                 <th class="text-center">วันที่นัดส่ง</th>
+                                                                                                 <th class="text-left">ชื่อลูกค้า</th>
+                                                                                                 <th class="text-center">เลขตู้จัดสินค้า</th>
+                                                                                                 <th class="text-center">สถานะตู้</th>
+                                                                                                 <th class="text-right">จำนวนสั่งจอง</th>
+                                                                                                 <th class="text-right">จำนวนแบ่งให้</th>
                                                                                             </tr>
                                                                                        </thead>
                                                                                        <tbody>
@@ -395,13 +398,13 @@
                                                                                   <table id="table5" class="table table-striped">
                                                                                        <thead>
                                                                                             <tr>
-                                                                                                 <th>เลขที่เอกสาร</th>
-                                                                                                 <th>วันที่จอง</th>
-                                                                                                 <th>จำนวนวัน</th>
-                                                                                                 <th>สถานที่จัดส่ง</th>
-                                                                                                 <th>ราคา/หน่วย</th>
-                                                                                                 <th>จำนวนสั่งจอง</th>
-                                                                                                 <th>จำนวนต้องการส่ง</th>
+                                                                                                 <th class="text-center">เลขที่เอกสาร</th>
+                                                                                                 <th class="text-center">วันที่จอง</th>
+                                                                                                 <th class="text-center">จำนวนวัน</th>
+                                                                                                 <th class="text-left">สถานที่จัดส่ง</th>
+                                                                                                 <th class="text-right">ราคา/หน่วย</th>
+                                                                                                 <th class="text-right">จำนวนสั่งจอง</th>
+                                                                                                 <th class="text-right">จำนวนต้องการส่ง</th>
                                                                                             </tr>
                                                                                        </thead>
                                                                                        <tbody>
@@ -446,9 +449,9 @@
 
     <!-- Modal -->
     <div class="modal fade bd-example-modal-lg in" id="HistoryModal" tabindex="-1" role="dialog" aria-labelledby="HistoryModal" aria-hidden="true">
-         <div class="modal-dialog modal-lg modal-xl">
-              <div class="modal-content" style="width: 1200px; margin-left: -180px; height: 560px;">
-                   {{-- style="width: 1200px; margin-left: -180px;" --}}
+         <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                  {{-- style="width: 1200px; margin-left: -180px; height: 560px;" --}}
                    <div class="modal-header">
                         <h5 class="modal-title h4">คำขอแบ่งสินค้า</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
@@ -499,6 +502,7 @@
                                           <tr>
                                                <th>NO</th>
                                                <th>เลขที่เอกสาร</th>
+                                               <th>เลขที่ใบจอง</th>
                                                <th>วันที่จอง</th>
                                                <th>ชื่อลูกค้า</th>
                                                <th>เลขตู้จัดสินค้า</th>
@@ -661,13 +665,11 @@
                         return false;
                    } else {
                         allSum2 += sum_list;
-
                    }
               }
          });
          $("#sum_amount_product").text(allSum2);
          $("#product_amount_sent").text(allSum2);
-
     }
 
     function truncateString(str, num) {
@@ -724,8 +726,8 @@
                                   tr += '<td class="text-center">'+no+'</td>';
                                   tr += '<td class="text-left">'+hd.DocuNO+'</td>';
                                   tr += '<td class="text-left">'+hd.RefSOCONo+'</td>';
-                                  tr += '<td class="text-left">'+formatDate(hd.DocuDate)+'</td>';
-                                  tr += '<td class="text-left">'+formatDate(hd.ShipDate)+'</td>';
+                                  tr += '<td class="text-left">'+(hd.DocuDate)+'</td>';
+                                  tr += '<td class="text-left">'+(hd.ShipDate)+'</td>';
                                   tr += '<td class="text-left">'+hd.CustName+'</td>';
                                   // tr += '<td class="text-left">'+hd.EmpName+'</td>';
                                   tr += '<td class="text-left">'+hd.GoodName1+'</td>';
@@ -742,7 +744,7 @@
                                   no++;
                              });
                         } else {
-                             tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                             tr += '<tr><td colspan="10" align="center">ไม่พบข้อมูล</td></tr>';
                         }
                         $("#tableHD tbody").append(tr);
                         $("#HistoryModal").addClass("in");
@@ -778,7 +780,8 @@
                                   tr += '<tr>';
                                   tr += '<td class="text-center">'+no+'</td>';
                                   tr += '<td class="text-center">'+hd.DocuNO+'</td>';
-                                  tr += '<td class="text-center">'+formatDate(hd.RefSOCODate)+'</td>';
+                                  tr += '<td class="text-center">'+hd.RefSOCONo+'</td>';
+                                  tr += '<td class="text-center">'+(hd.RefSOCODate)+'</td>';
                                   tr += '<td class="text-left">'+hd.CustName+'</td>';
                                   tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
                                   tr += '<td class="text-center">'+hd.SplitQty+'</td>';
@@ -867,6 +870,9 @@
                         $("#preloaders").css("display", "none");
                         $("#table1 tbody").empty();
                         if(rec.status==1){
+                             let modify_good_name = ($("#GoodCode option:selected").text());
+                             let span_product_name = modify_good_name.split(":");
+                             $(".span_product_name").text("ชื่อสินค้า : " + span_product_name);
                              let tr = '';
                              if (rec.datas.length > 0){
                                   $.each(rec.datas, function( key, data ) {
@@ -881,8 +887,9 @@
                                        tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                        tr += '</td>';
                                        tr += '<td><span id="span_ref_soco_no_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span></td>';
-                                       tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                       tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
+                                       tr += '<td><span id="span_docudate_'+data.RefSOCOID+'">'+ data.DocuDate +'</span></td>';
+                                       // tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
+                                       tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+data.DateDiff+'</span></td>';
                                        tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
                                        tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+parseInt(data.GoodPrice2).toFixed(2)+'</span></td>';
                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
@@ -911,6 +918,9 @@
                    });
               }
               else if(data == 2) {
+                   let modify_good_name = ($("#GoodCode option:selected").text());
+                   let span_product_name = modify_good_name.split(":");
+                   $(".span_product_name").text("ชื่อสินค้า : " + span_product_name);
                    $("#share_product_radio_1").prop("checked", true);
                    $("#share_product_radio_2").prop("checked", false);
                    $("#table2 tbody").empty();
@@ -993,7 +1003,8 @@
                                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                                       tr += '</td>';
-                                                      tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                                      // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                                      tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ data.ShipDate +'</span></td>';
                                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
                                                       tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                                       tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
@@ -1098,7 +1109,7 @@
 
                                   let tr = '';
                                   tr += '<tr>';
-                                  tr += '<td>';
+                                  tr += '<td class="text-center">';
                                   tr += RefSOCONo;
                                   tr += '<input type="hidden" name="tb4_RefSOCOID[]" value="'+RefSOCOID+'">';
                                   tr += '<input type="hidden" name="tb4_RefListNO[]" value="'+RefListNO+'">';
@@ -1112,10 +1123,10 @@
                                   tr += '<input type="hidden" name="tb4_TranQty[]" value="'+TranQty+'">';
                                   tr += '<input type="hidden" name="tb4_SplitQty[]" value="'+product_share+'">';
                                   tr += '</td>';
-                                  tr += '<td>'+DocuDate+'</td>';
-                                  tr += '<td>'+EmpName+'</td>';
-                                  tr += '<td>'+ContainerNO+'</td>';
-                                  tr += '<td>'+Flag_st+'</td>';
+                                  tr += '<td class="text-center">'+DocuDate+'</td>';
+                                  tr += '<td class="text-left">'+EmpName+'</td>';
+                                  tr += '<td class="text-center">'+ContainerNO+'</td>';
+                                  tr += '<td class="text-center">'+Flag_st+'</td>';
                                   tr += '<td class="text-right">'+TranQty+'</td>';
                                   tr += '<td class="text-right">'+product_share+'</td>';
                                   tr += '</tr>';
@@ -1151,7 +1162,7 @@
                              var modify_good_name = ($("#GoodCode option:selected").text());
                              var a = modify_good_name.split(":");
                              tr += '<tr>';
-                             tr += '<td>';
+                             tr += '<td class="text-center">';
                              tr += tb2_refsocono;
                              tr += '<input type="hidden" name="GoodCode" value="'+tb2_goodcode+'">'
                              tr += '<input type="hidden" name="GoodName1" value="'+a[1]+'">'
@@ -1165,9 +1176,9 @@
                              tr += '<input type="hidden" name="TranQty" value="'+product_amount_tranqty+'">'
                              tr += '<input type="hidden" name="SentQty" value="'+sum_total+'">'
                              tr += '</td>';
-                             tr += '<td class="text-right">'+tb2_docudate+'</td>';
-                             tr += '<td>'+tb2_date_amount+'</td>';
-                             tr += '<td><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
+                             tr += '<td class="text-center">'+tb2_docudate+'</td>';
+                             tr += '<td class="text-right">'+tb2_date_amount+'</td>';
+                             tr += '<td class="text-left"><span title="'+tb2_cus_address+'">'+tb2_cus_address+'</span></td>';
                              tr += '<td class="text-right">'+tb2_goodprice+'</td>';
                              tr += '<td class="text-right">'+product_amount_tranqty+'</td>';
                              tr += '<td class="text-right">'+sum_total+'</td>';
@@ -1246,7 +1257,8 @@
                                   tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                   tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
                                   tr += '</td>';
-                                  tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                  // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                  tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ data.ShipDate +'</span></td>';
                                   tr += '<td><span id="EmpName_'+data.RefSOCOID+'">'+data.CustName+'</span></td>';
                                   tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'">'+data.ContainerNO+'</span></td>';
                                   tr += '<td><span id="Flag_st_'+data.RefSOCOID+'">'+data.Flag_st+'</span></td>';
