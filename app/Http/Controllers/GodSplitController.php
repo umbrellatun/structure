@@ -25,10 +25,17 @@ class GodSplitController extends Controller
           ]);
           if (!$validator->fails()) {
                try {
-                    $details = ICGodSplitDT::where('DocuNO', '=', $DocuNO)->get();
-                    $header = ICGodSplitHD::where('DocuNO', '=', $DocuNO)->first();
+                    // $details = ICGodSplitDT::where('DocuNO', '=', $DocuNO)->get();
+                    $q = "SELECT";
+                    $q .= " DocuNO, RefSOCOID, RefListNO, RefSOCONo, CONVERT ( VARCHAR, SOHD.RefSOCODate, 6) RefSOCODate, CustName, EmpCode";
+                    $q .= ", EmpName, ContainerNO, Flag_st, TranQty, SplitQty";
+                    $q .= " FROM icGodSplit_dt";
+                    $q .= " WHERE";
+                    $q .= " DocuNO = '$DocuNO'";
+                    // $header = ICGodSplitHD::where('DocuNO', '=', $DocuNO)->first();
                     $return['status'] = 1;
-                    $return['details'] = $details;
+                    // $return['details'] = $details;
+                    $return['details'] = \DB::select($q);;
                     $return['header'] = $header;
                } catch (Exception $e) {
                     $return['status'] = 0;

@@ -189,6 +189,7 @@
                                              <tr>
                                                   <th class="border-top-0 text-center">No</th>
                                                   <th class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                  <th class="border-top-0 text-center">เลขที่ใบจอง</th>
                                                   <th class="border-top-0 text-center">วันที่จอง</th>
                                                   <th class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                   <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
@@ -294,7 +295,7 @@
                          $.each(rec.details, function( key, data ) {
                               let cnt_str = (data.CustName.length);
                               let customer_name = data.CustName.slice(0, cnt_str/2);
-                              let customer_name2 = data.CustName.slice(cnt_str/2+1, cnt_str);
+                              let customer_name2 = data.CustName.slice((cnt_str/2)+1, cnt_str);
                               tr += '<tr>';
                               tr += '<td class="text-center">'+i+'</td>';
                               tr += '<td class="text-center">';
