@@ -87,6 +87,8 @@ class HomeController extends Controller
 
     public function get_default_product(Request $request)
     {
+         $ref_soco_no = $request->ref_soco_no;
+         $RefListNO = $request->RefListNO;
          $goodcode = $request->goodcode;
          $shipdate = (date_create($request->shipdate));
          $shipdate = date_format($shipdate, 'Ymd');
@@ -97,6 +99,12 @@ class HomeController extends Controller
          ]);
          if (!$validator->fails()) {
               try {
+                   $hds = ICGodSplitHD::where('ReflistNo', '=', $RefListNO)->where('RefSOCONo', '=', $ref_soco_no)->get();
+                   if(sizeif($hds) > 0));
+                   // if () {
+                   //
+                   // }
+
                    $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, SOHD.DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                    $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
                    $q .= " FROM tmConTain_bk";
@@ -380,7 +388,6 @@ class HomeController extends Controller
          if (!$validator->fails()) {
               try {
                    $dts = ICGodSplitDT::where('DocuNO', '=', $DocuNO)->get();
-
                    $return['status'] = 1;
                    $return['dts'] = $dts;
                    $return['content'] = 'จัดเก็บสำเร็จ';

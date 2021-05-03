@@ -908,6 +908,7 @@
                                   let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
                                   tr += '<tr>';
                                   tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
+                                  tr += '<input type="hidden" name="ref_soco_no" id="tb2_ref_soco_no_hdn" value="'+ref_soco_no+'">';
                                   tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
                                   tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
                                   tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
