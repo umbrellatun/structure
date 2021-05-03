@@ -318,7 +318,7 @@
                          });
 
                          tf += '<tr>';
-                         tf += '<td colspan="5" class="text-right">รวม</td>';
+                         tf += '<td colspan="6" class="text-right">รวม</td>';
                          tf += '<td class="text-center">'+sum+'</td>';
                          tf += '</tr>';
                          $("#simpletable2 tfoot").append(tf);
@@ -386,6 +386,7 @@
                               tr += '<tr>';
                               tr += '<td>'+i+'</td>';
                               tr += '<td>'+data.DocuNO+'</td>';
+                              tr += '<td>'+data.RefSOCONo+'</td>';
                               tr += '<td>'+data.DocuDate+'</td>';
                               tr += '<td>'+data.ShipDate+'</td>';
                               tr += '<td>'+data.CustCode+'</td>';

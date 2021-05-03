@@ -302,7 +302,8 @@
                               tr += data.DocuNO;
                               tr += '<input type="hidden" name="DocuNO" value="'+data.DocuNO+'"/>';
                               tr += '</td>';
-                              tr += '<td class="text-center">'+formatDate(data.RefSOCODate)+'</td>';
+                              tr += '<td class="text-center">'+data.RefSOCONo+'</td>';
+                              tr += '<td class="text-center">'+data.RefSOCODate+'</td>';
                               tr += '<td class="text-left">'+customer_name+'<br/>'+customer_name2+'</td>';
                               tr += '<td class="text-center">'+data.ContainerNO+'</td>';
                               // tr += '<td>'+data.Flag_st+'</td>';
@@ -315,7 +316,7 @@
                          });
 
                          tf += '<tr>';
-                         tf += '<td colspan="5" class="text-right">รวม</td>';
+                         tf += '<td colspan="6" class="text-right">รวม</td>';
                          tf += '<td class="text-center">'+sum+'</td>';
                          tf += '</tr>';
                          $("#simpletable2 tfoot").append(tf);
