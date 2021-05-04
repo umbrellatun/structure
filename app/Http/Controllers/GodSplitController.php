@@ -64,13 +64,18 @@ class GodSplitController extends Controller
 
                     // $details = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                     $q = "SELECT";
-                    $q .= " DocuNO, RefSOCOID, RefListNO, RefSOCONo, CONVERT(VARCHAR, RefSOCODate, 6) RefSOCODate, CustName, EmpCode";
-                    $q .= ", EmpName, ContainerNO, Flag_st, TranQty, SplitQty";
-                    $q .= " FROM icGodSplit_dt";
-                    $q .= " WHERE";
-                    $q .= " DocuNO = '$DocuNO'";
-                    $q .= " ORDER BY DocuNO desc";
-                    $return['details'] = \DB::select($q);;
+                    $q .= " DocuNO";
+                    $q .= ", RefSOCONo";
+                    $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                    $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                    $q .= ", CustCode";
+                    $q .= ", EmpCode";
+                    $q .= ", GoodCode";
+                    $q .= ", AppvStatus";
+                    $q .= ", AppvSplitStatus";
+                    $q .= " FROM icGodSplit_hd";
+                    $q .= " ORDER BY DocuNO DESC";
+                    $return['details'] = \DB::select($q);
                     // $return['details'] = $details;
                     $return['status'] = 1;
                     $return['content'] = 'จัดเก็บสำเร็จ';
@@ -80,6 +85,7 @@ class GodSplitController extends Controller
                     $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
                }
           } else{
+               \DB::rollBack();
                $return['status'] = 0;
           }
           return json_encode($return);

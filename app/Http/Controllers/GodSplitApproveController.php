@@ -13,6 +13,20 @@ class GodSplitApproveController extends Controller
      {
           $data["title"] = "ยืนยันแบ่งสินค้า";
           $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
+          // $q = "SELECT";
+          // $q .= " DocuNO";
+          // $q .= ", RefSOCONo";
+          // $q .= ", DocuDate";
+          // $q .= ", ShipDate";
+          // $q .= ", CustName";
+          // $q .= ", EmpName";
+          // $q .= ", GoodName1";
+          // $q .= ", AppvStatus";
+          // $q .= ", AppvSplitStatus";
+          // $q .= " FROM";
+          // $q .= " icGodSplit_hd";
+          // $q .= " WHERE AppvStatus = 'Y'";
+          // $q .= " ORDER BY DocuNO DESC";
           return view('godapprovesplitlist', $data);
      }
 
@@ -59,9 +73,21 @@ class GodSplitApproveController extends Controller
                     ];
                     ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                     \DB::commit();
+                    $q = "SELECT DocuNO, RefSOCONo";
+                    $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                    $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                    $q .= ", CustName";
+                    $q .= ", EmpName";
+                    $q .= ", GoodName1";
+                    $q .= ", AppvStatus";
+                    $q .= ", AppvSplitStatus";
+                    $q .= " FROM icGodSplit_hd";
+                    $q .= " WHERE AppvStatus = 'Y'";
+                    $q .= " ORDER BY DocuNO DESC";
 
-                    $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
-                    $return['details'] = $details;
+                    $return['details'] = \DB::select($q);
+                    // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
+                    // $return['details'] = $details;
                     $return['status'] = 1;
                     $return['content'] = 'จัดเก็บสำเร็จ';
                } catch (Exception $e) {

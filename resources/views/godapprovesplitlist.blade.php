@@ -114,8 +114,8 @@
                                                                       <td>{{$i}}</td>
                                                                       <td>{{$header->DocuNO}}</td>
                                                                       <td>{{$header->RefSOCONo}}</td>
-                                                                      <td>{{ date_format(date_create($header->DocuDate), "d/m/Y")}}</td>
-                                                                      <td>{{ date_format(date_create($header->ShipDate), "d/m/Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->ShipDate), "d M Y")}}</td>
                                                                       <td>{{$header->CustName}}</td>
                                                                       <td>{{$header->EmpName}}</td>
                                                                       <td>{{$header->GoodName1}}</td>
@@ -236,36 +236,36 @@
           year = d.getFullYear();
 
           if (month == 1){
-               month = '01';
+               month = 'Jan';
           } else if (month == 2) {
-               month = '02';
+               month = 'Feb';
           } else if (month == 3) {
-               month = '03';
+               month = 'Mar';
           } else if (month == 4) {
-               month = '04';
+               month = 'Apr';
           } else if (month == 5) {
-               month = '05';
+               month = 'May';
           } else if (month == 6) {
-               month = '06';
+               month = 'Jun';
           } else if (month == 7) {
-               month = '07';
+               month = 'Jul';
           } else if (month == 8) {
-               month = '08';
+               month = 'Aug';
           } else if (month == 9) {
-               month = '09';
+               month = 'Sep';
           } else if (month == 10) {
-               month = '10';
+               month = 'Oct';
           } else if (month == 11) {
-               month = '11';
+               month = 'Nov';
           } else if (month == 12) {
-               month = '12';
+               month = 'Dec';
           }
           // if (month.length < 2)
           // month = '0' + month;
           if (day.length < 2)
           day = '0' + day;
 
-          return [day, month, year].join('/');
+          return [day, month, year].join(' ');
      }
 
      $('body').on('click', '.btn-edit', function (e) {
@@ -383,11 +383,12 @@
                                    tr += '<tr>';
                                    tr += '<td>'+i+'</td>';
                                    tr += '<td>'+data.DocuNO+'</td>';
-                                   tr += '<td>'+data.DocuDate+'</td>';
-                                   tr += '<td>'+formatDate(data.ShipDate)+'</td>';
-                                   tr += '<td>'+data.CustCode+'</td>';
-                                   tr += '<td>'+data.EmpCode+'</td>';
-                                   tr += '<td>'+data.GoodCode+'</td>';
+                                   tr += '<td>'+data.RefSOCONo+'</td>';
+                                   tr += '<td>'+(data.DocuDate)+'</td>';
+                                   tr += '<td>'+(data.ShipDate)+'</td>';
+                                   tr += '<td>'+data.CustName+'</td>';
+                                   tr += '<td>'+data.EmpName+'</td>';
+                                   tr += '<td>'+data.GoodName1+'</td>';
                                    tr += '<td class="text-center">';
                                    if (data.AppvStatus == 'N') {
                                         tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';

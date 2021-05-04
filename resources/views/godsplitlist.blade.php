@@ -114,8 +114,8 @@
                                                                       <td>{{$i}}</td>
                                                                       <td>{{$header->DocuNO}}</td>
                                                                       <td>{{$header->RefSOCONo}}</td>
-                                                                      <td>{{ date_format(date_create($header->DocuDate), "d/m/Y")}}</td>
-                                                                      <td>{{ date_format(date_create($header->ShipDate), "d/m/Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
+                                                                      <td>{{ date_format(date_create($header->ShipDate), "d M Y")}}</td>
                                                                       <td>{{$header->CustName}}</td>
                                                                       <td>{{$header->EmpName}}</td>
                                                                       <td>{{$header->GoodName1}}</td>
@@ -266,7 +266,7 @@
           if (day.length < 2)
           day = '0' + day;
 
-          return [day, month, year].join('/');
+          return [day, month, year].join(' ');
      }
 
      $('body').on('click', '.btn-edit', function (e) {
@@ -387,8 +387,8 @@
                               tr += '<td>'+i+'</td>';
                               tr += '<td>'+data.DocuNO+'</td>';
                               tr += '<td>'+data.RefSOCONo+'</td>';
-                              tr += '<td>'+data.DocuDate+'</td>';
-                              tr += '<td>'+data.ShipDate+'</td>';
+                              tr += '<td>'+(data.DocuDate)+'</td>';
+                              tr += '<td>'+(data.ShipDate)+'</td>';
                               tr += '<td>'+data.CustCode+'</td>';
                               tr += '<td>'+data.EmpCode+'</td>';
                               tr += '<td>'+data.GoodCode+'</td>';
@@ -433,7 +433,7 @@
                        swal("", rec.content, "warning");
                   }
             }).fail(function(){
-                  btn.button("reset");
+                  // btn.button("reset");
             });
          },
          invalidHandler: function (form) {
