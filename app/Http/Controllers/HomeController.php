@@ -109,7 +109,7 @@ class HomeController extends Controller
                         $return['status'] = 2;
                    } else {
                         // $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
-                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
+                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_bk";
                         $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
@@ -123,7 +123,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_dl";
                         $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
@@ -137,7 +137,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                         $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain";
                         $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";
@@ -177,7 +177,7 @@ class HomeController extends Controller
               try {
                    if ($share_product == 'Y') {
                         // $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
-                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
+                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_bk";
                         $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
@@ -191,7 +191,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_dl";
                         $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
@@ -205,7 +205,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                         $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain";
                         $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";
@@ -219,7 +219,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                    } else {
                         // $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
-                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
+                        $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_bk_dt.EmpCode, tmConTain_bk_dt.EmpName, tmConTain_bk.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_bk.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_bk.Flag_st = 'R' THEN 'เตรียม' ELSE '' END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_bk";
                         $q .= " INNER JOIN tmConTain_bk_dt ON tmConTain_bk.ContainerNO = tmConTain_bk_dt.ContainerNO";
@@ -233,7 +233,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dl_dt.EmpCode, tmConTain_dl_dt.EmpName, tmConTain_dl.ContainerNO";
                         $q .= ", CASE WHEN tmConTain_dl.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain_dl.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain_dl";
                         $q .= " INNER JOIN tmConTain_dl_dt ON tmConTain_dl.ContainerNO = tmConTain_dl_dt.ContainerNO";
@@ -247,7 +247,7 @@ class HomeController extends Controller
                         // $q .= " AND CONVERT ( VARCHAR, SOHD.ShipDate, 112 ) = '$shipdate'";
                         $q .= " UNION ALL";
                         // $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
-                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
+                        $q .= " SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CONVERT ( VARCHAR, SOHD.ShipDate, 6) ShipDate, SOHD.CustName, tmConTain_dt.EmpCode, tmConTain_dt.EmpName, tmConTain.ContainerNO";
                         $q .= ", CASE WHEN tmConTain.Flag_st = 'Y' THEN 'ปิด'  WHEN tmConTain.Flag_st = 'R' THEN 'เตรียม' ELSE ''  END AS Flag_st, TranQty";
                         $q .= " FROM tmConTain";
                         $q .= " INNER JOIN tmConTain_dt ON tmConTain.ContainerNO = tmConTain_dt.ContainerNO";

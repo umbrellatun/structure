@@ -985,6 +985,7 @@
                                             let tr = '';
                                             let chkbox = '';
                                             if (rec.datas.length > 0){
+                                                 console.log(rec.datas);
                                                  $.each(rec.datas, function( key, data ) {
                                                       if (data.Flag_st.length == 0){
                                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
@@ -1326,6 +1327,7 @@
                    validate_errorplacement(error, element);
               },
               submitHandler: function (form) {
+
                    $("#FormAdd").find('[type="submit"]').prop('disabled', true);;
                    share_product_radio = $('input[name=share_product_radio]:checked').val();
                    data = $("#FormAdd").serializeArray();
