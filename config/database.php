@@ -100,6 +100,19 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'sqlsrv109' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_109', '192.168.1.109'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE_109', 'DTDBM'),
+            'username' => env('DB_USERNAME', 'it'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
     ],
 
     /*
