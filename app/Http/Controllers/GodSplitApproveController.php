@@ -71,13 +71,22 @@ class GodSplitApproveController extends Controller
                     $check_flag = \DB::select($q);
                     if (count($check_flag) > 0){
                          $return['status'] = 0;
-                         $return['content'] = 'ตรวจสอบสถานะตู้';
+                         $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
+                         $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
                     } else {
                          $data = [
                               'AppvSplitStatus' => $AppvStatus
                          ];
                          ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                          \DB::commit();
+
+                         $DocuNO = "";
+                         $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
+                         dd($resStore);
+
+                         if ($resStore == true){
+                              \DB::commit();
+                         }
 
                          $q = "SELECT DocuNO, RefSOCONo";
                          $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";

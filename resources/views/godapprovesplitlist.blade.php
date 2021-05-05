@@ -426,7 +426,7 @@
                          }
                          $("#simpletable tbody").append(tr);
                     } else {
-                         swal("", rec.content, "warning");
+                         swal(rec.title, rec.content, "warning");
                     }
                }).fail(function(){
 
