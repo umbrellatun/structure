@@ -78,12 +78,9 @@ class GodSplitApproveController extends Controller
                               'AppvSplitStatus' => $AppvStatus
                          ];
                          ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                         \DB::commit();
+                         // \DB::commit();
 
-                         $DocuNO = "";
                          $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
-                         dd($resStore);
-
                          if ($resStore == true){
                               \DB::commit();
                          }

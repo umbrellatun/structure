@@ -105,7 +105,7 @@ return [
             'url' => env('DATABASE_URL'),
             'host' => env('DB_HOST_109', '192.168.1.109'),
             'port' => env('DB_PORT', '1433'),
-            'database' => env('DB_DATABASE_109', 'DTDBM'),
+            'database' => env('DB_DATABASE_109', 'TMDBM'),
             'username' => env('DB_USERNAME', 'it'),
             'password' => env('DB_PASSWORD', ''),
             'charset' => 'utf8',
