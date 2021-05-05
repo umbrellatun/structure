@@ -998,7 +998,7 @@
                                                       tr += '<td>';
                                                       tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                                       tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                                      tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                                      tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.EmpName+'">';
                                                       tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
                                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
@@ -1252,7 +1252,7 @@
                                   tr += '<td>';
                                   tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
                                   tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
-                                  tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.CustName+'">';
+                                  tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" value="'+data.EmpName+'">';
                                   tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" value="'+data.EmpCode+'">';
                                   tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" value="'+data.DocuDate+'">';
                                   tr += '<span id="RefSOCONo_'+data.RefSOCOID+'">'+data.RefSOCONo+'</span>';
