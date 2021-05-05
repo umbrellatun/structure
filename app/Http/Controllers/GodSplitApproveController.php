@@ -83,6 +83,8 @@ class GodSplitApproveController extends Controller
                          $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
                          if ($resStore == true){
                               \DB::commit();
+                         } else {
+                              \DB::rollBack();
                          }
 
                          $q = "SELECT DocuNO, RefSOCONo";

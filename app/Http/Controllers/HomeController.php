@@ -341,14 +341,15 @@ class HomeController extends Controller
                             ,'RefListNO' => $tb4_RefListNO[$i]
                             ,'RefSOCONo' => $tb4_RefSOCONo[$i]
                             ,'RefSOCODate' => $tb4_DocuDate[$i]
-                            ,'CustName' => $tb4_CustName[$i]
+                            ,'CustName' => $tb4_EmpName[$i]
                             ,'EmpCode' => $tb4_EmpCode[$i]
-                            ,'EmpName' => $tb4_EmpName[$i]
+                            ,'EmpName' => $tb4_CustName[$i]
                             ,'ContainerNO' => $tb4_ContainerNO[$i]
                             ,'Flag_st' => $tb4_Flag_st[$i]
                             ,'TranQty' => $tb4_TranQty[$i]
                             ,'SplitQty' => $tb4_SplitQty[$i]
                        ];
+                       dd($data);
                        \DB::table('icGodSplit_dt')->insert($data);
                   }
                   \DB::commit();
