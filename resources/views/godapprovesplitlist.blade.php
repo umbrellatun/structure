@@ -19,6 +19,8 @@
      <!-- Favicon icon -->
      {{-- <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon"> --}}
      <link rel="icon" href="{{asset('assets/images/JT-01.ico')}}" type="image/x-icon">
+     <!-- data tables css -->
+    <link rel="stylesheet" href="assets/css/plugins/dataTables.bootstrap4.min.css">
      <!-- vendor css -->
      <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
      <style>
@@ -160,7 +162,6 @@
                                                                  <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
                                                             </tr>
                                                        @endif
-
                                                   </tbody>
                                              </table>
                                         </div>
@@ -223,7 +224,9 @@
      <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
      <script src="{{asset('assets/js/pcoded.min.js')}}"></script>
      {{-- <script src="{{asset('assets/js/menu-setting.min.js')}}"></script> --}}
-
+     <!-- datatable Js -->
+     <script src="{{asset('assets/js/plugins/jquery.dataTables.min.js')}}"></script>
+     <script src="{{asset('assets/js/plugins/dataTables.bootstrap4.min.js')}}"></script>
      <!-- jquery-validation Js -->
      <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
      <!-- sweet alert Js -->
@@ -426,15 +429,21 @@
                          }
                          $("#simpletable tbody").append(tr);
                     } else {
-                         swal(rec.title, rec.content, "warning");
+                         swal("", "ไม่สำเร็จ", "warning");
                     }
                }).fail(function(){
-
+                    swal("", "ไม่สำเร็จ", "warning");
                });
           },
           invalidHandler: function (form) {
 
           }
+     });
+
+     $(document).ready(function() {
+         setTimeout(function() {
+             $('#simpletable').DataTable();
+         }, 350);
      });
      </script>
 
