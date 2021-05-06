@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\ICGodSplitHD;
 use App\Models\ICGodSplitDT;
+use Illuminate\Database\QueryException;
 
 class GodSplitApproveController extends Controller
 {
@@ -82,13 +83,7 @@ class GodSplitApproveController extends Controller
                          // \DB::commit();
 
                          $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
-                         if ($resStore == true) {
-                              \DB::commit();
-                         } else {
-                              \DB::rollBack();
-                              $return['status'] = 0;
-                              $return['content'] = 'ไม่สำเร็จ';
-                         }
+                         \DB::commit();
 
                          $q = "SELECT DocuNO, RefSOCONo";
                          $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
@@ -107,10 +102,24 @@ class GodSplitApproveController extends Controller
                          $return['status'] = 1;
                          $return['content'] = 'จัดเก็บสำเร็จ';
                     }
-               } catch (Exception $e) {
+               } catch (Exception $ep) {
+                    \DB::rollBack();
+                    $return['status'] = 0;
+                    $return['content'] = 'ไม่สำเร็จ'.$ep->getMessage();
+               } catch (QueryException $e) {
                     \DB::rollBack();
                     $return['status'] = 0;
                     $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+               } catch (\Throwable $exception) {
+                    \DB::rollBack();
+                    $return['status'] = 0;
+                    $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+                    throw new InvalidPaginationException();
+               } catch (\PDOException $exception) {
+                    \DB::rollBack();
+                    $return['status'] = 0;
+                    $return['content'] = 'ไม่สำเร็จ'.$ep->getMessage();
+                    throw new InvalidPaginationException();
                }
           } else{
                $return['status'] = 0;
