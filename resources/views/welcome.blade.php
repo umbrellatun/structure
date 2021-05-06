@@ -58,7 +58,7 @@
          width: 100%;
          height: 100%;
          z-index: 9999;
-         background: url('../../../public/assets/images/Pulse-1s-200px.gif') 50% 50% no-repeat rgb(249,249,249);
+         background: url({{asset('assets/images/Pulse-1s-200px.gif')}}) 50% 50% no-repeat rgb(249,249,249);
          opacity: .8;
     }
     </style>
@@ -519,8 +519,9 @@
                   </div>
             </div>
         </div>
- </div>
+   </div>
     <!-- End Modal -->
+    <div id="preloaders" class="preloader" style="display:none;"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
     <!-- Required Js -->
     <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
@@ -864,10 +865,10 @@
                              'X-CSRF-TOKEN': "{{ csrf_token() }}"
                         },
                         beforeSend: function() {
-                             $("#preloaders").css("display", "block");
+                             $(".preloader").css("display", "block");
                         },
                    }).done(function(rec){
-                        $("#preloaders").css("display", "none");
+                        $(".preloader").css("display", "none");
                         $("#table1 tbody").empty();
                         if(rec.status==1){
                              let modify_good_name = ($("#GoodCode option:selected").text());
@@ -913,7 +914,7 @@
                              swal("", rec.content, "warning");
                         }
                    }).fail(function(){
-                        $("#preloaders").css("display", "none");
+                        $(".preloader").css("display", "none");
                         swal("", rec.content, "error");
                    });
               }
@@ -976,10 +977,10 @@
                                             'X-CSRF-TOKEN': "{{ csrf_token() }}"
                                        },
                                        beforeSend: function() {
-                                            $("#preloaders").css("display", "block");
+                                            $(".preloader").css("display", "block");
                                        },
                                   }).done(function(rec){
-                                       $("#preloaders").css("display", "none");
+                                       $(".preloader").css("display", "none");
                                        $("#table3 tbody").empty();
                                        if(rec.status==1){
                                             let tr = '';
@@ -1061,7 +1062,7 @@
                                             }
                                        }
                                   }).fail(function(){
-                                       $("#preloaders").css("display", "none");
+                                       $(".preloader").css("display", "none");
                                        swal("", "", "error");
                                        return false;
                                   });
@@ -1231,10 +1232,10 @@
                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
                    },
                    beforeSend: function() {
-                        $("#preloaders").css("display", "block");
+                        $(".preloader").css("display", "block");
                    },
               }).done(function(rec){
-                   $("#preloaders").css("display", "none");
+                   $(".preloader").css("display", "none");
                    $("#table3 tbody").empty();
                    if(rec.status==1){
                         let tr = '';
@@ -1301,7 +1302,7 @@
                         swal("", rec.content, "warning");
                    }
               }).fail(function(){
-                   $("#preloaders").css("display", "none");
+                   $(".preloader").css("display", "none");
                    swal("", rec.content, "error");
               });
          });

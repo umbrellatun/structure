@@ -39,7 +39,8 @@
           width: 100%;
           height: 100%;
           z-index: 9999;
-          background: url('../../../public/assets/images/Pulse-1s-200px.gif') 50% 50% no-repeat rgb(249,249,249);
+          /* background: url('../../../public/') 50% 50% no-repeat rgb(249,249,249); */
+          background: url({{asset('assets/images/Pulse-1s-200px.gif')}}) 50% 50% no-repeat rgb(249,249,249);
           opacity: .8;
      }
      </style>
@@ -219,6 +220,7 @@
           </div>
      </div>
      <!-- end Modal edit -->
+     <div id="preloaders" class="preloader" style="display:none;"></div>
      <!-- Required Js -->
      <script src="{{asset('assets/js/vendor-all.min.js')}}"></script>
      <script src="{{asset('assets/js/plugins/bootstrap.min.js')}}"></script>
@@ -283,7 +285,7 @@
                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
                },
                beforeSend: function() {
-                    $("#preloaders").css("display", "block");
+                    $(".preloader").css("display", "block");
                },
           }).done(function(rec){
                if (rec.status == 1){
@@ -338,9 +340,9 @@
                          $(".modal-footer").html("");
                     }
                }
-               $("#preloaders").css("display", "none");
+               $(".preloader").css("display", "none");
           }).fail(function(){
-               $("#preloaders").css("display", "none");
+               $(".preloader").css("display", "none");
                swal("", rec.content, "error");
           });
      });
@@ -372,8 +374,12 @@
                     data : $("#FormEdit").serialize(),
                     headers: {
                          'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                    }
+                    },
+                    beforeSend: function() {
+                         $(".preloader").css("display", "block");
+                    },
                }).done(function(rec){
+                    $(".preloader").css("display", "none");
                     if (rec.status == 1) {
                          swal("", rec.content, "success");
                          $("#ModalEdit").modal('hide');
@@ -431,7 +437,9 @@
                     } else {
                          swal("", "ไม่สำเร็จ", "warning");
                     }
+                    $('#simpletable').DataTable();
                }).fail(function(){
+                    $(".preloader").css("display", "none");
                     swal("", "ไม่สำเร็จ", "warning");
                });
           },
