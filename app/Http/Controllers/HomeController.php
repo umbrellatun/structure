@@ -349,7 +349,6 @@ class HomeController extends Controller
                             ,'TranQty' => $tb4_TranQty[$i]
                             ,'SplitQty' => $tb4_SplitQty[$i]
                        ];
-                       dd($data);
                        \DB::table('icGodSplit_dt')->insert($data);
                   }
                   \DB::commit();

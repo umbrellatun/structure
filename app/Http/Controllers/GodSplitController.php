@@ -55,6 +55,7 @@ class GodSplitController extends Controller
 
           ]);
           if (!$validator->fails()) {
+               \DB::beginTransaction();
                try {
                     $data = [
                          'AppvStatus' => $AppvStatus

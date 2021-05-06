@@ -54,6 +54,7 @@ class GodSplitApproveController extends Controller
 
           ]);
           if (!$validator->fails()) {
+               \DB::beginTransaction();
                try {
                     $q = "SELECT Flag_st FROM";
                     $q .= " (";
@@ -81,10 +82,12 @@ class GodSplitApproveController extends Controller
                          // \DB::commit();
 
                          $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
-                         if ($resStore == true){
+                         if ($resStore == true) {
                               \DB::commit();
                          } else {
                               \DB::rollBack();
+                              $return['status'] = 0;
+                              $return['content'] = 'ไม่สำเร็จ';
                          }
 
                          $q = "SELECT DocuNO, RefSOCONo";
