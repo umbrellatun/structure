@@ -112,7 +112,6 @@
                                                        @php $i=1; @endphp
                                                        @if (count($headers) > 0)
                                                             @foreach ($headers as $key => $header)
-
                                                                  <tr>
                                                                       <td>{{$i}}</td>
                                                                       <td>{{$header->DocuNO}}</td>
