@@ -90,6 +90,9 @@
                                    <div class="card-header">
                                         <h5>{{$title}}</h5>
                                    </div>
+                                        {{-- <button class="btn btn-primary btn-test text-white">
+                                             <i class="fas fa-check-circle bigger-120"></i>TEST
+                                        </button> --}}
                                    <div class="card-body">
                                         <div class="dt-responsive table-responsive">
                                              <table id="simpletable" class="table table-striped table-bordered nowrap">
@@ -272,9 +275,14 @@
           return [day, month, year].join(' ');
      }
 
+     // $('body').on('click', '.btn-test', function (e) {
+     //      $(".btn-test").attr("disabled", true);
+     // });
+
      $('body').on('click', '.btn-edit', function (e) {
           e.preventDefault();
           var data = $(this).data('value');
+          $(".btn-success").attr("disabled", false);
           $.ajax({
                method : "post",
                url : '{{ route('godsplitApprove.get_detail') }}',
@@ -376,6 +384,7 @@
                     },
                     beforeSend: function() {
                          $(".preloader").css("display", "block");
+                         $(".btn-success").attr("disabled", true);
                     },
                }).done(function(rec){
                     $(".preloader").css("display", "none");
@@ -437,6 +446,7 @@
                          swal("", "ไม่สำเร็จ", "warning");
                     }
                     $('#simpletable').DataTable();
+                    $(".btn-success").attr("disabled", false);
                }).fail(function(){
                     $(".preloader").css("display", "none");
                     swal("", "ไม่สำเร็จ", "warning");
