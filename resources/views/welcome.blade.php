@@ -1079,21 +1079,23 @@
                    $("#table5 tbody").empty();
                    var valids = new Array();
                    var product_share_chk_arr = new Array();
+                   var product_share_chk_arr2 = new Array();
                    $('.product_share_chk').each(function(i, obj) {
                         valids.push($(obj).prop("checked"));
                         product_share_chk_arr.push($(obj).data("value"));
+                        product_share_chk_arr2.push($(obj).data("container") );
                    });
 
                    if (jQuery.inArray(true, valids) != -1) {
                         let sum_total = 0;
                         for (var i = 0; i < product_share_chk_arr.length; i++) {
-                             if($("#product_share_" + product_share_chk_arr[i]).val() == ''){
-                                  if ($("#product_share_chk_" + product_share_chk_arr[i]).prop("checked")){
+                             if($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val() == ''){
+                                  if ($(".product_share_chk_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).prop("checked")){
                                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
                                        return false;
                                   }
                              } else {
-                                  sum_total = sum_total + parseInt($("#product_share_" + product_share_chk_arr[i]).val());
+                                  sum_total = sum_total + parseInt($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val());
 
                                   let RefSOCOID = $("#RefSOCOID_" + product_share_chk_arr[i]).val();
                                   let RefListNO = $("#RefListNO_" + product_share_chk_arr[i]).val();
@@ -1132,9 +1134,11 @@
                                   tr += '<td class="text-right">'+product_share+'</td>';
                                   tr += '</tr>';
                                   $("#table4 tbody").append(tr);
+
                              }
 
                         }
+                        console.log(sum_total);
                         if (sum_total > parseInt($("#sum_amount_product").text())){
                              notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "รวมจำนวนสินค้าต้องไม่เกินจำนวนสินค้าสั่งจอง");
                              return false;
