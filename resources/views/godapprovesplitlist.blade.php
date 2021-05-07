@@ -443,13 +443,13 @@
                          }
                          $("#simpletable tbody").append(tr);
                     } else {
-                         swal("", "ไม่สำเร็จ", "warning");
+                         swal(rec.content, "ไม่สำเร็จ", "warning");
                     }
                     $('#simpletable').DataTable();
                     $(".btn-success").attr("disabled", false);
                }).fail(function(){
                     $(".preloader").css("display", "none");
-                    swal("", "ไม่สำเร็จ", "warning");
+                    swal(rec.content, "ไม่สำเร็จ", "warning");
                });
           },
           invalidHandler: function (form) {

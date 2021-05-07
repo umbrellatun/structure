@@ -55,53 +55,70 @@ class GodSplitApproveController extends Controller
 
           ]);
           if (!$validator->fails()) {
-               // \DB::beginTransaction();
                try {
-                    $q = "SELECT Flag_st FROM";
-                    $q .= " (";
-                    $q .= " SELECT Flag_st FROM tmConTain_bk WHERE ContainerNO IN";
-                    $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
-                    $q .= " UNION ALL";
-                    $q .= " SELECT Flag_st FROM tmConTain_dl WHERE ContainerNO IN";
-                    $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
-                    $q .= " UNION ALL";
-                    $q .= " SELECT Flag_st FROM tmConTain WHERE ContainerNO IN";
-                    $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
-                    $q .= " ) tmConTain";
-                    $q .= " WHERE";
-                    $q .= " Flag_st <> 'N'";
-                    $check_flag = \DB::select($q);
-                    if (count($check_flag) > 0){
-                         $return['status'] = 0;
-                         $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
-                         $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
+                    if($AppvStatus == 'R'){
+                         \DB::beginTransaction();
+                         $data = [
+                              'AppvSplitStatus' => 'R'
+                         ];
+                         ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                         \DB::commit();
+                         $return['status'] = 1;
+                         $return['content'] = 'Reject สำเร็จ';
+                         $q = "SELECT DocuNO, RefSOCONo";
+                         $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                         $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                         $q .= ", CustName";
+                         $q .= ", EmpName";
+                         $q .= ", GoodName1";
+                         $q .= ", AppvStatus";
+                         $q .= ", AppvSplitStatus";
+                         $q .= " FROM icGodSplit_hd";
+                         $q .= " WHERE AppvStatus = 'Y'";
+                         $q .= " ORDER BY DocuNO DESC";
+                         $return['details'] = \DB::select($q);
                     } else {
-                         // $data = [
-                         //      'AppvSplitStatus' => $AppvStatus
-                         // ];
-                         // ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                         $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
-                         if ($resStore == true){
-                              // \DB::commit();
-                              $q = "SELECT DocuNO, RefSOCONo";
-                              $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
-                              $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
-                              $q .= ", CustName";
-                              $q .= ", EmpName";
-                              $q .= ", GoodName1";
-                              $q .= ", AppvStatus";
-                              $q .= ", AppvSplitStatus";
-                              $q .= " FROM icGodSplit_hd";
-                              $q .= " WHERE AppvStatus = 'Y'";
-                              $q .= " ORDER BY DocuNO DESC";
-                              $return['details'] = \DB::select($q);
-                              // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
-                              // $return['details'] = $details;
-                              $return['status'] = 1;
-                              $return['content'] = 'จัดเก็บสำเร็จ';
-                         } else {
-                              \DB::rollBack();
+                         $q = "SELECT Flag_st FROM";
+                         $q .= " (";
+                         $q .= " SELECT Flag_st FROM tmConTain_bk WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " UNION ALL";
+                         $q .= " SELECT Flag_st FROM tmConTain_dl WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " UNION ALL";
+                         $q .= " SELECT Flag_st FROM tmConTain WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " ) tmConTain";
+                         $q .= " WHERE";
+                         $q .= " Flag_st <> 'N'";
+                         $check_flag = \DB::select($q);
+                         if (count($check_flag) > 0){
                               $return['status'] = 0;
+                              $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
+                              $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
+                         } else {
+                              $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
+                              if ($resStore == true){
+                                   $q = "SELECT DocuNO, RefSOCONo";
+                                   $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                                   $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                                   $q .= ", CustName";
+                                   $q .= ", EmpName";
+                                   $q .= ", GoodName1";
+                                   $q .= ", AppvStatus";
+                                   $q .= ", AppvSplitStatus";
+                                   $q .= " FROM icGodSplit_hd";
+                                   $q .= " WHERE AppvStatus = 'Y'";
+                                   $q .= " ORDER BY DocuNO DESC";
+                                   $return['details'] = \DB::select($q);
+                                   // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
+                                   // $return['details'] = $details;
+                                   $return['status'] = 1;
+                                   $return['content'] = 'จัดเก็บสำเร็จ';
+                              } else {
+                                   \DB::rollBack();
+                                   $return['status'] = 0;
+                              }
                          }
                     }
                } catch (Exception $ep) {
