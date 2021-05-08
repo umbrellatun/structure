@@ -524,7 +524,7 @@
                e.preventDefault();
                $.ajax({
                     method : "POST",
-                    url : '{{ route('godsplit.test') }}',
+                    url : '{{ route('godsplitApprove.test') }}',
                     dataType : 'json',
                     data : $("#FormEdit").serialize(),
                     headers: {
