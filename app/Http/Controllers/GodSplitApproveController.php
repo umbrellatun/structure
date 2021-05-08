@@ -96,6 +96,18 @@ class GodSplitApproveController extends Controller
                               $return['status'] = 0;
                               $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
                               $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
+                              $q = "SELECT DocuNO, RefSOCONo";
+                              $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                              $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                              $q .= ", CustName";
+                              $q .= ", EmpName";
+                              $q .= ", GoodName1";
+                              $q .= ", AppvStatus";
+                              $q .= ", AppvSplitStatus";
+                              $q .= " FROM icGodSplit_hd";
+                              $q .= " WHERE AppvStatus = 'Y'";
+                              $q .= " ORDER BY DocuNO DESC";
+                              $return['details'] = \DB::select($q);
                          } else {
                               $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
                               if ($resStore == true){
@@ -143,6 +155,23 @@ class GodSplitApproveController extends Controller
           } else{
                $return['status'] = 0;
           }
+          return json_encode($return);
+     }
+
+     public function test($value='')
+     {
+          $q = "SELECT DocuNO, RefSOCONo";
+          $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+          $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+          $q .= ", CustName";
+          $q .= ", EmpName";
+          $q .= ", GoodName1";
+          $q .= ", AppvStatus";
+          $q .= ", AppvSplitStatus";
+          $q .= " FROM icGodSplit_hd";
+          $q .= " WHERE AppvStatus = 'Y'";
+          $q .= " ORDER BY DocuNO DESC";
+          $return['details'] = \DB::select($q);
           return json_encode($return);
      }
 }

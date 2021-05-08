@@ -23,6 +23,7 @@ Route::post('/godsplit/updateAppvStatus', 'GodSplitController@updateAppvStatus')
 Route::get('/godsplitApprove', 'GodSplitApproveController@index');
 Route::post('/godsplitApprove/get_detail', 'GodSplitApproveController@get_detail')->name('godsplitApprove.get_detail');
 Route::post('/godsplitApprove/updateAppvSplitStatus', 'GodSplitApproveController@updateAppvSplitStatus')->name('godsplitApprove.updateAppvSplitStatus');
+Route::post('/godsplitApprove/test', 'GodSplitApproveController@test')->name('godsplitApprove.test');
 
 
 Route::get('/customer/{customer_id}', 'HomeController@index')->name('customer');

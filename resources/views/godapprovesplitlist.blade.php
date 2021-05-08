@@ -90,9 +90,6 @@
                                    <div class="card-header">
                                         <h5>{{$title}}</h5>
                                    </div>
-                                        {{-- <button class="btn btn-primary btn-test text-white">
-                                             <i class="fas fa-check-circle bigger-120"></i>TEST
-                                        </button> --}}
                                    <div class="card-body">
                                         <div class="dt-responsive table-responsive">
                                              <table id="simpletable" class="table table-striped table-bordered nowrap">
@@ -172,10 +169,18 @@
                               </div>
                          </div>
                     </div>
+                    <div class="row">
+                         <div class="col-12">
+                              <button class="btn btn-primary btn-test text-white">
+                                   <i class="fas fa-sync-alt"></i> Refresh
+                              </button>
+                         </div>
+                    </div>
                     <!-- [ Main Content ] end -->
                </div>
           </div>
      </div>
+
 
      <!-- Modal Edit -->
      <div class="modal fade bd-example-modal-lg" id="ModalEdit" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true" data-backdrop="static" data-keyboard="false">
@@ -236,6 +241,18 @@
      <!-- sweet alert Js -->
      <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
      <script type="text/javascript">
+
+     $(document).ready(function() {
+        $('#simpletable').DataTable(
+             {
+                  "processing": true,
+                  "serverSide": false,
+                  "paging": true,
+                  "pageLength": 10,
+             }
+        );
+     });
+
      function formatDate(date) {
           var d = new Date(date),
           month = '' + (d.getMonth() + 1),
@@ -275,9 +292,7 @@
           return [day, month, year].join(' ');
      }
 
-     // $('body').on('click', '.btn-test', function (e) {
-     //      $(".btn-test").attr("disabled", true);
-     // });
+
 
      $('body').on('click', '.btn-edit', function (e) {
           e.preventDefault();
@@ -457,10 +472,89 @@
           }
      });
 
-     $(document).ready(function() {
-         setTimeout(function() {
-             $('#simpletable').DataTable();
-         }, 350);
+     $(function() {
+          $('body').on('click', '.btn-test', function (e) {
+               // $('#simpletable').DataTable({
+               //      "destroy": true,
+               // });
+               e.preventDefault();
+               $.ajax({
+                    method : "POST",
+                    url : '{{ route('godsplitApprove.test') }}',
+                    dataType : 'json',
+                    data : $("#FormEdit").serialize(),
+                    headers: {
+                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                         $(".preloader").css("display", "block");
+                         $(".btn-success").attr("disabled", true);
+                    },
+               }).done(function(rec){
+                    $(".preloader").css("display", "none");
+                    $("#simpletable tbody").empty();
+                    let tr = '';
+                    if (rec.details.length > 0){
+                         var i = 1;
+                         let flag = '';
+                         $.each(rec.details, function( key, data ) {
+                              tr += '<tr>';
+                              tr += '<td>'+i+'</td>';
+                              tr += '<td>'+data.DocuNO+'</td>';
+                              tr += '<td>'+data.RefSOCONo+'</td>';
+                              tr += '<td>'+(data.DocuDate)+'</td>';
+                              tr += '<td>'+(data.ShipDate)+'</td>';
+                              tr += '<td>'+data.CustName+'</td>';
+                              tr += '<td>'+data.EmpName+'</td>';
+                              tr += '<td>'+data.GoodName1+'</td>';
+                              tr += '<td class="text-center">';
+                              if (data.AppvStatus == 'N') {
+                                   tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvStatus == 'Y'){
+                                   tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvStatus == 'C'){
+                                   tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              tr += '</td>';
+                              tr += '<td class="text-center">';
+                              if (data.AppvSplitStatus == 'N') {
+                                   tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvSplitStatus == 'Y'){
+                                   tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvSplitStatus == 'R'){
+                                   tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              tr += '</td>';
+                              tr += '<td class="text-center">';
+                              tr += '<div class="btn-group btn-group-sm">';
+                              if ((data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y') || (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'N')){
+                                   tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   tr += '<i class="fas fa-eye bigger-120"></i>';
+                                   tr += '</button>';
+                              } else {
+                                   tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                                   tr += '</button>';
+                              }
+                              tr += '</div>';
+                              tr += '</td>';
+                              tr += '</tr>';
+                              i++;
+                         });
+                    }
+                    $('#simpletable').DataTable({
+                         "processing": true,
+                         "serverSide": false,
+                         "paging": true,
+                         "pageLength": 10,
+                    });
+                    $("#simpletable tbody").append(tr);
+
+               }).fail(function(){
+                    $(".preloader").css("display", "none");
+                    swal(rec.content, "ไม่สำเร็จ", "warning");
+               });
+          });
      });
      </script>
 
