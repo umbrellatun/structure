@@ -235,6 +235,12 @@
      <!-- sweet alert Js -->
      <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
      <script type="text/javascript">
+     $(document).ready(function() {
+         setTimeout(function() {
+             $('#simpletable').DataTable();
+         }, 350);
+     });
+     
      function formatDate(date) {
           var d = new Date(date),
           month = '' + (d.getMonth() + 1),
@@ -273,6 +279,8 @@
 
           return [day, month, year].join(' ');
      }
+
+
 
      $('body').on('click', '.btn-edit', function (e) {
           e.preventDefault();
@@ -451,11 +459,123 @@
          }
      });
 
-     $(document).ready(function() {
-         setTimeout(function() {
-             $('#simpletable').DataTable();
-         }, 350);
+     $(function() {
+          $('body').on('click', '.btn-test', function (e) {
+               // $('#simpletable').DataTable({
+               //      "destroy": true,
+               // });
+               e.preventDefault();
+               $.ajax({
+                    method : "POST",
+                    url : '{{ route('godsplitApprove.test') }}',
+                    dataType : 'json',
+                    data : $("#FormEdit").serialize(),
+                    headers: {
+                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                         $(".preloader").css("display", "block");
+                         $(".btn-success").attr("disabled", true);
+                    },
+               }).done(function(rec){
+                    $(".preloader").css("display", "none");
+                    // $("#simpletable tbody").empty();
+                    $("#simpletable").dataTable().fnClearTable();
+                    $("#simpletable").dataTable().fnDraw();
+                    $("#simpletable").dataTable().fnDestroy();
+                    let tr = '';
+                    if (rec.details.length > 0){
+                         var i = 0;
+                         let flag = '';
+                         let badge = '';
+                         let btn_group = '';
+                         let btn_group2 = '';
+                         $.each(rec.details, function( key, data ) {
+                              if (data.AppvStatus == 'N') {
+                                   badge = '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvStatus == 'Y'){
+                                   badge = '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvStatus == 'C'){
+                                   badge = '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              btn_group += '<div class="btn-group btn-group-sm">';
+                              if (data.AppvSplitStatus == 'N') {
+                                   btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              }else if(data.AppvSplitStatus == 'Y'){
+                                   btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }else if(data.AppvSplitStatus == 'R'){
+                                   btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              btn_group += '</div>';
+                              btn_group2 += '<div class="btn-group btn-group-sm">';
+                              if ((data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y') || (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'N')){
+                                   btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
+                                   btn_group2 += '</button>';
+                              } else {
+                                   btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                   btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                                   btn_group2 += '</button>';
+                              }
+                              // tr += '<tr>';
+                              // tr += '<td>'+i+'</td>';
+                              // tr += '<td>'+data.DocuNO+'</td>';
+                              // tr += '<td>'+data.RefSOCONo+'</td>';
+                              // tr += '<td>'+(data.DocuDate)+'</td>';
+                              // tr += '<td>'+(data.ShipDate)+'</td>';
+                              // tr += '<td>'+data.CustName+'</td>';
+                              // tr += '<td>'+data.EmpName+'</td>';
+                              // tr += '<td>'+data.GoodName1+'</td>';
+                              // tr += '<td class="text-center">';
+                              // if (data.AppvStatus == 'N') {
+                              //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              // }else if(data.AppvStatus == 'Y'){
+                              //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              // }else if(data.AppvStatus == 'C'){
+                              //      tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              // }
+                              // tr += '</td>';
+                              // tr += '<td class="text-center">';
+                              // if (data.AppvSplitStatus == 'N') {
+                              //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                              // }else if(data.AppvSplitStatus == 'Y'){
+                              //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              // }else if(data.AppvSplitStatus == 'R'){
+                              //      tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              // }
+                              // tr += '</td>';
+                              // tr += '<td class="text-center">';
+                              // tr += '<div class="btn-group btn-group-sm">';
+                              // if ((data.AppvStatus == 'Y' && data.AppvSplitStatus == 'Y') || (data.AppvStatus == 'Y' && data.AppvSplitStatus == 'N')){
+                              //      tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                              //      tr += '<i class="fas fa-eye bigger-120"></i>';
+                              //      tr += '</button>';
+                              // } else {
+                              //      tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                              //      tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                              //      tr += '</button>';
+                              // }
+                              // tr += '</div>';
+                              // tr += '</td>';
+                              // tr += '</tr>';
+                              i++;
+                              $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
+                              badge = '';
+                              btn_group = '';
+                              btn_group2 = '';
+                         });
+                    }
+                    // $('#simpletable').DataTable();
+                    // $("#simpletable tbody").append(tr);
+
+               }).fail(function(){
+                    $(".preloader").css("display", "none");
+                    swal(rec.content, "ไม่สำเร็จ", "warning");
+               });
+          });
      });
+
+
      </script>
 
 </body>

@@ -92,14 +92,21 @@ class GodSplitController extends Controller
           return json_encode($return);
      }
 
-     /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-     public function destroy($id)
+     public function test($value='')
      {
-          //
+          $q = "SELECT";
+          $q .= " DocuNO";
+          $q .= ", RefSOCONo";
+          $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+          $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+          $q .= ", CustCode";
+          $q .= ", EmpCode";
+          $q .= ", GoodCode";
+          $q .= ", AppvStatus";
+          $q .= ", AppvSplitStatus";
+          $q .= " FROM icGodSplit_hd";
+          $q .= " ORDER BY DocuNO DESC";
+          $return['details'] = \DB::select($q);
+          return json_encode($return);
      }
 }
