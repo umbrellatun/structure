@@ -524,7 +524,7 @@
                e.preventDefault();
                $.ajax({
                     method : "POST",
-                    url : '{{ route('godsplitApprove.test') }}',
+                    url : '{{ route('godsplit.test') }}',
                     dataType : 'json',
                     data : $("#FormEdit").serialize(),
                     headers: {
@@ -627,7 +627,7 @@
 
                }).fail(function(){
                     $(".preloader").css("display", "none");
-                    swal(rec.content, "ไม่สำเร็จ", "warning");
+                    swal("", "ไม่สำเร็จ", "warning");
                });
           });
      });
