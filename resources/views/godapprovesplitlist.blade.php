@@ -95,17 +95,17 @@
                                              <table id="simpletable" class="table table-striped table-bordered nowrap">
                                                   <thead>
                                                        <tr>
-                                                            <th class="border-top-0 text-center">No</th>
-                                                            <th class="border-top-0 text-center">เลขที่เอกสาร</th>
-                                                            <th class="border-top-0 text-center">เลขที่ใบจอง</th>
-                                                            <th class="border-top-0 text-center">วันที่เอกสาร</th>
-                                                            <th class="border-top-0 text-center">วันที่นัดส่ง</th>
-                                                            <th class="border-top-0 text-center">ชื่อลูกค้า</th>
-                                                            <th class="border-top-0 text-center">ชื่อพนักงานขาย</th>
-                                                            <th class="border-top-0 text-center">ชื่อสินค้า</th>
-                                                            <th class="border-top-0 text-center">อนุมัติคำขอ</th>
-                                                            <th class="border-top-0 text-center">ยืนยัน<br/>แบ่งสินค้า</th>
-                                                            <th class="border-top-0 text-center">action</th>
+                                                            <th style="width: 5%" class="border-top-0 text-center">No</th>
+                                                            <th style="width: 10%" class="border-top-0 text-center">เลขที่เอกสาร</th>
+                                                            <th style="width: 10%" class="border-top-0 text-center">เลขที่ใบจอง</th>
+                                                            <th style="width: 10%" class="border-top-0 text-center">วันที่เอกสาร</th>
+                                                            <th style="width: 10%" class="border-top-0 text-center">วันที่นัดส่ง</th>
+                                                            <th style="width: 15%" class="border-top-0 text-center">ชื่อลูกค้า</th>
+                                                            <th style="width: 10%" class="border-top-0 text-center">ชื่อพนักงานขาย</th>
+                                                            <th style="width: 15%" class="border-top-0 text-center">ชื่อสินค้า</th>
+                                                            <th style="width: 5%" class="border-top-0 text-center">อนุมัติคำขอ</th>
+                                                            <th style="width: 5%" class="border-top-0 text-center">ยืนยัน<br/>แบ่งสินค้า</th>
+                                                            <th style="width: 5%" class="border-top-0 text-center">action</th>
                                                        </tr>
                                                   </thead>
                                                   <tbody>
@@ -113,15 +113,15 @@
                                                        @if (count($headers) > 0)
                                                             @foreach ($headers as $key => $header)
                                                                  <tr>
-                                                                      <td>{{$i}}</td>
-                                                                      <td>{{$header->DocuNO}}</td>
-                                                                      <td>{{$header->RefSOCONo}}</td>
-                                                                      <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
-                                                                      <td>{{ date_format(date_create($header->ShipDate), "d M Y")}}</td>
-                                                                      <td>{{$header->CustName}}</td>
-                                                                      <td>{{$header->EmpName}}</td>
-                                                                      <td>{{$header->GoodName1}}</td>
-                                                                      <td class="text-center">
+                                                                      <td style="width: 5%" >{{$i}}</td>
+                                                                      <td style="width: 10%" >{{$header->DocuNO}}</td>
+                                                                      <td style="width: 10%" >{{$header->RefSOCONo}}</td>
+                                                                      <td style="width: 10%" >{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
+                                                                      <td style="width: 10%" >{{ date_format(date_create($header->ShipDate), "d M Y")}}</td>
+                                                                      <td style="width: 15%" >{{$header->CustName}}</td>
+                                                                      <td style="width: 10%" >{{$header->EmpName}}</td>
+                                                                      <td style="width: 15%" >{{$header->GoodName1}}</td>
+                                                                      <td style="width: 5%"  class="text-center">
                                                                            {{-- {{$header->AppvStatus}} --}}
                                                                            @if ($header->AppvStatus == 'N')
                                                                                 <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
@@ -131,7 +131,7 @@
                                                                                 <span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
                                                                            @endif
                                                                       </td>
-                                                                      <td class="text-center">
+                                                                      <td style="width: 5%" class="text-center">
                                                                            {{-- {{$header->AppvSplitStatus}} --}}
                                                                            @if ($header->AppvSplitStatus == 'N')
                                                                                 <span class="badge badge-warning"  title="รออนุมัติ">รออนุมัติ</span>
@@ -141,7 +141,7 @@
                                                                                 <span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
                                                                            @endif
                                                                       </td>
-                                                                      <td class="text-center">
+                                                                      <td style="width: 5%" class="text-center">
                                                                            <div class="btn-group btn-group-sm">
                                                                                 @if ($header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'Y' or $header->AppvStatus == 'Y' and $header->AppvSplitStatus == 'R')
                                                                                      <button class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
