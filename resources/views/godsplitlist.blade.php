@@ -193,7 +193,7 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                          </div>
                          <div class="modal-body">
-                                   <div class="dt-responsive table-responsive" style=" overflow-x: hidden !important;">
+                                   <div class="dt-responsive table-responsive">
                                         <table id="simpletable2" class="table table-striped table-bordered nowrap">
                                              <thead>
                                                   <tr>
@@ -201,7 +201,7 @@
                                                        <th class="border-top-0 text-center">เลขที่เอกสาร</th>
                                                        <th class="border-top-0 text-center">เลขที่ใบจอง</th>
                                                        <th class="border-top-0 text-center">วันที่จอง</th>
-                                                       <th class="border-top-0 text-center">ชื่อลูกค้า</th>
+                                                       <th style="width: 30%" class="border-top-0 text-center">ชื่อลูกค้า</th>
                                                        <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
                                                        {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
                                                        {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
@@ -249,6 +249,15 @@
                    "paging": true,
                    "pageLength": 10,
               });
+             $('#simpletable2').DataTable({
+                   // "processing": true,
+                   "autoWidth": false,
+                   "scrollX": true,
+                   "scrollY": true,
+                   "serverSide": false,
+                   "ordering": false,
+                   "paging": false,
+              });
      });
 
      function formatDate(date) {
@@ -289,7 +298,6 @@
 
           return [day, month, year].join(' ');
      }
-
 
 
      $('body').on('click', '.btn-edit', function (e) {
@@ -416,7 +424,6 @@
                            let btn_group = '';
                            let btn_group2 = '';
                            $.each(rec.details, function( key, data ) {
-                                console.log(data);
                                 if (data.AppvStatus == 'N') {
                                      badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
                                 }else if(data.AppvStatus == 'Y'){
@@ -442,55 +449,58 @@
                                      btn_group2 += '</button>';
                                 }
                                 btn_group2 += '</div>';
-                              // tr += '<tr>';
-                              // tr += '<td>'+i+'</td>';
-                              // tr += '<td>'+data.DocuNO+'</td>';
-                              // tr += '<td>'+data.RefSOCONo+'</td>';
-                              // tr += '<td>'+(data.DocuDate)+'</td>';
-                              // tr += '<td>'+(data.ShipDate)+'</td>';
-                              // tr += '<td>'+data.CustCode+'</td>';
-                              // tr += '<td>'+data.EmpCode+'</td>';
-                              // tr += '<td>'+data.GoodCode+'</td>';
-                              // tr += '<td>';
-                              // if (data.AppvStatus == 'N') {
-                              //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                              // }else if(data.AppvStatus == 'Y'){
-                              //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                              // }else if(data.AppvStatus == 'C'){
-                              //      tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                              // }
-                              // tr += '</td>';
-                              // tr += '<td>';
-                              // if (data.AppvSplitStatus == 'N') {
-                              //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                              // }else if(data.AppvSplitStatus == 'Y'){
-                              //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                              // }else if(data.AppvSplitStatus == 'R'){
-                              //      tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                              // }
-                              // tr += '</td>';
-                              // tr += '<td class="text-center">';
-                              // tr += '<div class="btn-group btn-group-sm">';
-                              // if(data.AppvStatus = 'N'){
-                              //      tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              //      tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                              //      tr += '</button>';
-                              // } else {
-                              //      tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              //      tr += '<i class="fas fa-eye bigger-120"></i>';
-                              //      tr += '</button>';
-                              // }
-                              //
-                              // tr += '</div>';
-                              // tr += '</td>';
-                              // tr += '</tr>';
-                              i++;
-                              $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
-                                   badge = '';
-                                   btn_group = '';
-                                   btn_group2 = '';
-                                });
-                           }
+                                // tr += '<tr>';
+                                // tr += '<td>'+i+'</td>';
+                                // tr += '<td>'+data.DocuNO+'</td>';
+                                // tr += '<td>'+data.RefSOCONo+'</td>';
+                                // tr += '<td>'+(data.DocuDate)+'</td>';
+                                // tr += '<td>'+(data.ShipDate)+'</td>';
+                                // tr += '<td>'+data.CustCode+'</td>';
+                                // tr += '<td>'+data.EmpCode+'</td>';
+                                // tr += '<td>'+data.GoodCode+'</td>';
+                                // tr += '<td>';
+                                // if (data.AppvStatus == 'N') {
+                                //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                                // }else if(data.AppvStatus == 'Y'){
+                                //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                                // }else if(data.AppvStatus == 'C'){
+                                //      tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                // }
+                                // tr += '</td>';
+                                // tr += '<td>';
+                                // if (data.AppvSplitStatus == 'N') {
+                                //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                                // }else if(data.AppvSplitStatus == 'Y'){
+                                //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                                // }else if(data.AppvSplitStatus == 'R'){
+                                //      tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                // }
+                                // tr += '</td>';
+                                // tr += '<td class="text-center">';
+                                // tr += '<div class="btn-group btn-group-sm">';
+                                // if(data.AppvStatus = 'N'){
+                                //      tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                //      tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                                //      tr += '</button>';
+                                // } else {
+                                //      tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                                //      tr += '<i class="fas fa-eye bigger-120"></i>';
+                                //      tr += '</button>';
+                                // }
+                                //
+                                // tr += '</div>';
+                                // tr += '</td>';
+                                // tr += '</tr>';
+                                i++;
+                                // $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
+
+                                $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+
+                                badge = '';
+                                btn_group = '';
+                                btn_group2 = '';
+                           });
+                      }
                   } else {
                        swal("", rec.content, "warning");
                   }
@@ -506,9 +516,6 @@
 
      $(function() {
           $('body').on('click', '.btn-test', function (e) {
-               // $('#simpletable').DataTable({
-               //      "destroy": true,
-               // });
                e.preventDefault();
                $.ajax({
                     method : "POST",
@@ -564,7 +571,8 @@
                          btn_group2 += '</div>';
 
                          i++;
-                         $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
+                         $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                         // $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
                          badge = '';
                          btn_group = '';
                          btn_group2 = '';

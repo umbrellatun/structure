@@ -70,8 +70,11 @@ class GodSplitController extends Controller
                     $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
                     $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
                     $q .= ", CustCode";
+                    $q .= ", CustName";
                     $q .= ", EmpCode";
+                    $q .= ", EmpName";
                     $q .= ", GoodCode";
+                    $q .= ", GoodName1";
                     $q .= ", AppvStatus";
                     $q .= ", AppvSplitStatus";
                     $q .= " FROM icGodSplit_hd";
@@ -100,8 +103,11 @@ class GodSplitController extends Controller
           $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
           $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
           $q .= ", CustCode";
+          $q .= ", CustName";
           $q .= ", EmpCode";
+          $q .= ", EmpName";
           $q .= ", GoodCode";
+          $q .= ", GoodName1";
           $q .= ", AppvStatus";
           $q .= ", AppvSplitStatus";
           $q .= " FROM icGodSplit_hd";
