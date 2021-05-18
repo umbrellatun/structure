@@ -1339,7 +1339,7 @@
               },
               submitHandler: function (form) {
 
-                   $("#FormAdd").find('[type="submit"]').prop('disabled', true);;
+                   $("#FormAdd").find('[type="submit"]').prop('disabled', true);
                    share_product_radio = $('input[name=share_product_radio]:checked').val();
                    data = $("#FormAdd").serializeArray();
                    data.push({ name: 'DocuNO', value: $("#DocuNO").val()});
@@ -1364,7 +1364,11 @@
                              $("#menu4").removeClass('in');
                              $("#menu5").addClass('active');
                              $("#menu5").addClass('in');
-                        } else {
+                        } else if (rec.status == 2) {
+                             $("#FormAdd").find('[type="submit"]').prop('disabled', false);
+                             notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ");
+                             return false;
+                        }else {
                              notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
                         }
                    }).fail(function(){

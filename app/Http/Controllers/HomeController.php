@@ -311,49 +311,65 @@ class HomeController extends Controller
          if (!$validator->fails()) {
               \DB::beginTransaction();
               try {
-                   $data = [
-                       'DocuNO' => $DocuNO
-                       ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')
-                       ,'CustCode' => $CustCode
-                       ,'CustName' => $CustName
-                       ,'EmpCode' => $EmpCode
-                       ,'EmpName' => $empname
-                       ,'GoodCode' => $GoodCode
-                       ,'GoodName1' => $GoodName1
-                       ,'ShipDate' => $ShipDate
-                       ,'RefSOCOID' => $RefSOCOID
-                       ,'RefListNO' => $RefListNO
-                       ,'RefSOCONo' => $RefSOCONo
-                       ,'RefSOCODate' => $DocuDate2
-                       ,'CustAddress' => $CustAddress
-                       ,'GoodPrice2' => $GoodPrice2
-                       ,'TranQty' => $TranQty
-                       ,'SentQty' => $SentQty
-                       ,'AppvStatus' => $AppvStatus
-                       // ,'AppvSplitStatus' =>
-                  ];
-                  \DB::table('icGodSplit_hd')->insert($data);
+                   $find = array();
+                   for ($i=0; $i < count($tb4_RefSOCONo); $i++) {
+                        $dts = ICGodSplitDT::where('RefSOCONo', '=', $tb4_RefSOCONo[$i])->where('RefListNO', '=', $tb4_RefListNO)->get();
+                        foreach ($dts as $dt) {
+                             $hd = ICGodSplitHD::where('DocuNO', '=', $dt->DocuNO)->whereNull('AppvSplitStatus')->first();
+                             if ($hd){
+                                  array_push($find, 0);
+                             } else {
+                                  array_push($find, 1);
+                             }
+                        }
+                   }
+                   if (in_array(0, $find)){
+                        $return['status'] = 2;
+                   } else {
+                        $data = [
+                             'DocuNO' => $DocuNO
+                             ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')
+                             ,'CustCode' => $CustCode
+                             ,'CustName' => $CustName
+                             ,'EmpCode' => $EmpCode
+                             ,'EmpName' => $empname
+                             ,'GoodCode' => $GoodCode
+                             ,'GoodName1' => $GoodName1
+                             ,'ShipDate' => $ShipDate
+                             ,'RefSOCOID' => $RefSOCOID
+                             ,'RefListNO' => $RefListNO
+                             ,'RefSOCONo' => $RefSOCONo
+                             ,'RefSOCODate' => $DocuDate2
+                             ,'CustAddress' => $CustAddress
+                             ,'GoodPrice2' => $GoodPrice2
+                             ,'TranQty' => $TranQty
+                             ,'SentQty' => $SentQty
+                             ,'AppvStatus' => $AppvStatus
+                             // ,'AppvSplitStatus' =>
+                        ];
+                        \DB::table('icGodSplit_hd')->insert($data);
 
-                  for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
-                       $data = [
-                            'DocuNO' => $DocuNO
-                            ,'RefSOCOID' => $tb4_RefSOCOID[$i]
-                            ,'RefListNO' => $tb4_RefListNO[$i]
-                            ,'RefSOCONo' => $tb4_RefSOCONo[$i]
-                            ,'RefSOCODate' => $tb4_DocuDate[$i]
-                            ,'CustName' => $tb4_EmpName[$i]
-                            ,'EmpCode' => $tb4_EmpCode[$i]
-                            ,'EmpName' => $tb4_CustName[$i]
-                            ,'ContainerNO' => $tb4_ContainerNO[$i]
-                            ,'Flag_st' => $tb4_Flag_st[$i]
-                            ,'TranQty' => $tb4_TranQty[$i]
-                            ,'SplitQty' => $tb4_SplitQty[$i]
-                       ];
-                       \DB::table('icGodSplit_dt')->insert($data);
-                  }
-                  \DB::commit();
-                  $return['status'] = 1;
-                  $return['content'] = 'จัดเก็บสำเร็จ';
+                        for ($i=0; $i < count($tb4_RefSOCOID) ; $i++) {
+                             $data = [
+                                  'DocuNO' => $DocuNO
+                                  ,'RefSOCOID' => $tb4_RefSOCOID[$i]
+                                  ,'RefListNO' => $tb4_RefListNO[$i]
+                                  ,'RefSOCONo' => $tb4_RefSOCONo[$i]
+                                  ,'RefSOCODate' => $tb4_DocuDate[$i]
+                                  ,'CustName' => $tb4_EmpName[$i]
+                                  ,'EmpCode' => $tb4_EmpCode[$i]
+                                  ,'EmpName' => $tb4_CustName[$i]
+                                  ,'ContainerNO' => $tb4_ContainerNO[$i]
+                                  ,'Flag_st' => $tb4_Flag_st[$i]
+                                  ,'TranQty' => $tb4_TranQty[$i]
+                                  ,'SplitQty' => $tb4_SplitQty[$i]
+                             ];
+                             \DB::table('icGodSplit_dt')->insert($data);
+                        }
+                        \DB::commit();
+                        $return['status'] = 1;
+                        $return['content'] = 'จัดเก็บสำเร็จ';
+                   }
               } catch (Exception $e) {
                    \DB::rollBack();
                    $return['status'] = 0;
