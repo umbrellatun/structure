@@ -274,6 +274,7 @@ class HomeController extends Controller
 
     public function store(Request $request)
     {
+         // dd($request->all());
          $DocuNO = $request->DocuNO;
          $DocuDate = $request->DocuDate;
          $CustCode = $request->CustCode;
