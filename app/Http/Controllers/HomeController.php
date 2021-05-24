@@ -446,4 +446,45 @@ class HomeController extends Controller
          return json_encode($return);
     }
 
+    public function maintenance(Request $request)
+    {
+         $current_date = ($request->current_date) . '0000';
+         $validator = Validator::make($request->all(), [
+
+         ]);
+         if (!$validator->fails()) {
+              try {
+                   $q = "select * from icOptProg where OptID = 51";
+                   $condition =  \DB::select($q);
+                   if ($condition){
+                        $OptDetail = $condition[0]->OptDetail;
+                        $OptValue = explode('-', $condition[0]->OptValue);
+                        $start_date = $OptValue[0];
+                        $end_date = $OptValue[1];
+                        // dd($current_date . ":" . $start_date);
+                        if ($current_date < $start_date) {
+                             $return['status'] = 1;
+                             $return['content'] = $OptDetail;
+                        } elseif ($current_date >= $start_date and $current_date <= $end_date) {
+                             $return['status'] = 2;
+                             $return['content'] = $OptDetail;
+                        } elseif ($current_date > $start_date and $current_date > $end_date) {
+                             $return['status'] = 3;
+                             $return['content'] = '';
+                        }
+                   } else {
+                        $return['status'] = 0;
+                        $return['content'] = 'ไม่สามารถเช็ควันที่ได้';
+                   }
+              } catch (Exception $e) {
+                   $return['status'] = 0;
+                   $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+              }
+         } else{
+              $return['status'] = 0;
+         }
+         return json_encode($return);
+
+    }
+
 }

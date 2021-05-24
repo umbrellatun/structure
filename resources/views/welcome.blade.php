@@ -132,8 +132,7 @@
                                          </div>
                                     </div>
                                </div>
-                               <div class="card-body">
-
+                               <div class="card-body" id="main_content">
                                    <div class="bt-wizard" id="besicwizard">
                                        <ul class="nav nav-pills nav-fill mb-3">
                                            <div class="process">
@@ -520,6 +519,28 @@
             </div>
         </div>
    </div>
+
+   <div class="modal fade bd-example-modal-lg in" id="warningModal" tabindex="-1" role="dialog" aria-labelledby="warningModal" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+             <div class="modal-content">
+                  {{-- style="width: 1200px; margin-left: -180px; height: 560px;" --}}
+                  <div class="modal-header bg-danger">
+                       <h5 class="modal-title h4 text-light"><i class="fa fa-exclamation-triangle mr-2" aria-hidden="true"></i>ข้อความแจ้งเตือนการใช้งาน</h5>
+                       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                  <div class="modal-body">
+                       <div class="card-body table-border-style">
+                            <div class="text-center" style="margin-bottom: 70px;">
+                                 <img src="{{asset('assets/images/maintance/maintance.png')}}" style="width: 350px;"></img>
+                            </div>
+                            <div class="text-center">
+                                 <h3 id="h3_maintenance" class="text-danger"></h3>
+                           </div>
+                       </div>
+                  </div>
+             </div>
+        </div>
+   </div>
     <!-- End Modal -->
     <div id="preloaders" class="preloader" style="display:none;"></div>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
@@ -547,21 +568,6 @@
     <script>
     var url_gb = '{{ url('') }}'
     var emp_code = '{{$result->EmpCode}}';
-    $('body').on('keydown','.number-only',function (e) {
-         // Allow: backspace, delete, tab, escape, enter and .
-         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
-         // Allow: Ctrl+A, Command+A
-         (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
-         // Allow: home, end, left, right, down, up
-         (e.keyCode >= 35 && e.keyCode <= 40)) {
-              // let it happen, don't do anything
-              return;
-         }
-         // Ensure that it is a number and stop the keypress
-         if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
-              e.preventDefault();
-         }
-    });
 
     function jsDateDiff1(strDate1,strDate2){
          var theDate1 = Date.parse(strDate1)/1000;
@@ -683,11 +689,97 @@
          return str.slice(0, num) + '...'
     }
 
+    function btn_view (doc_no) {
+         $("#ModalView").addClass("in");
+         $("#tableDT tbody").empty();
+         $.ajax({
+              method : "POST",
+              url : '{{ route('customer.getSelfProductDetail') }}',
+              dataType : 'json',
+              data : { DocuNO : doc_no },
+              headers: {
+                   'X-CSRF-TOKEN': "{{ csrf_token() }}"
+              },
+         }).done(function(rec){
+              if (rec.status == 1) {
+                   let tr = '';
+                   if (rec.dts.length > 0){
+                        let no = 1;
+                        $.each(rec.dts, function( key, hd ) {
+                             tr += '<tr>';
+                             tr += '<td class="text-center">'+no+'</td>';
+                             tr += '<td class="text-center">'+hd.DocuNO+'</td>';
+                             tr += '<td class="text-center">'+hd.RefSOCONo+'</td>';
+                             tr += '<td class="text-center">'+(hd.RefSOCODate)+'</td>';
+                             tr += '<td class="text-left">'+hd.CustName+'</td>';
+                             tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
+                             tr += '<td class="text-center">'+hd.SplitQty+'</td>';
+                             tr += '</tr>';
+                             no = parseInt(no) + 1;
+                        });
+                   } else {
+                        tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                   }
+                   $("#tableDT tbody").append(tr);
+
+              } else {
+                   notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
+              }
+         }).fail(function(){
+
+         });
+    }
+
+    $(document).ready(function (){
+         $.ajax({
+              method : "post",
+              url : '{{ route('customer.maintenance')}}',
+              dataType : 'json',
+              data : {'current_date' : '{{ date('Ymd') }}'},
+              headers: {
+                   'X-CSRF-TOKEN': "{{ csrf_token() }}"
+              },
+              beforeSend: function() {
+                   $(".preloader").css("display", "block");
+              },
+         }).done(function(rec){
+              $(".preloader").css("display", "none");
+              if (rec.status == 1){
+                   $("#warningModal").modal('show');
+                   $("#h3_maintenance").text(rec.content);
+              }
+              if (rec.status == 2){
+                   $("#warningModal").modal('show');
+                   $("#h3_maintenance").text(rec.content);
+                   $("#main_content").empty();
+              }
+         }).fail(function(){
+              $(".preloader").css("display", "none");
+              swal("", rec.content, "error");
+         });
+    });
+
     $(document).ready(function() {
          $("#pcoded").pcodedmenu({
               themelayout: 'horizontal',
               MenuTrigger: 'hover',
               SubMenuTrigger: 'hover',
+         });
+
+         $('body').on('keydown','.number-only',function (e) {
+              // Allow: backspace, delete, tab, escape, enter and .
+              if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+              // Allow: Ctrl+A, Command+A
+              (e.keyCode === 65 && (e.ctrlKey === true || e.metaKey === true)) ||
+              // Allow: home, end, left, right, down, up
+              (e.keyCode >= 35 && e.keyCode <= 40)) {
+                   // let it happen, don't do anything
+                   return;
+              }
+              // Ensure that it is a number and stop the keypress
+              if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+                   e.preventDefault();
+              }
          });
 
          $('.btn-history').on('click',function(){
@@ -760,47 +852,6 @@
 
               });
          });
-
-         function btn_view (doc_no) {
-              $("#ModalView").addClass("in");
-              $("#tableDT tbody").empty();
-              $.ajax({
-                   method : "POST",
-                   url : '{{ route('customer.getSelfProductDetail') }}',
-                   dataType : 'json',
-                   data : { DocuNO : doc_no },
-                   headers: {
-                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                   },
-              }).done(function(rec){
-                   if (rec.status == 1) {
-                        let tr = '';
-                        if (rec.dts.length > 0){
-                             let no = 1;
-                             $.each(rec.dts, function( key, hd ) {
-                                  tr += '<tr>';
-                                  tr += '<td class="text-center">'+no+'</td>';
-                                  tr += '<td class="text-center">'+hd.DocuNO+'</td>';
-                                  tr += '<td class="text-center">'+hd.RefSOCONo+'</td>';
-                                  tr += '<td class="text-center">'+(hd.RefSOCODate)+'</td>';
-                                  tr += '<td class="text-left">'+hd.CustName+'</td>';
-                                  tr += '<td class="text-center">'+hd.ContainerNO+'</td>';
-                                  tr += '<td class="text-center">'+hd.SplitQty+'</td>';
-                                  tr += '</tr>';
-                                  no = parseInt(no) + 1;
-                             });
-                        } else {
-                             tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                        }
-                        $("#tableDT tbody").append(tr);
-
-                   } else {
-                        notify("bottom", "left", "fas fa-times-circle", "danger", "", "", "ไม่สำเร็จ");
-                   }
-              }).fail(function(){
-
-              });
-         }
 
          $("#send_appointment").daterangepicker({
               singleDatePicker: true,
