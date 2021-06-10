@@ -109,27 +109,39 @@ class GodSplitApproveController extends Controller
                               $q .= " ORDER BY DocuNO DESC";
                               $return['details'] = \DB::select($q);
                          } else {
-                              $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
-                              if ($resStore == true){
-                                   $q = "SELECT DocuNO, RefSOCONo";
-                                   $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
-                                   $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
-                                   $q .= ", CustName";
-                                   $q .= ", EmpName";
-                                   $q .= ", GoodName1";
-                                   $q .= ", AppvStatus";
-                                   $q .= ", AppvSplitStatus";
-                                   $q .= " FROM icGodSplit_hd";
-                                   $q .= " WHERE AppvStatus = 'Y'";
-                                   $q .= " ORDER BY DocuNO DESC";
-                                   $return['details'] = \DB::select($q);
-                                   // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
-                                   // $return['details'] = $details;
-                                   $return['status'] = 1;
-                                   $return['content'] = 'จัดเก็บสำเร็จ';
-                              } else {
-                                   \DB::rollBack();
+                              $arr = [];
+                              $q = "SELECT dbo.GET_CheckStatusSPDT('$DocuNO') AS status_dt";
+                              $check_flag_dts = \DB::connection("sqlsrv109")->select($q);
+                              foreach ($check_flag_dts as $check_flag_dt) {
+                                   array_push($arr, $check_flag_dt->status_dt);
+                              }
+                              if (in_array('N', $arr)){
                                    $return['status'] = 0;
+                                   $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
+                                   $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
+                              } else {
+                                   $resStore = \DB::connection("sqlsrv109")->statement('exec tmAppvSplitGood ? SET NOCOUNT ON', [$DocuNO]);
+                                   if ($resStore == true){
+                                        $q = "SELECT DocuNO, RefSOCONo";
+                                        $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                                        $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                                        $q .= ", CustName";
+                                        $q .= ", EmpName";
+                                        $q .= ", GoodName1";
+                                        $q .= ", AppvStatus";
+                                        $q .= ", AppvSplitStatus";
+                                        $q .= " FROM icGodSplit_hd";
+                                        $q .= " WHERE AppvStatus = 'Y'";
+                                        $q .= " ORDER BY DocuNO DESC";
+                                        $return['details'] = \DB::select($q);
+                                        // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
+                                        // $return['details'] = $details;
+                                        $return['status'] = 1;
+                                        $return['content'] = 'จัดเก็บสำเร็จ';
+                                   } else {
+                                        // \DB::rollBack();
+                                        $return['status'] = 0;
+                                   }
                               }
                          }
                     }
