@@ -13,7 +13,9 @@ class GodSplitController extends Controller
      public function index()
      {
           $data["title"] = "อนุมัติคำขอแบ่งสินค้า";
-          $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
+          // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
+          // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
+          $data["headers"] = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
           return view('godsplitlist', $data);
      }
 
@@ -78,7 +80,8 @@ class GodSplitController extends Controller
                     $q .= ", AppvStatus";
                     $q .= ", AppvSplitStatus";
                     $q .= " FROM icGodSplit_hd";
-                    $q .= " ORDER BY DocuNO DESC";
+                    $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
+                    // $q .= " ORDER BY AppvSplitStatus asc";
                     $return['details'] = \DB::select($q);
                     // $return['details'] = $details;
                     $return['status'] = 1;
@@ -111,7 +114,8 @@ class GodSplitController extends Controller
           $q .= ", AppvStatus";
           $q .= ", AppvSplitStatus";
           $q .= " FROM icGodSplit_hd";
-          $q .= " ORDER BY DocuNO DESC";
+          // $q .= " ORDER BY AppvSplitStatus asc";
+          $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
           $return['details'] = \DB::select($q);
           return json_encode($return);
      }
