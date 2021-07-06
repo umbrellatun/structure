@@ -38,7 +38,7 @@ class GodSplitController extends Controller
 
                     $return['status'] = 1;
                     // $return['details'] = $details;
-                    $return['details'] = \DB::select($q);;
+                    $return['details'] = \DB::select($q);
                     $return['header'] = $header;
                } catch (Exception $e) {
                     $return['status'] = 0;
