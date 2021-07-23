@@ -83,6 +83,7 @@ class GodSplitController extends Controller
                                    'AppvStatus' => $AppvStatus
                               ];
                               ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                              \DB::commit();
                               $return['status'] = 1;
                               $return['content'] = 'อนุมัติสำเร็จ';
                          }
@@ -91,10 +92,10 @@ class GodSplitController extends Controller
                               'AppvStatus' => $AppvStatus
                          ];
                          ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                         \DB::commit();
                          $return['status'] = 1;
                          $return['content'] = 'ไม่อนุมัติสำเร็จ';
                     }
-                    \DB::commit();
                     // $details = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                     $q = "SELECT";
                     $q .= " DocuNO";
