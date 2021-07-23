@@ -59,7 +59,7 @@ class GodSplitController extends Controller
           if (!$validator->fails()) {
                \DB::beginTransaction();
                try {
-                    if ($AppvStatus == Y) {
+                    if ($AppvStatus == 'Y') {
                          $q = "SELECT Flag_st FROM";
                          $q .= " (";
                          $q .= " SELECT Flag_st FROM tmConTain_bk WHERE ContainerNO IN";
