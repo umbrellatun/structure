@@ -59,12 +59,42 @@ class GodSplitController extends Controller
           if (!$validator->fails()) {
                \DB::beginTransaction();
                try {
-                    $data = [
-                         'AppvStatus' => $AppvStatus
-                    ];
-                    ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                    if ($AppvStatus == Y) {
+                         $q = "SELECT Flag_st FROM";
+                         $q .= " (";
+                         $q .= " SELECT Flag_st FROM tmConTain_bk WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " UNION ALL";
+                         $q .= " SELECT Flag_st FROM tmConTain_dl WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " UNION ALL";
+                         $q .= " SELECT Flag_st FROM tmConTain WHERE ContainerNO IN";
+                         $q .= " (SELECT ContainerNO FROM icGodSplit_dt WHERE icGodSplit_dt.DocuNO = '$DocuNO')";
+                         $q .= " ) tmConTain";
+                         $q .= " WHERE";
+                         $q .= " Flag_st <> 'N'";
+                         $check_flag = \DB::select($q);
+                         if (count($check_flag) > 0){
+                              $return['status'] = 0;
+                              $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
+                              $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
+                         } else {
+                              $data = [
+                                   'AppvStatus' => $AppvStatus
+                              ];
+                              ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                              $return['status'] = 1;
+                              $return['content'] = 'อนุมัติสำเร็จ';
+                         }
+                    } else {
+                         $data = [
+                              'AppvStatus' => $AppvStatus
+                         ];
+                         ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                         $return['status'] = 1;
+                         $return['content'] = 'ไม่อนุมัติสำเร็จ';
+                    }
                     \DB::commit();
-
                     // $details = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                     $q = "SELECT";
                     $q .= " DocuNO";
@@ -84,8 +114,6 @@ class GodSplitController extends Controller
                     // $q .= " ORDER BY AppvSplitStatus asc";
                     $return['details'] = \DB::select($q);
                     // $return['details'] = $details;
-                    $return['status'] = 1;
-                    $return['content'] = 'จัดเก็บสำเร็จ';
                } catch (Exception $e) {
                     \DB::rollBack();
                     $return['status'] = 0;
