@@ -6,7 +6,6 @@ use Illuminate\Http\Request;
 use Validator;
 use App\Models\ICGodSplitHD;
 use App\Models\ICGodSplitDT;
-
 class GodSplitController extends Controller
 {
 
@@ -69,10 +68,11 @@ class GodSplitController extends Controller
                          // $q->where('ShipDate', "<=", $end_date2);
                     });
                }
-               $data["headers"] = $headers->paginate(20);
+               $data["headers"] = $headers->paginate(20)->appends(request()->query());
                // dd($headers->toSql());
           }
           return view('godsplitlist', $data);
+
      }
 
      public function get_detail(Request $request)
