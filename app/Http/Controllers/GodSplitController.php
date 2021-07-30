@@ -10,12 +10,68 @@ use App\Models\ICGodSplitDT;
 class GodSplitController extends Controller
 {
 
-     public function index()
+     public function index(Request $request)
      {
           $data["title"] = "อนุมัติคำขอแบ่งสินค้า";
           // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
           // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
-          $data["headers"] = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+          if (empty($request->all())){
+               $data["headers"] = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->paginate(20);
+          }
+          else {
+               if ($request->daterange) {
+                    $daterange = $request->daterange;
+                    $str_date = explode('-', $daterange);
+                    $start_date = explode('/', trim($str_date[0]));
+                    $start_date = $start_date[2] . $start_date[1] . $start_date[0];
+
+                    $end_date = explode('/', trim($str_date[1]));
+                    $end_date = $end_date[2] . $end_date[1] . $end_date[0];
+               }
+               if ($request->daterange2) {
+                    $daterange2 = $request->daterange2;
+                    $str_date2 = explode('-', $daterange2);
+                    $start_date2 = explode('/', trim($str_date2[0]));
+                    $start_date2 = $start_date2[2] . $start_date2[1] . $start_date2[0];
+
+                    $end_date2 = explode('/', trim($str_date2[1]));
+                    $end_date2 = $end_date2[2] . $end_date2[1] . $end_date2[0];
+               }
+               $headers = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+               if ($request->search) {
+                    $search = $request->search;
+                    $headers->where(function($q)use($search){
+                         $q->orWhere('DocuNO', "LIKE", '%'.$search.'%');
+                         $q->orWhere('RefSOCONo', "LIKE", '%'.$search.'%');
+                         $q->orWhere('CustName', "LIKE", '%'.$search.'%');
+                         $q->orWhere('EmpName', "LIKE", '%'.$search.'%');
+                         $q->orWhere('GoodCode', "LIKE", '%'.$search.'%');
+                         $q->orWhere('GoodName1', "LIKE", '%'.$search.'%');
+                    });
+                    // $headers->where('DocuNO', "LIKE", '%'.$request->search.'%');
+                    // $headers->orWhere('RefSOCONo', "LIKE", '%'.$request->search.'%');
+                    // $headers->orWhere('CustName', "LIKE", '%'.$request->search.'%');
+                    // $headers->orWhere('EmpName', "LIKE", '%'.$request->search.'%');
+                    // $headers->orWhere('GoodCode', "LIKE", '%'.$request->search.'%');
+                    // $headers->orWhere('GoodName1', "LIKE", '%'.$request->search.'%');
+               }
+               if ($request->daterange) {
+                    $headers->where(function($q)use($start_date,$end_date){
+                         $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
+                         // $q->where('DocuDate', ">=", $start_date);
+                         // $q->where('DocuDate', "<=", $end_date);
+                    });
+               }
+               if ($request->daterange2) {
+                    $headers->where(function($q)use($start_date2,$end_date2){
+                         $q->whereRaw("CONVERT(Varchar, [ShipDate], 112) BETWEEN '".$start_date2."' AND '".$end_date2."'");
+                         // $q->where('ShipDate', ">=", $start_date2);
+                         // $q->where('ShipDate', "<=", $end_date2);
+                    });
+               }
+               $data["headers"] = $headers->paginate(20);
+               // dd($headers->toSql());
+          }
           return view('godsplitlist', $data);
      }
 

@@ -20,7 +20,8 @@
      {{-- <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon"> --}}
      <link rel="icon" href="{{asset('assets/images/JT-01.ico')}}" type="image/x-icon">
      <!-- data tables css -->
-    <link rel="stylesheet" href="assets/css/plugins/dataTables.bootstrap4.min.css">
+    <link rel="stylesheet" href="{{asset('assets/css/plugins/dataTables.bootstrap4.min.css')}}">
+    <link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}">
      <!-- vendor css -->
      <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
      <style>
@@ -90,8 +91,32 @@
                                         <h5>{{$title}}</h5>
                                    </div>
                                    <div class="card-body">
+                                        <div class="row m-3">
+                                             <div class="col-md-6">
+                                                  <form action="" method="GET">
+                                                       <div class="form-group">
+                                                            <label>เลขที่เอกสาร/เลขที่ใบจอง/ชื่อลูกค้า/ชื่อพนักงานขาย/รหัสสินค้า/ชื่อสินค้า</label>
+                                                            <input type="text" name="search" class="form-control mb-2 w-50" value="{{ ( isset($_GET["search"]) ? $_GET["search"] : "" )}}">
+                                                       </div>
+                                                       <div class="form-group">
+                                                            <label>วันที่เอกสาร</label>
+                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="{{ ( isset($_GET["daterange"]) ? $_GET["daterange"] : "" )}}" />
+
+                                                       </div>
+                                                       <div class="form-group">
+                                                            <label>วันที่นัดส่ง</label>
+                                                            <input type="text" name="daterange2" autocomplete="off" class="form-control w-50" value="{{ ( isset($_GET["daterange2"]) ? $_GET["daterange2"] : "" )}}" />
+
+                                                       </div>
+                                                       <div class="form-group">
+                                                            <input type="submit" class="btn btn-primary" value="Search">
+                                                       </div>
+                                                  </form>
+                                             </div>
+                                        </div>
                                         <div class="dt-responsive table-responsive">
-                                             <table id="simpletable" class="table table-striped table-bordered nowrap">
+                                             <table class="table table-striped table-bordered nowrap">
+                                                  {{-- id="simpletable" --}}
                                                   <thead>
                                                        <tr>
                                                             <th class="border-top-0 text-center">No</th>
@@ -112,7 +137,11 @@
                                                        @if (count($headers) > 0)
                                                             @foreach ($headers as $key => $header)
                                                                  <tr>
-                                                                      <td>{{$i}}</td>
+                                                                      @if (isset($_GET["page"]))
+                                                                           <td>{{ ($_GET["page"] == 1 ) ? $i : (20 * ($_GET["page"] - 1)) + $i }}</td>
+                                                                      @else
+                                                                           <td>{{$i}}</td>
+                                                                      @endif
                                                                       <td>{{$header->DocuNO}}</td>
                                                                       <td>{{$header->RefSOCONo}}</td>
                                                                       <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
@@ -158,6 +187,7 @@
                                                                  </tr>
                                                                  @php $i++; @endphp
                                                             @endforeach
+
                                                        @else
                                                             <tr>
                                                                  <td colspan="10" class="text-center">ไม่พบข้อมูล</td>
@@ -165,6 +195,7 @@
                                                        @endif
                                                   </tbody>
                                              </table>
+                                             {{ $headers->links() }}
                                         </div>
                                    </div>
                               </div>
@@ -240,6 +271,10 @@
      <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
      <!-- sweet alert Js -->
      <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
+
+     <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
+     <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
+
      <script type="text/javascript">
      $(document).ready(function() {
              $('#simpletable').DataTable({
@@ -584,6 +619,65 @@
           });
      });
 
+     // $(function() {
+	//   $('input[name="daterange"]').daterangepicker({
+     //        opens: 'left',
+     //        locale: {
+     //             format: 'DD MMM YYYY',
+     //             cancelLabel: 'Clear'
+     //        },
+     //        // autoUpdateInput: false,
+	//   }, function(start, end, label) {
+     //
+	//   });
+	// });
+     // $(function() {
+	//   $('input[name="daterange2"]').daterangepicker({
+     //        opens: 'left',
+     //        locale: {
+     //             format: 'DD MMM YYYY',
+     //             cancelLabel: 'Clear'
+     //        },
+     //        // autoUpdateInput: false,
+	//   }, function(start, end, label) {
+     //
+	//   });
+	// });
+
+     $(function() {
+          $('input[name="daterange"]').daterangepicker({
+               autoUpdateInput: false,
+               locale: {
+                    cancelLabel: 'Clear'
+               }
+          });
+
+          $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+               $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+          });
+
+          $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+               $(this).val('');
+          });
+
+     });
+     $(function() {
+	  $('input[name="daterange2"]').daterangepicker({
+		  autoUpdateInput: false,
+		  locale: {
+			  cancelLabel: 'Clear'
+		  }
+	  });
+
+	  $('input[name="daterange2"]').on('apply.daterangepicker', function(ev, picker) {
+		  $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+	  });
+
+	  $('input[name="daterange2"]').on('cancel.daterangepicker', function(ev, picker) {
+		  $(this).val('');
+	  });
+
+	});
 
      </script>
 

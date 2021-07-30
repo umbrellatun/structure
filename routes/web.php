@@ -20,6 +20,7 @@ Route::get('/godsplit', 'GodSplitController@index');
 Route::post('/godsplit/get_detail', 'GodSplitController@get_detail')->name('godsplit.get_detail');
 Route::post('/godsplit/updateAppvStatus', 'GodSplitController@updateAppvStatus')->name('godsplit.updateAppvStatus');
 Route::post('/godsplit/test', 'GodSplitController@test')->name('godsplit.test');
+Route::post('/godsplit/search', 'GodSplitController@indexindex')->name('godsplit.search');
 
 Route::get('/godsplitApprove', 'GodSplitApproveController@index');
 Route::post('/godsplitApprove/get_detail', 'GodSplitApproveController@get_detail')->name('godsplitApprove.get_detail');
