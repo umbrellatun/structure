@@ -21,6 +21,8 @@
      <link rel="icon" href="{{asset('assets/images/JT-01.ico')}}" type="image/x-icon">
      <!-- data tables css -->
     <link rel="stylesheet" href="assets/css/plugins/dataTables.bootstrap4.min.css">
+    <!-- daterangepicker -->
+    <link rel="stylesheet" href="{{asset('assets/css/plugins/daterangepicker.css')}}">
      <!-- vendor css -->
      <link rel="stylesheet" href="{{asset('assets/css/style.css')}}">
      <style>
@@ -91,6 +93,16 @@
                                         <h5>{{$title}}</h5>
                                    </div>
                                    <div class="card-body">
+                                        <div class="row m-3">
+                                             <div class="col-md-6">
+                                                  <form action="" method="GET">
+                                                       <div class="form-group">
+                                                            <label>วันที่เอกสาร</label>
+                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="" />
+                                                       </div>
+                                                  </form>
+                                             </div>
+                                        </div>
                                         <div class="dt-responsive table-responsive">
                                              <table id="simpletable" class="table table-striped table-bordered nowrap">
                                                   <thead>
@@ -236,13 +248,74 @@
      <!-- datatable Js -->
      <script src="{{asset('assets/js/plugins/jquery.dataTables.min.js')}}"></script>
      <script src="{{asset('assets/js/plugins/dataTables.bootstrap4.min.js')}}"></script>
+     <!-- daterangepicker -->
+     <script src="{{asset('assets/js/plugins/moment.min.js')}}"></script>
+     <script src="{{asset('assets/js/plugins/daterangepicker.js')}}"></script>
      <!-- jquery-validation Js -->
      <script src="{{asset('assets/js/plugins/jquery.validate.min.js')}}"></script>
      <!-- sweet alert Js -->
      <script src="{{asset('assets/js/plugins/sweetalert.min.js')}}"></script>
      <script type="text/javascript">
 
+     function ConvertDateToPick(data){
+          var date = '';
+          if (data) {
+               var month;
+               var x = data.split("/");
+               var position_1 = x[0];
+               var position_2 = x[1];
+               var position_3 = x[2];
+
+               switch (position_1) {
+                    case '01' : month = "01"; break;
+                    case '02' : month = "02"; break;
+                    case '03' : month = "03"; break;
+                    case '04' : month = "04"; break;
+                    case '05' : month = "05"; break;
+                    case '06' : month = "06"; break;
+                    case '07' : month = "07"; break;
+                    case '08' : month = "08"; break;
+                    case '09' : month = "09"; break;
+                    case '10' : month = "10"; break;
+                    case '11' : month = "11"; break;
+                    case '12' : month = "12"; break;
+                    default : '';
+               }
+               date = position_2 + '/' + month + '/' + position_3;
+          }
+          return date;
+     }
+
      $(document).ready(function() {
+          var date_range = '{{$daterange}}';
+          $(function() {
+               if (date_range.length > 0){
+                    const myArr = date_range.split("-");
+                    let start_date = myArr[0].trim();
+                    let end_date = myArr[1].trim();
+
+                    $('input[name="daterange"]').val((start_date) + ' - ' + (end_date));
+               }
+
+               $('input[name="daterange"]').daterangepicker({
+                    autoUpdateInput: false,
+                    opens: 'left',
+                    dateFormat: 'dd-mm-yy',
+                    locale: {
+                         cancelLabel: 'Clear'
+                    }
+               });
+
+               $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+               });
+
+               $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
+                    $(this).val('');
+               });
+
+          });
+
         $('#simpletable').DataTable(
              {
                   "processing": true,

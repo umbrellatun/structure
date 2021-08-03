@@ -12,8 +12,17 @@ class GodSplitApproveController extends Controller
 {
      public function index()
      {
+          $today = date("Y-m-d");
+          $previous_day = date('Y-m-d',strtotime($today . "-15 days"));
+          $data["daterange"] = date_format(date_create($previous_day), "m/d/Y") . ' - ' . date_format(date_create($today), "m/d/Y");
           $data["title"] = "ยืนยันแบ่งสินค้า";
-          $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
+          $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')
+                              ->where(function($q)use($previous_day, $today){
+                                   $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
+                              })
+                              ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
+                              ->orderBy('DocuNO', 'desc')
+                              ->get();
 
           return view('godapprovesplitlist', $data);
      }
