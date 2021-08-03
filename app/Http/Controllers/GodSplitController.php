@@ -91,7 +91,7 @@ class GodSplitController extends Controller
 
           ]);
           if (!$validator->fails()) {
-               // \DB::beginTransaction();
+               \DB::beginTransaction();
                try {
                     if ($AppvStatus == 'Y') {
                          $q = "SELECT Flag_st FROM";
@@ -113,20 +113,20 @@ class GodSplitController extends Controller
                               $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
                               $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
                          } else {
-                              // $data = [
-                              //      'AppvStatus' => $AppvStatus
-                              // ];
-                              // ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                              // \DB::commit();
+                              $data = [
+                                   'AppvStatus' => $AppvStatus
+                              ];
+                              ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                              \DB::commit();
                               $return['status'] = 1;
                               $return['content'] = 'อนุมัติสำเร็จ';
                          }
                     } else {
-                         // $data = [
-                         //      'AppvStatus' => $AppvStatus
-                         // ];
-                         // ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                         // \DB::commit();
+                         $data = [
+                              'AppvStatus' => $AppvStatus
+                         ];
+                         ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                         \DB::commit();
                          $return['status'] = 1;
                          $return['content'] = 'ไม่อนุมัติสำเร็จ';
                     }
