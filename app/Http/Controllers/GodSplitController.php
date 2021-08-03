@@ -18,7 +18,6 @@ class GodSplitController extends Controller
                $data["headers"] = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->paginate(20);
           }
           else {
-               // dd($request->all());
                if ($request->daterange) {
                     $daterange = $request->daterange;
                     $str_date = explode('-', $daterange);
