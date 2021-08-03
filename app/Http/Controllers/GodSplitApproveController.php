@@ -42,7 +42,6 @@ class GodSplitApproveController extends Controller
                ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
                ->orderBy('DocuNO', 'desc')
                ->get();
-
                // dd($data["headers"]);
           }
           return view('godapprovesplitlist', $data);
