@@ -10,12 +10,35 @@ use App\Models\ICGodSplitDT;
 class GodSplitController extends Controller
 {
 
-     public function index()
+     public function index(Request $request)
      {
           $data["title"] = "อนุมัติคำขอแบ่งสินค้า";
-          // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
-          // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
-          $data["headers"] = ICGodSplitHD::orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+          if ($request->daterange) {
+               $daterange = $request->daterange;
+               $str_date = explode('-', $daterange);
+               $start_date = explode('/', trim($str_date[0]));
+               $start_date = $start_date[2] . $start_date[1] . $start_date[0];
+               $end_date = explode('/', trim($str_date[1]));
+               $end_date = $end_date[2] . $end_date[1] . $end_date[0];
+
+               $data["daterange"] = date_format(date_create($start_date), "m/d/Y") . ' - ' . date_format(date_create($end_date), "m/d/Y");
+               $data["headers"] = ICGodSplitHD::where(function($q)use($start_date, $end_date){
+                    $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
+               })
+               ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+          } else {
+               // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
+               // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
+               if($request->daterange == null){
+                    $today = date("Y-m-d");
+                    $previous_day = date('Y-m-d',strtotime($today . "-15 days"));
+                    $data["daterange"] = date_format(date_create($previous_day), "m/d/Y") . ' - ' . date_format(date_create($today), "m/d/Y");
+                    $data["headers"] = ICGodSplitHD::where(function($q)use($previous_day, $today){
+                         $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
+                    })
+                    ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+               }
+          }
           return view('godsplitlist', $data);
      }
 
@@ -53,11 +76,22 @@ class GodSplitController extends Controller
      {
           $AppvStatus = $request->AppvStatus;
           $DocuNO = $request->DocuNO;
+          if ($request->daterange_modal){
+               $daterange = $request->daterange_modal;
+               $str_date = explode('-', $daterange);
+               $start_date = explode('/', trim($str_date[0]));
+               $start_date = $start_date[2] . $start_date[0] . $start_date[1];
+               $end_date = explode('/', trim($str_date[1]));
+               $end_date = $end_date[2] . $end_date[0] . $end_date[1];
+          } else {
+               $start_date = date('Y-m-d',strtotime($today . "-15 days"));
+               $end_date = date("Y-m-d");
+          }
           $validator = Validator::make($request->all(), [
 
           ]);
           if (!$validator->fails()) {
-               \DB::beginTransaction();
+               // \DB::beginTransaction();
                try {
                     if ($AppvStatus == 'Y') {
                          $q = "SELECT Flag_st FROM";
@@ -79,20 +113,20 @@ class GodSplitController extends Controller
                               $return['title'] = 'ไม่สามารถดำเนินการแบ่งสินค้าได้';
                               $return['content'] = 'เนื่องจากสถานะตู้ปิดแล้ว กรุณาตรวจสอบ...';
                          } else {
-                              $data = [
-                                   'AppvStatus' => $AppvStatus
-                              ];
-                              ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                              \DB::commit();
+                              // $data = [
+                              //      'AppvStatus' => $AppvStatus
+                              // ];
+                              // ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                              // \DB::commit();
                               $return['status'] = 1;
                               $return['content'] = 'อนุมัติสำเร็จ';
                          }
                     } else {
-                         $data = [
-                              'AppvStatus' => $AppvStatus
-                         ];
-                         ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
-                         \DB::commit();
+                         // $data = [
+                         //      'AppvStatus' => $AppvStatus
+                         // ];
+                         // ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
+                         // \DB::commit();
                          $return['status'] = 1;
                          $return['content'] = 'ไม่อนุมัติสำเร็จ';
                     }
@@ -111,6 +145,7 @@ class GodSplitController extends Controller
                     $q .= ", AppvStatus";
                     $q .= ", AppvSplitStatus";
                     $q .= " FROM icGodSplit_hd";
+                    $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
                     $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
                     // $q .= " ORDER BY AppvSplitStatus asc";
                     $return['details'] = \DB::select($q);
