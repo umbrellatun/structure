@@ -252,7 +252,10 @@ class GodSplitApproveController extends Controller
           $q .= ", AppvSplitStatus";
           $q .= " FROM icGodSplit_hd";
           $q .= " WHERE AppvStatus = 'Y'";
-          $q .= " ORDER BY DocuNO DESC";
+          // $q .= " ORDER BY DocuNO DESC";
+          $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
+          $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+          $q .= ", AppvStatus ASC, [DocuNO] DESC";
           $return['details'] = \DB::select($q);
           return json_encode($return);
      }
