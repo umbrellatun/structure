@@ -29,7 +29,7 @@ class GodSplitApproveController extends Controller
                ->orderBy('DocuNO', 'desc')
                ->get();
           } else {
-               $today = date("Y-m-d");
+               $today = date("Ymd");
                $previous_day = date('Y-m-d',strtotime($today . "-15 days"));
                $data["daterange"] = date_format(date_create($previous_day), "d M Y") . ' - ' . date_format(date_create($today), "d M Y");
                // dd($data["daterange"]);

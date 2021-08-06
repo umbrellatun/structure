@@ -97,7 +97,7 @@
                                                   <form action="" method="GET">
                                                        <div class="form-group">
                                                             <label>วันที่เอกสาร</label>
-                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="" />
+                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="{{ isset($_GET["daterange"]) ? $_GET["daterange"] : $daterange }}" />
                                                        </div>
                                                        <div class="form-group">
                                                             <input type="submit" class="btn btn-primary" value="Search">
@@ -210,17 +210,7 @@
                                    <div class="dt-responsive table-responsive">
                                         <table id="simpletable2" class="table table-striped table-bordered nowrap">
                                              <thead>
-                                                  <tr>
-                                                       <th class="border-top-0 text-center">No</th>
-                                                       <th class="border-top-0 text-center">เลขที่เอกสาร</th>
-                                                       <th class="border-top-0 text-center">เลขที่ใบจอง</th>
-                                                       <th class="border-top-0 text-center">วันที่จอง</th>
-                                                       <th style="width: 30%" class="border-top-0 text-center">ชื่อลูกค้า</th>
-                                                       <th class="border-top-0 text-center">เลขตู้จัดสินค้า</th>
-                                                       {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
-                                                       {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
-                                                       <th class="border-top-0 text-center">จำนวนสินค้า<br/>แบ่งให้</th>
-                                                  </tr>
+
                                              </thead>
                                              <tbody>
                                              </tbody>
@@ -263,26 +253,35 @@
 
      var date_range = '{{$daterange}}';
      $(function() {
-          if (date_range.length > 0){
-               const myArr = date_range.split("-");
-               let start_date = myArr[0].trim();
-               let end_date = myArr[1].trim();
-
-               $('input[name="daterange"]').val((start_date) + ' - ' + (end_date));
-               $('#daterange_modal').val((start_date) + ' - ' + (end_date));
-          }
+          // if (date_range.length > 0){
+          //      const myArr = date_range.split("-");
+          //      let start_date = myArr[0].trim();
+          //      let end_date = myArr[1].trim();
+          //
+          //      $('input[name="daterange"]').val((start_date) + ' - ' + (end_date));
+          //      $('#daterange_modal').val((start_date) + ' - ' + (end_date));
+          // }
+          //
+          // $('input[name="daterange"]').daterangepicker({
+          //      autoUpdateInput: false,
+          //      opens: 'left',
+          //      dateFormat: 'dd-mm-yy',
+          //      locale: {
+          //           cancelLabel: 'Clear'
+          //      }
+          // });
+          //
+          // $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+          //      $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
+          // });
 
           $('input[name="daterange"]').daterangepicker({
-               autoUpdateInput: false,
-               opens: 'left',
-               dateFormat: 'dd-mm-yy',
                locale: {
-                    cancelLabel: 'Clear'
-               }
-          });
+                    format: 'DD MMM YYYY'
+               },
+               opens: 'left'
+          }, function(start, end, label) {
 
-          $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
-               $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
           });
 
           $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
@@ -300,7 +299,7 @@
               });
              $('#simpletable2').DataTable({
                    // "processing": true,
-                   "autoWidth": false,
+                   // "autoWidth": false,
                    "scrollX": true,
                    "scrollY": true,
                    "serverSide": false,
@@ -326,19 +325,36 @@
                },
           }).done(function(rec){
                if (rec.status == 1){
+                    let th = '';
                     let tr = '';
                     let tf = '';
                     let sum = 0;
                     if (rec.details.length > 0){
                          $("#modal-footer").html("");
+                         $("#simpletable2 thead").empty();
                          $("#simpletable2 tbody").empty();
                          $("#simpletable2 tfoot").empty();
                          var i = 1;
                          let flag = '';
                          $.each(rec.details, function( key, data ) {
+
+                              th += '';
+                              th += '<tr>
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">No</th>';
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">เลขที่เอกสาร</th>';
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">เลขที่ใบจอง</th>';
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">วันที่จอง</th>';
+                              th += '     <th style="width: 40%" class="border-top-0 text-center">ชื่อลูกค้า</th>';
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">เลขตู้จัดสินค้า</th>';
+                                   {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
+                                   {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
+                              th += '     <th style="width: 10%" class="border-top-0 text-center">จำนวนสินค้า<br/>แบ่งให้</th>';
+                              th += '</tr>
+
                               let cnt_str = (data.CustName.length);
                               let customer_name = data.CustName.slice(0, cnt_str/2);
                               let customer_name2 = data.CustName.slice((cnt_str/2)+1, cnt_str);
+
                               tr += '<tr>';
                               tr += '<td class="text-center">'+i+'</td>';
                               tr += '<td class="text-center">';

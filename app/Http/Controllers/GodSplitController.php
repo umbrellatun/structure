@@ -16,12 +16,10 @@ class GodSplitController extends Controller
           if ($request->daterange) {
                $daterange = $request->daterange;
                $str_date = explode('-', $daterange);
-               $start_date = explode('/', trim($str_date[0]));
-               $start_date = $start_date[2] . $start_date[1] . $start_date[0];
-               $end_date = explode('/', trim($str_date[1]));
-               $end_date = $end_date[2] . $end_date[1] . $end_date[0];
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
 
-               $data["daterange"] = date_format(date_create($start_date), "m/d/Y") . ' - ' . date_format(date_create($end_date), "m/d/Y");
+               $data["daterange"] = date_format(date_create($start_date), "d M Y") . ' - ' . date_format(date_create($end_date), "d M Y");
                $data["headers"] = ICGodSplitHD::where(function($q)use($start_date, $end_date){
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
                })
@@ -30,9 +28,9 @@ class GodSplitController extends Controller
                // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
                if($request->daterange == null){
-                    $today = date("Y-m-d");
-                    $previous_day = date('Y-m-d',strtotime($today . "-15 days"));
-                    $data["daterange"] = date_format(date_create($previous_day), "m/d/Y") . ' - ' . date_format(date_create($today), "m/d/Y");
+                    $today = date("Ymd");
+                    $previous_day = date('Ymd',strtotime($today . "-15 days"));
+                    $data["daterange"] = date_format(date_create($previous_day), "d M Y") . ' - ' . date_format(date_create($today), "d M Y");
                     $data["headers"] = ICGodSplitHD::where(function($q)use($previous_day, $today){
                          $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
                     })
@@ -79,13 +77,12 @@ class GodSplitController extends Controller
           if ($request->daterange_modal){
                $daterange = $request->daterange_modal;
                $str_date = explode('-', $daterange);
-               $start_date = explode('/', trim($str_date[0]));
-               $start_date = $start_date[2] . $start_date[0] . $start_date[1];
-               $end_date = explode('/', trim($str_date[1]));
-               $end_date = $end_date[2] . $end_date[0] . $end_date[1];
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
           } else {
-               $start_date = date('Y-m-d',strtotime($today . "-15 days"));
-               $end_date = date("Y-m-d");
+               $today = date("Ymd");
+               $start_date = date('Ymd',strtotime($today . "-15 days"));
+               $end_date = date("Ymd");
           }
           $validator = Validator::make($request->all(), [
 
@@ -162,8 +159,55 @@ class GodSplitController extends Controller
           return json_encode($return);
      }
 
-     public function test($value='')
+     function ConvertDate($daterange){
+          try {
+               if ($daterange){
+                    $start_date = explode(' ', trim($daterange));
+                    if($start_date[1] == 'Jan'){
+                         $date_use = $start_date[2] . '01' . $start_date[0];
+                    }elseif($start_date[1] == 'Feb'){
+                         $date_use = $start_date[2] . '02' . $start_date[0];
+                    }elseif($start_date[1] == 'Mar'){
+                         $date_use = $start_date[2] . '03' . $start_date[0];
+                    }elseif($start_date[1] == 'Apr'){
+                         $date_use = $start_date[2] . '04' . $start_date[0];
+                    }elseif($start_date[1] == 'May'){
+                         $date_use = $start_date[2] . '05' . $start_date[0];
+                    }elseif($start_date[1] == 'Jun'){
+                         $date_use = $start_date[2] . '06' . $start_date[0];
+                    }elseif($start_date[1] == 'Jul'){
+                         $date_use = $start_date[2] . '07' . $start_date[0];
+                    }elseif($start_date[1] == 'Aug'){
+                         $date_use = $start_date[2] . '08' . $start_date[0];
+                    }elseif($start_date[1] == 'Sep'){
+                         $date_use = $start_date[2] . '09' . $start_date[0];
+                    }elseif($start_date[1] == 'Oct'){
+                         $date_use = $start_date[2] . '10' . $start_date[0];
+                    }elseif($start_date[1] == 'Nov'){
+                         $date_use = $start_date[2] . '11' . $start_date[0];
+                    }elseif($start_date[1] == 'Dec'){
+                         $date_use = $start_date[2] . '12' . $start_date[0];
+                    }
+               }
+               return $date_use;
+          } catch (\Exception $e) {
+               return null;
+          }
+     }
+
+     public function test(Request $request)
      {
+          if ($request->daterange_modal){
+               $daterange = $request->daterange_modal;
+               $str_date = explode('-', $daterange);
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
+          } else {
+               $today = date("Ymd");
+               $start_date = date('Ymd',strtotime($today . "-15 days"));
+               $end_date = date("Ymd");
+          }
+
           $q = "SELECT";
           $q .= " DocuNO";
           $q .= ", RefSOCONo";
