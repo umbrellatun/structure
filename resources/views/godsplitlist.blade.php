@@ -186,13 +186,13 @@
                          </div>
                     </div>
                     <!-- [ Main Content ] end -->
-                    {{-- <div class="row">
+                    <div class="row">
                          <div class="col-12">
                               <button class="btn btn-primary btn-test text-white">
                                    <i class="fas fa-sync-alt"></i> Refresh
                               </button>
                          </div>
-                    </div> --}}
+                    </div>
                </div>
           </div>
      </div>
@@ -540,76 +540,76 @@
          }
      });
 
-     // $(function() {
-     //      $('body').on('click', '.btn-test', function (e) {
-     //           e.preventDefault();
-     //           $.ajax({
-     //                method : "POST",
-     //                url : '{{ route('godsplit.test') }}',
-     //                dataType : 'json',
-     //                data : $("#FormEdit").serialize(),
-     //                headers: {
-     //                     'X-CSRF-TOKEN': "{{ csrf_token() }}"
-     //                },
-     //                beforeSend: function() {
-     //                     $(".preloader").css("display", "block");
-     //                     $(".btn-success").attr("disabled", true);
-     //                },
-     //           }).done(function(rec){
-     //                $(".preloader").css("display", "none");
-     //                // $("#simpletable tbody").empty();
-     //                $("#ModalEdit").modal('hide');
-     //                $("#simpletable tbody").empty();
-     //                $("#simpletable").dataTable().fnClearTable();
-     //                $("#simpletable").dataTable().fnDraw();
-     //                $("#simpletable").dataTable().fnDestroy();
-     //                let tr = '';
-     //                var i = 0;
-     //                let flag = '';
-     //                let badge = '';
-     //                let btn_group = '';
-     //                let btn_group2 = '';
-     //                $.each(rec.details, function( key, data ) {
-     //                     if (data.AppvStatus == 'N') {
-     //                          badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-     //                     }else if(data.AppvStatus == 'Y'){
-     //                          badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-     //                     }else if(data.AppvStatus == 'C'){
-     //                          badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-     //                     }
-     //                     if (data.AppvSplitStatus == 'N') {
-     //                          btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-     //                     }else if(data.AppvSplitStatus == 'Y'){
-     //                          btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-     //                     }else if(data.AppvSplitStatus == 'R'){
-     //                          btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-     //                     }
-     //                     btn_group2 += '<div class="btn-group btn-group-sm">';
-     //                     if(data.AppvStatus == 'N'){
-     //                          btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-     //                          btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-     //                          btn_group2 += '</button>';
-     //                     } else {
-     //                          btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-     //                          btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
-     //                          btn_group2 += '</button>';
-     //                     }
-     //                     btn_group2 += '</div>';
-     //
-     //                     i++;
-     //                     $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
-     //                     // $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
-     //                     badge = '';
-     //                     btn_group = '';
-     //                     btn_group2 = '';
-     //                });
-     //
-     //           }).fail(function(){
-     //                $(".preloader").css("display", "none");
-     //                swal("", "ไม่สำเร็จ", "warning");
-     //           });
-     //      });
-     // });
+     $(function() {
+          $('body').on('click', '.btn-test', function (e) {
+               e.preventDefault();
+               $.ajax({
+                    method : "POST",
+                    url : '{{ route('godsplit.test') }}',
+                    dataType : 'json',
+                    data : $("#FormEdit").serialize(),
+                    headers: {
+                         'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                    },
+                    beforeSend: function() {
+                         $(".preloader").css("display", "block");
+                         $(".btn-success").attr("disabled", true);
+                    },
+               }).done(function(rec){
+                    $(".preloader").css("display", "none");
+                    // $("#simpletable tbody").empty();
+                    $("#ModalEdit").modal('hide');
+                    $("#simpletable tbody").empty();
+                    $("#simpletable").dataTable().fnClearTable();
+                    $("#simpletable").dataTable().fnDraw();
+                    $("#simpletable").dataTable().fnDestroy();
+                    let tr = '';
+                    var i = 0;
+                    let flag = '';
+                    let badge = '';
+                    let btn_group = '';
+                    let btn_group2 = '';
+                    $.each(rec.details, function( key, data ) {
+                         if (data.AppvStatus == 'N') {
+                              badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                         }else if(data.AppvStatus == 'Y'){
+                              badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                         }else if(data.AppvStatus == 'C'){
+                              badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                         }
+                         if (data.AppvSplitStatus == 'N') {
+                              btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                         }else if(data.AppvSplitStatus == 'Y'){
+                              btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                         }else if(data.AppvSplitStatus == 'R'){
+                              btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                         }
+                         btn_group2 += '<div class="btn-group btn-group-sm">';
+                         if(data.AppvStatus == 'N'){
+                              btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                              btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                              btn_group2 += '</button>';
+                         } else {
+                              btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                              btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
+                              btn_group2 += '</button>';
+                         }
+                         btn_group2 += '</div>';
+
+                         i++;
+                         $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                         // $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                         badge = '';
+                         btn_group = '';
+                         btn_group2 = '';
+                    });
+
+               }).fail(function(){
+                    $(".preloader").css("display", "none");
+                    swal("", "ไม่สำเร็จ", "warning");
+               });
+          });
+     });
 
 
      </script>

@@ -223,7 +223,8 @@ class GodSplitController extends Controller
           $q .= ", AppvSplitStatus";
           $q .= " FROM icGodSplit_hd";
           // $q .= " ORDER BY AppvSplitStatus asc";
-          $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
+          $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
+          $q .= " ORDER BY ISNULL(AppvStatus, '')";
           $return['details'] = \DB::select($q);
           return json_encode($return);
      }
