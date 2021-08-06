@@ -337,9 +337,7 @@
                          var i = 1;
                          let flag = '';
                          $.each(rec.details, function( key, data ) {
-
-                              th += '';
-                              th += '<tr>
+                              th += '<tr>';
                               th += '     <th style="width: 10%" class="border-top-0 text-center">No</th>';
                               th += '     <th style="width: 10%" class="border-top-0 text-center">เลขที่เอกสาร</th>';
                               th += '     <th style="width: 10%" class="border-top-0 text-center">เลขที่ใบจอง</th>';
@@ -349,7 +347,8 @@
                                    {{-- <th class="border-top-0 text-center">สถานะตู้</th> --}}
                                    {{-- <th class="border-top-0 text-center">จำนวนสินค้าสั่งจอง</th> --}}
                               th += '     <th style="width: 10%" class="border-top-0 text-center">จำนวนสินค้า<br/>แบ่งให้</th>';
-                              th += '</tr>
+                              th += '</tr>';
+                              $("#simpletable2 tbody").append(th);
 
                               let cnt_str = (data.CustName.length);
                               let customer_name = data.CustName.slice(0, cnt_str/2);
