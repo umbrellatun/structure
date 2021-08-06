@@ -76,7 +76,6 @@ class GodSplitApproveController extends Controller
 
      public function updateAppvSplitStatus(Request $request)
      {
-          $today = date("Y-m-d");
           $AppvStatus = $request->AppvStatus;
           $DocuNO = $request->DocuNO;
           if ($request->daterange_modal){
@@ -85,8 +84,9 @@ class GodSplitApproveController extends Controller
                $start_date = self::ConvertDate($str_date[0]);
                $end_date = self::ConvertDate($str_date[1]);
           } else {
-               $start_date = date('Y-m-d',strtotime($today . "-15 days"));
-               $end_date = date("Y-m-d");
+               $today = date("Ymd");
+               $start_date = date('Ymd',strtotime($today . "-15 days"));
+               $end_date = date("Ymd");
           }
           $validator = Validator::make($request->all(), [
 
@@ -281,9 +281,9 @@ class GodSplitApproveController extends Controller
                $start_date = self::ConvertDate($str_date[0]);
                $end_date = self::ConvertDate($str_date[1]);
           } else {
-               $today = date("Y-m-d");
-               $start_date = date('Y-m-d',strtotime($today . "-15 days"));
-               $end_date = date("Y-m-d");
+               $today = date("Ymd");
+               $start_date = date('Ymd',strtotime($today . "-15 days"));
+               $end_date = date("Ymd");
           }
 
           $q = "SELECT DocuNO, RefSOCONo";
@@ -298,6 +298,7 @@ class GodSplitApproveController extends Controller
           $q .= " WHERE AppvStatus = 'Y'";
           $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
           $q .= " ORDER BY DocuNO DESC";
+          // dd($q);
           // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
           // $q .= ", AppvStatus ASC, [DocuNO] DESC";
           $return['details'] = \DB::select($q);
