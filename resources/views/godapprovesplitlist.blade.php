@@ -98,7 +98,7 @@
                                                   <form action="" method="GET">
                                                        <div class="form-group">
                                                             <label>วันที่เอกสาร</label>
-                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="" />
+                                                            <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="{{ isset($_GET["daterange"]) ? $_GET["daterange"] : $daterange }}" />
                                                        </div>
                                                        <div class="form-group">
                                                             <input type="submit" class="btn btn-primary" value="Search">
@@ -264,27 +264,27 @@
      $(document).ready(function() {
           var date_range = '{{$daterange}}';
           $(function() {
-               if (date_range.length > 0){
-                    const myArr = date_range.split("-");
-                    let start_date = myArr[0].trim();
-                    let end_date = myArr[1].trim();
-
-                    $('input[name="daterange"]').val((start_date) + ' - ' + (end_date));
-                    $('#daterange_modal').val((start_date) + ' - ' + (end_date));
-               }
+               // if (date_range.length > 0){
+               //      const myArr = date_range.split("-");
+               //      let start_date = myArr[0].trim();
+               //      let end_date = myArr[1].trim();
+               //
+               //      $('input[name="daterange"]').val((start_date) + ' - ' + (end_date));
+               //      $('#daterange_modal').val((start_date) + ' - ' + (end_date));
+               // }
 
                $('input[name="daterange"]').daterangepicker({
-                    autoUpdateInput: false,
-                    opens: 'left',
-                    dateFormat: 'dd-mm-yy',
                     locale: {
-                         cancelLabel: 'Clear'
-                    }
+                         format: 'DD MMM YYYY'
+                    },
+                    opens: 'left'
+               }, function(start, end, label) {
+
                });
 
-               $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
-                    $(this).val(picker.startDate.format('DD/MM/YYYY') + ' - ' + picker.endDate.format('DD/MM/YYYY'));
-               });
+               // $('input[name="daterange"]').on('apply.daterangepicker', function(ev, picker) {
+               //      $(this).val(picker.startDate.format('DD MM YYYY') + ' - ' + picker.endDate.format('DD MM YYYY'));
+               // });
 
                $('input[name="daterange"]').on('cancel.daterangepicker', function(ev, picker) {
                     $(this).val('');

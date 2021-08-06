@@ -17,29 +17,27 @@ class GodSplitApproveController extends Controller
           if ($request->daterange) {
                $daterange = $request->daterange;
                $str_date = explode('-', $daterange);
-               $start_date = explode('/', trim($str_date[0]));
-               $start_date = $start_date[2] . $start_date[1] . $start_date[0];
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
 
-               $end_date = explode('/', trim($str_date[1]));
-               $end_date = $end_date[2] . $end_date[1] . $end_date[0];
-
-               $data["daterange"] = date_format(date_create($start_date), "m/d/Y") . ' - ' . date_format(date_create($end_date), "m/d/Y");
+               $data["daterange"] = date_format(date_create($start_date), "d M Y") . ' - ' . date_format(date_create($end_date), "d M Y");
                $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')
                ->where(function($q)use($start_date, $end_date){
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
                })
-               ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
+               // ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
                ->orderBy('DocuNO', 'desc')
                ->get();
           } else {
                $today = date("Y-m-d");
                $previous_day = date('Y-m-d',strtotime($today . "-15 days"));
-               $data["daterange"] = date_format(date_create($previous_day), "m/d/Y") . ' - ' . date_format(date_create($today), "m/d/Y");
+               $data["daterange"] = date_format(date_create($previous_day), "d M Y") . ' - ' . date_format(date_create($today), "d M Y");
+               // dd($data["daterange"]);
                $data["headers"] = ICGodSplitHD::where('AppvStatus', '=', 'Y')
                ->where(function($q)use($previous_day, $today){
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
                })
-               ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
+               // ->orderByRaw("ISNULL(AppvSplitStatus, ''), AppvStatus ASC")
                ->orderBy('DocuNO', 'desc')
                ->get();
                // dd($data["headers"]);
@@ -78,15 +76,14 @@ class GodSplitApproveController extends Controller
 
      public function updateAppvSplitStatus(Request $request)
      {
+          $today = date("Y-m-d");
           $AppvStatus = $request->AppvStatus;
           $DocuNO = $request->DocuNO;
           if ($request->daterange_modal){
                $daterange = $request->daterange_modal;
                $str_date = explode('-', $daterange);
-               $start_date = explode('/', trim($str_date[0]));
-               $start_date = $start_date[2] . $start_date[0] . $start_date[1];
-               $end_date = explode('/', trim($str_date[1]));
-               $end_date = $end_date[2] . $end_date[0] . $end_date[1];
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
           } else {
                $start_date = date('Y-m-d',strtotime($today . "-15 days"));
                $end_date = date("Y-m-d");
@@ -116,10 +113,10 @@ class GodSplitApproveController extends Controller
                          $q .= ", AppvSplitStatus";
                          $q .= " FROM icGodSplit_hd";
                          $q .= " WHERE AppvStatus = 'Y'";
-                         // $q .= " ORDER BY DocuNO DESC";
                          $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-                         $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
-                         $q .= ", AppvStatus ASC, [DocuNO] DESC";
+                         $q .= " ORDER BY DocuNO DESC";
+                         // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+                         // $q .= ", AppvStatus ASC, [DocuNO] DESC";
                          $return['details'] = \DB::select($q);
 
                     } else {
@@ -152,10 +149,10 @@ class GodSplitApproveController extends Controller
                               $q .= ", AppvSplitStatus";
                               $q .= " FROM icGodSplit_hd";
                               $q .= " WHERE AppvStatus = 'Y'";
-                              // $q .= " ORDER BY DocuNO DESC";
                               $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-                              $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
-                              $q .= ", AppvStatus ASC, [DocuNO] DESC";
+                              $q .= " ORDER BY DocuNO DESC";
+                              // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+                              // $q .= ", AppvStatus ASC, [DocuNO] DESC";
                               $return['details'] = \DB::select($q);
 
                          } else {
@@ -180,10 +177,10 @@ class GodSplitApproveController extends Controller
                                    $q .= ", AppvSplitStatus";
                                    $q .= " FROM icGodSplit_hd";
                                    $q .= " WHERE AppvStatus = 'Y'";
-                                   // $q .= " ORDER BY DocuNO DESC";
                                    $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-                                   $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
-                                   $q .= ", AppvStatus ASC, [DocuNO] DESC";
+                                   $q .= " ORDER BY DocuNO DESC";
+                                   // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+                                   // $q .= ", AppvStatus ASC, [DocuNO] DESC";
                                    $return['details'] = \DB::select($q);
 
                               } else {
@@ -199,10 +196,10 @@ class GodSplitApproveController extends Controller
                                         $q .= ", AppvSplitStatus";
                                         $q .= " FROM icGodSplit_hd";
                                         $q .= " WHERE AppvStatus = 'Y'";
-                                        // $q .= " ORDER BY DocuNO DESC";
                                         $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-                                        $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
-                                        $q .= ", AppvStatus ASC, [DocuNO] DESC";
+                                        $q .= " ORDER BY DocuNO DESC";
+                                        // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+                                        // $q .= ", AppvStatus ASC, [DocuNO] DESC";
                                         $return['details'] = \DB::select($q);
                                         // $details = ICGodSplitHD::where('AppvStatus', '=', 'Y')->orderBy('DocuNO', 'desc')->get();
                                         // $return['details'] = $details;
@@ -240,8 +237,55 @@ class GodSplitApproveController extends Controller
           return json_encode($return);
      }
 
-     public function test($value='')
+     function ConvertDate($daterange){
+          try {
+               if ($daterange){
+                    $start_date = explode(' ', trim($daterange));
+                    if($start_date[1] == 'Jan'){
+                         $date_use = $start_date[2] . '01' . $start_date[0];
+                    }elseif($start_date[1] == 'Feb'){
+                         $date_use = $start_date[2] . '02' . $start_date[0];
+                    }elseif($start_date[1] == 'Mar'){
+                         $date_use = $start_date[2] . '03' . $start_date[0];
+                    }elseif($start_date[1] == 'Apr'){
+                         $date_use = $start_date[2] . '04' . $start_date[0];
+                    }elseif($start_date[1] == 'May'){
+                         $date_use = $start_date[2] . '05' . $start_date[0];
+                    }elseif($start_date[1] == 'Jun'){
+                         $date_use = $start_date[2] . '06' . $start_date[0];
+                    }elseif($start_date[1] == 'Jul'){
+                         $date_use = $start_date[2] . '07' . $start_date[0];
+                    }elseif($start_date[1] == 'Aug'){
+                         $date_use = $start_date[2] . '08' . $start_date[0];
+                    }elseif($start_date[1] == 'Sep'){
+                         $date_use = $start_date[2] . '09' . $start_date[0];
+                    }elseif($start_date[1] == 'Oct'){
+                         $date_use = $start_date[2] . '10' . $start_date[0];
+                    }elseif($start_date[1] == 'Nov'){
+                         $date_use = $start_date[2] . '11' . $start_date[0];
+                    }elseif($start_date[1] == 'Dec'){
+                         $date_use = $start_date[2] . '12' . $start_date[0];
+                    }
+               }
+               return $date_use;
+          } catch (\Exception $e) {
+               return null;
+          }
+     }
+
+     public function test(Request $request)
      {
+          if ($request->daterange_modal){
+               $daterange = $request->daterange_modal;
+               $str_date = explode('-', $daterange);
+               $start_date = self::ConvertDate($str_date[0]);
+               $end_date = self::ConvertDate($str_date[1]);
+          } else {
+               $today = date("Y-m-d");
+               $start_date = date('Y-m-d',strtotime($today . "-15 days"));
+               $end_date = date("Y-m-d");
+          }
+
           $q = "SELECT DocuNO, RefSOCONo";
           $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
           $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
@@ -252,10 +296,10 @@ class GodSplitApproveController extends Controller
           $q .= ", AppvSplitStatus";
           $q .= " FROM icGodSplit_hd";
           $q .= " WHERE AppvStatus = 'Y'";
-          // $q .= " ORDER BY DocuNO DESC";
           $q .= " AND (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-          $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
-          $q .= ", AppvStatus ASC, [DocuNO] DESC";
+          $q .= " ORDER BY DocuNO DESC";
+          // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
+          // $q .= ", AppvStatus ASC, [DocuNO] DESC";
           $return['details'] = \DB::select($q);
           return json_encode($return);
      }
