@@ -327,6 +327,7 @@ class HomeController extends Controller
                    if (in_array(0, $find)){
                         $return['status'] = 2;
                    } else {
+                        /* TODO Call database 192.168.1.112 icConLockforSplit ที่ DocuNo */
                         $data = [
                              'DocuNO' => $DocuNO
                              ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')
