@@ -326,6 +326,7 @@
                                                                                        <th>เลขที่เอกสาร</th>
                                                                                        <th>วันที่นัดส่ง</th>
                                                                                        <th>ชื่อลูกค้า</th>
+                                                                                       <th>ชื่อพนักงานขาย</th>
                                                                                        <th>เลขตู้จัดสินค้า</th>
                                                                                        <th>สถานะตู้</th>
                                                                                        <th>จำนวนสินค้าสั่งจอง</th>
@@ -1061,6 +1062,7 @@
                                                            // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                                            tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+ data.ShipDate +'</span></td>';
                                                            tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.CustName+'</span></td>';
+                                                           tr += '<td><span>'+data.EmpName+'</span></td>';
                                                            tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.ContainerNO+'</span></td>';
                                                            tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.Flag_st+'</span></td>';
                                                            tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.TranQty+'</span></td>';
@@ -1355,6 +1357,7 @@
                                        // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
                                        tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+ data.ShipDate +'</span></td>';
                                        tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.CustName+'</span></td>';
+                                       tr += '<td><span>'+data.EmpName+'</span></td>';
                                        tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.ContainerNO+'</span></td>';
                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.Flag_st+'</span></td>';
                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.TranQty+'</span></td>';
