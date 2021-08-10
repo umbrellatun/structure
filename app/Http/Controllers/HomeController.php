@@ -328,6 +328,12 @@ class HomeController extends Controller
                         $return['status'] = 2;
                    } else {
                         /* TODO Call database 192.168.1.112 icConLockforSplit ที่ DocuNo */
+                        $lock_for_split = \DB::connection("sqlsrv112")->statement('exec icConLockforSplit ? SET NOCOUNT ON', [$DocuNO]);
+                        if ($lock_for_split == true){
+
+                        } else {
+
+                        }
                         $data = [
                              'DocuNO' => $DocuNO
                              ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')

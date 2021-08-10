@@ -113,6 +113,19 @@ return [
             'prefix_indexes' => true,
         ],
 
+        'sqlsrv112' => [
+            'driver' => 'sqlsrv',
+            'url' => env('DATABASE_URL'),
+            'host' => env('DB_HOST_112', '192.168.1.112'),
+            'port' => env('DB_PORT', '1433'),
+            'database' => env('DB_DATABASE_112', 'PDA'),
+            'username' => env('DB_USERNAME', 'it'),
+            'password' => env('DB_PASSWORD', ''),
+            'charset' => 'utf8',
+            'prefix' => '',
+            'prefix_indexes' => true,
+        ],
+
     ],
 
     /*
