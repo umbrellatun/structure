@@ -119,9 +119,17 @@ class GodSplitController extends Controller
                               $return['content'] = 'อนุมัติสำเร็จ';
                          }
                     } else {
-                         $data = [
-                              'AppvStatus' => $AppvStatus
-                         ];
+                         if ($AppvStatus == 'C') {
+                              $data = [
+                                   'AppvStatus' => $AppvStatus
+                                   ,'AppvSplitStatus' => 'R'
+                              ];
+                         }
+                         if ($AppvStatus == 'Y') {
+                              $data = [
+                                   'AppvStatus' => $AppvStatus
+                              ];
+                         }
                          ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                          \DB::commit();
                          $return['status'] = 1;
