@@ -1398,6 +1398,7 @@
                         $('.product_share').on('keyup', function() {
                              var data = $(this).val();
                              var data_value = $(this).data("value");
+                             var reflistno = $(this).data("reflistno");
                              // var tran_qty = $("#tran_qty_"+data_value).text();
                              var tran_qty = $("#TranQty_"+data_value).text();
                              if (parseInt(data) > parseInt(tran_qty)) {

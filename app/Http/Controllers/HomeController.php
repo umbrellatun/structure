@@ -26,7 +26,7 @@ class HomeController extends Controller
      */
     public function index($customer_id)
     {
-         self::notify_message("เข้าหน้าแบ่งสินค้าเพื่อจัดส่ง");
+         self::notify_message($customer_id . " : " . "เข้าหน้าแบ่งสินค้าเพื่อจัดส่ง");
          $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
          $data['customer_id'] = $customer_id;
          $q = "SELECT 'SP-' + SUBSTRING(CONVERT(Varchar, GETDATE(), 112), 3, 6) + '-' + REPLACE(CONVERT(Varchar, GETDATE(), 108), ':', '') AS DocuNO, GETDATE() AS DocuDate, EMCust.CustCode, EMCust.CustName, EMEmp.EmpCode, EMEmp.empname
@@ -51,6 +51,7 @@ class HomeController extends Controller
          // $ShipDate = $request->ShipDate;
          $ShipDate = (date_create($request->ShipDate));
          $ShipDate = date_format($ShipDate, 'Ymd');
+         self::notify_message($CustCode . " : " . "กด Next เพื่อไปหน้า 2");
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -98,6 +99,7 @@ class HomeController extends Controller
          $shipdate = date_format($shipdate, 'Ymd');
          $EmpCode = $request->EmpCode;
          $customer_id = $request->customer_id;
+         self::notify_message($customer_id . " : " . "กด Next เพื่อไปหน้า 3 โดยเลือก " . $goodcode);
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -171,6 +173,7 @@ class HomeController extends Controller
          $goodcode = $request->goodcode;
          $shipdate = (date_create($request->shipdate));
          $shipdate = date_format($shipdate, 'Ymd');
+         self::notify_message($customer_id . " : " . "กดเลือกสินค้าของพนักงานคนอื่น");
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -327,7 +330,8 @@ class HomeController extends Controller
                    }
                    if (in_array(0, $find)){
                         $return['status'] = 2;
-                        self::notify_message($return['status']);
+                        $return['content'] = 'ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ';
+                        self::notify_message($tb4_CustName . " : " . $return['content']);
                    } else {
                         /* TODO Call database 192.168.1.112 icConLockforSplit ที่ DocuNo */
                         // $lock_for_split = \DB::connection("sqlsrv112")->statement('exec icConLockforSplit ? SET NOCOUNT ON', [$DocuNO]);
@@ -375,12 +379,12 @@ class HomeController extends Controller
                                   ,'SplitQty' => $tb4_SplitQty[$i]
                              ];
                              \DB::table('icGodSplit_dt')->insert($data);
+                             self::notify_message($tb4_CustName[$i] . "จัดเก็บสำเร็จ" );
                         }
                         \DB::commit();
                         // \DB::rollBack();
                         $return['status'] = 1;
                         $return['content'] = 'จัดเก็บสำเร็จ';
-                        self::notify_message($return['content']);
                    }
               } catch (Exception $e) {
                    \DB::rollBack();
