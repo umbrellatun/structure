@@ -1154,7 +1154,7 @@
                         let sum_total = 0;
                         for (var i = 0; i < product_share_chk_arr.length; i++) {
                              if($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val() == ''){
-                                  if ($(".product_share_chk_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[$i]).prop("checked")){
+                                  if ($(".product_share_chk_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).prop("checked")){
                                        notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณากรอกช่องจำนวนสินค้าแบ่งให้");
                                        return false;
                                   }

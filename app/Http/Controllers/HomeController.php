@@ -26,10 +26,7 @@ class HomeController extends Controller
      */
     public function index($customer_id)
     {
-         // $return['status'] = 1;
-         // $return['content'] = 'จัดเก็บสำเร็จ';
-         // self::notify_message($return['status'] . "-" . $return['content']);
-         self::notify_message("แบ่งสินค้าเพื่อจัดส่ง");
+         self::notify_message("เข้าหน้าแบ่งสินค้าเพื่อจัดส่ง");
          $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
          $data['customer_id'] = $customer_id;
          $q = "SELECT 'SP-' + SUBSTRING(CONVERT(Varchar, GETDATE(), 112), 3, 6) + '-' + REPLACE(CONVERT(Varchar, GETDATE(), 108), ':', '') AS DocuNO, GETDATE() AS DocuDate, EMCust.CustCode, EMCust.CustName, EMEmp.EmpCode, EMEmp.empname
@@ -383,13 +380,13 @@ class HomeController extends Controller
                         // \DB::rollBack();
                         $return['status'] = 1;
                         $return['content'] = 'จัดเก็บสำเร็จ';
-                        self::notify_message($return['status'] . "-" . $return['content']);
+                        self::notify_message($return['content']);
                    }
               } catch (Exception $e) {
                    \DB::rollBack();
                    $return['status'] = 0;
                    $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
-                   self::notify_message($return['status'] . "-" . $return['content']);
+                   self::notify_message($return['content']);
               }
          } else{
               $return['status'] = 0;
