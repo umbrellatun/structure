@@ -944,7 +944,11 @@
                                        // tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+jsDateDiff1(data.DocuDate, data.ShipDate)+'</span></td>';
                                        tr += '<td class="text-right"><span id="span_date_amount_'+data.RefSOCOID+'">'+data.DateDiff+'</span></td>';
                                        tr += '<td><span title="'+data.CustAddress+'" id="span_cus_address_'+data.RefSOCOID+'">'+ truncateString(data.CustAddress, 50) +'</span></td>';
-                                       tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+parseInt(data.GoodPrice2).toFixed(2)+'</span></td>';
+                                       if (parseInt(data.GoodPrice2)){
+                                            tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+parseInt(data.GoodPrice2).toFixed(2)+'</span></td>';
+                                       } else {
+                                            tr += '<td class="text-right"><span id="span_goodprice_'+data.RefSOCOID+'">'+data.GoodPrice2+'</span></td>';
+                                       }
                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                        tr += '<td class="text-right">0</td>';
                                        tr += '</tr>';
@@ -1043,7 +1047,7 @@
                                                       find_string = (data.ContainerNO).includes("@");
                                                       if (find_string == false){
                                                            if (data.Flag_st.length == 0){
-                                                                chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
+                                                                chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                                            } else {
                                                                 chkbox = '';
                                                            }
@@ -1052,21 +1056,21 @@
                                                            tr += chkbox;
                                                            tr += '</td>';
                                                            tr += '<td>';
-                                                           tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
-                                                           tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.RefListNo+'">';
-                                                           tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.EmpName+'">';
-                                                           tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.EmpCode+'">';
-                                                           tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.DocuDate+'">';
-                                                           tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.RefSOCONo+'</span>';
+                                                           tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                                           tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefListNo+'">';
+                                                           tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpName+'">';
+                                                           tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpCode+'">';
+                                                           tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.DocuDate+'">';
+                                                           tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.RefSOCONo+'</span>';
                                                            tr += '</td>';
                                                            // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                                           tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+ data.ShipDate +'</span></td>';
-                                                           tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.CustName+'</span></td>';
+                                                           tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+ data.ShipDate +'</span></td>';
+                                                           tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.CustName+'</span></td>';
                                                            tr += '<td><span>'+data.EmpName+'</span></td>';
-                                                           tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.ContainerNO+'</span></td>';
-                                                           tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.Flag_st+'</span></td>';
-                                                           tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.TranQty+'</span></td>';
-                                                           tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                           tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
+                                                           tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
+                                                           tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
+                                                           tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                            tr += '</tr>';
                                                       }
                                                  });
@@ -1078,12 +1082,13 @@
                                             $('.product_share_chk').on('click', function() {
                                                  var val = $(this).data("value");
                                                  var container = $(this).data("container");
+                                                 var reflistno = $(this).data("reflistno");
                                                  if ($(this).is(':checked')) {
-                                                      $(".product_share_" + val + "_" + container).attr("readonly", false);
-                                                      $(".product_share_" + val + "_" + container).focus();
+                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", false);
+                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).focus();
                                                  } else {
-                                                      $(".product_share_" + val + "_" + container).attr("readonly", true);
-                                                      $(".product_share_" + val + "_" + container).val("");
+                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", true);
+                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).val("");
                                                  }
                                                  numIndex();
                                             });
@@ -1137,10 +1142,12 @@
                    var valids = new Array();
                    var product_share_chk_arr = new Array();
                    var product_share_chk_arr2 = new Array();
+                   var product_share_chk_arr3 = new Array();
                    $('.product_share_chk').each(function(i, obj) {
                         valids.push($(obj).prop("checked"));
                         product_share_chk_arr.push($(obj).data("value"));
-                        product_share_chk_arr2.push($(obj).data("container") );
+                        product_share_chk_arr2.push($(obj).data("container"));
+                        product_share_chk_arr3.push($(obj).data("reflistno"));
                    });
 
                    if (jQuery.inArray(true, valids) != -1) {
@@ -1152,7 +1159,11 @@
                                        return false;
                                   }
                              } else {
-                                  sum_total = sum_total + parseInt($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val());
+                                  if ($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val()){
+                                       sum_total = sum_total + parseInt($(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val());
+                                  } else {
+                                       sum_total = sum_total + 0;
+                                  }
 
 
                                   // let RefSOCOID = $("#RefSOCOID_" + product_share_chk_arr[i]).val();
@@ -1167,18 +1178,18 @@
                                   // let Flag_st = $("#Flag_st_" + product_share_chk_arr[i]).text();
                                   // let TranQty = $("#TranQty_" + product_share_chk_arr[i]).text();
                                   // let product_share = $("#product_share_" + product_share_chk_arr[i]).val();
-                                  let RefSOCOID = $(".RefSOCOID_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
-                                  let RefListNO = $(".RefListNO_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
-                                  let CustName = $(".CustName_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
-                                  let EmpCode = $(".EmpCode_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
-                                  let RefSOCONo = $(".RefSOCONo_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let DocuDate = $(".DocuDate_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let DocuDate2 = $(".DocuDate2_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
-                                  let EmpName = $(".EmpName_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let ContainerNO = $(".ContainerNO_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let Flag_st = $(".Flag_st_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let TranQty = $(".TranQty_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).text();
-                                  let product_share = $(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i]).val();
+                                  let RefSOCOID = $(".RefSOCOID_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
+                                  let RefListNO = $(".RefListNO_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
+                                  let CustName = $(".CustName_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
+                                  let EmpCode = $(".EmpCode_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
+                                  let RefSOCONo = $(".RefSOCONo_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let DocuDate = $(".DocuDate_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let DocuDate2 = $(".DocuDate2_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
+                                  let EmpName = $(".EmpName_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let ContainerNO = $(".ContainerNO_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let Flag_st = $(".Flag_st_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let TranQty = $(".TranQty_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).text();
+                                  let product_share = $(".product_share_" + product_share_chk_arr[i] + '_' + product_share_chk_arr2[i] + '_' + product_share_chk_arr3[i]).val();
 
                                   let tr = '';
                                   tr += '<tr>';
@@ -1318,7 +1329,7 @@
                                   find_string = (data.ContainerNO).includes("@");
                                   if (find_string == false){
                                        if (data.Flag_st.length == 0){
-                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
+                                            chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                        } else {
                                             chkbox = '';
                                        }
@@ -1347,21 +1358,21 @@
                                        tr += chkbox;
                                        tr += '</td>';
                                        tr += '<td>';
-                                       tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.RefSOCOID+'">';
-                                       tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.RefListNo+'">';
-                                       tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.EmpName+'">';
-                                       tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.EmpCode+'">';
-                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'" value="'+data.DocuDate+'">';
-                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.RefSOCONo+'</span>';
+                                       tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                       tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefListNo+'">';
+                                       tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpName+'">';
+                                       tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpCode+'">';
+                                       tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.DocuDate+'">';
+                                       tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.RefSOCONo+'</span>';
                                        tr += '</td>';
                                        // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                       tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+ data.ShipDate +'</span></td>';
-                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.CustName+'</span></td>';
+                                       tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+ data.ShipDate +'</span></td>';
+                                       tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.CustName+'</span></td>';
                                        tr += '<td><span>'+data.EmpName+'</span></td>';
-                                       tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.ContainerNO+'</span></td>';
-                                       tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.Flag_st+'</span></td>';
-                                       tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'">'+data.TranQty+'</span></td>';
-                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                       tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
+                                       tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
+                                       tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
+                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                        tr += '</tr>';
                                   }
                              });
@@ -1373,12 +1384,13 @@
                         $('.product_share_chk').on('click', function() {
                              var val = $(this).data("value");
                              var container = $(this).data("container");
+                             var reflistno = $(this).data("reflistno");
                              if ($(this).is(':checked')) {
-                                  $(".product_share_" + val + "_" + container).attr("readonly", false);
-                                  $(".product_share_" + val + "_" + container).focus();
+                                  $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", false);
+                                  $(".product_share_" + val + "_" + container + "_" + reflistno).focus();
                              } else {
-                                  $(".product_share_" + val + "_" + container).attr("readonly", true);
-                                  $(".product_share_" + val + "_" + container).val("");
+                                  $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", true);
+                                  $(".product_share_" + val + "_" + container + "_" + reflistno).val("");
                              }
                              numIndex();
                         });
