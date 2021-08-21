@@ -26,6 +26,10 @@ class HomeController extends Controller
      */
     public function index($customer_id)
     {
+         // $return['status'] = 1;
+         // $return['content'] = 'จัดเก็บสำเร็จ';
+         // self::notify_message($return['status'] . "-" . $return['content']);
+         self::notify_message("แบ่งสินค้าเพื่อจัดส่ง");
          $data["title"] = "แบ่งสินค้าเพื่อจัดส่ง";
          $data['customer_id'] = $customer_id;
          $q = "SELECT 'SP-' + SUBSTRING(CONVERT(Varchar, GETDATE(), 112), 3, 6) + '-' + REPLACE(CONVERT(Varchar, GETDATE(), 108), ':', '') AS DocuNO, GETDATE() AS DocuDate, EMCust.CustCode, EMCust.CustName, EMEmp.EmpCode, EMEmp.empname
@@ -326,14 +330,15 @@ class HomeController extends Controller
                    }
                    if (in_array(0, $find)){
                         $return['status'] = 2;
+                        self::notify_message($return['status']);
                    } else {
                         /* TODO Call database 192.168.1.112 icConLockforSplit ที่ DocuNo */
-                        $lock_for_split = \DB::connection("sqlsrv112")->statement('exec icConLockforSplit ? SET NOCOUNT ON', [$DocuNO]);
-                        if ($lock_for_split == true){
-
-                        } else {
-
-                        }
+                        // $lock_for_split = \DB::connection("sqlsrv112")->statement('exec icConLockforSplit ? SET NOCOUNT ON', [$DocuNO]);
+                        // if ($lock_for_split == true){
+                        //
+                        // } else {
+                        //
+                        // }
                         $data = [
                              'DocuNO' => $DocuNO
                              ,'DocuDate' => date_format(date_create($DocuDate), 'Y-m-d H:i:s')
@@ -375,16 +380,20 @@ class HomeController extends Controller
                              \DB::table('icGodSplit_dt')->insert($data);
                         }
                         \DB::commit();
+                        // \DB::rollBack();
                         $return['status'] = 1;
                         $return['content'] = 'จัดเก็บสำเร็จ';
+                        self::notify_message($return['status'] . "-" . $return['content']);
                    }
               } catch (Exception $e) {
                    \DB::rollBack();
                    $return['status'] = 0;
                    $return['content'] = 'ไม่สำเร็จ'.$e->getMessage();
+                   self::notify_message($return['status'] . "-" . $return['content']);
               }
          } else{
               $return['status'] = 0;
+              self::notify_message($return['status']);
          }
          return json_encode($return);
 
@@ -492,6 +501,32 @@ class HomeController extends Controller
          }
          return json_encode($return);
 
+    }
+
+    function notify_message($message){
+         $url = "https://notify-api.line.me/api/notify";
+
+         $curl = curl_init($url);
+         curl_setopt($curl, CURLOPT_URL, $url);
+         curl_setopt($curl, CURLOPT_POST, true);
+         curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+
+         $headers = array(
+              "Authorization: Bearer HSWXY37a1BWYoDiWm1JnlpmBTJ3nLbu4At8bJPnNtGw",
+              "Content-Type: application/x-www-form-urlencoded",
+         );
+         curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+
+         $data = "message=" . $message;
+
+         curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+
+         //for debug only!
+         curl_setopt($curl, CURLOPT_SSL_VERIFYHOST, false);
+         curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+
+         $resp = curl_exec($curl);
+         curl_close($curl);
     }
 
 }
