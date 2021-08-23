@@ -51,7 +51,7 @@ class HomeController extends Controller
          // $ShipDate = $request->ShipDate;
          $ShipDate = (date_create($request->ShipDate));
          $ShipDate = date_format($ShipDate, 'Ymd');
-         self::notify_message($CustCode . " : " . "กด Next เพื่อไปหน้า 2");
+         self::notify_message($CustCode . " : " . "กด Next เพื่อไปหน้า 2 โดยเลือก" . $GoodCode);
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -99,7 +99,7 @@ class HomeController extends Controller
          $shipdate = date_format($shipdate, 'Ymd');
          $EmpCode = $request->EmpCode;
          $customer_id = $request->customer_id;
-         self::notify_message($customer_id . " : " . "กด Next เพื่อไปหน้า 3 โดยเลือก " . $goodcode);
+         self::notify_message($customer_id . " : " . "กด Next เพื่อไปหน้า 3 โดยเลือก " . $ref_soco_no);
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -173,7 +173,6 @@ class HomeController extends Controller
          $goodcode = $request->goodcode;
          $shipdate = (date_create($request->shipdate));
          $shipdate = date_format($shipdate, 'Ymd');
-         self::notify_message($customer_id . " : " . "กดเลือกสินค้าของพนักงานคนอื่น");
          $validator = Validator::make($request->all(), [
 
          ]);
@@ -379,10 +378,9 @@ class HomeController extends Controller
                                   ,'SplitQty' => $tb4_SplitQty[$i]
                              ];
                              \DB::table('icGodSplit_dt')->insert($data);
-                             self::notify_message($tb4_CustName[$i] . "จัดเก็บสำเร็จ" );
                         }
                         \DB::commit();
-                        // \DB::rollBack();
+                        self::notify_message($CustCode . " จัดเก็บสำเร็จ" );
                         $return['status'] = 1;
                         $return['content'] = 'จัดเก็บสำเร็จ';
                    }
