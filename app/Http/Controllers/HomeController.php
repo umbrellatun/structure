@@ -330,7 +330,7 @@ class HomeController extends Controller
                    if (in_array(0, $find)){
                         $return['status'] = 2;
                         $return['content'] = 'ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ';
-                        self::notify_message($tb4_CustName . " : " . $return['content']);
+                        self::notify_message($CustCode . ' : ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ');
                    } else {
                         /* TODO Call database 192.168.1.112 icConLockforSplit ที่ DocuNo */
                         // $lock_for_split = \DB::connection("sqlsrv112")->statement('exec icConLockforSplit ? SET NOCOUNT ON', [$DocuNO]);
