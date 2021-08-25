@@ -1070,7 +1070,7 @@
                                                            tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
                                                            tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                                            tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
-                                                           tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                           tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                                            tr += '</tr>';
                                                       }
                                                  });
@@ -1096,8 +1096,9 @@
                                             $('.product_share').on('keyup', function() {
                                                  var data = $(this).val();
                                                  var data_value = $(this).data("value");
-                                                 // var tran_qty = $("#tran_qty_"+data_value).text();
-                                                 var tran_qty = $("#TranQty_"+data_value).text();
+                                                 var container = $(this).data("container");
+                                                 var reflistno = $(this).data("reflistno");
+                                                 var tran_qty = $(".TranQty_"+data_value+"_"+container+"_"+reflistno).text();
                                                  if (parseInt(data) > parseInt(tran_qty)) {
                                                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
                                                       $(this).val("");
@@ -1372,7 +1373,7 @@
                                        tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
-                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                       tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
                                        tr += '</tr>';
                                   }
                              });
@@ -1398,9 +1399,9 @@
                         $('.product_share').on('keyup', function() {
                              var data = $(this).val();
                              var data_value = $(this).data("value");
+                             var container = $(this).data("container");
                              var reflistno = $(this).data("reflistno");
-                             // var tran_qty = $("#tran_qty_"+data_value).text();
-                             var tran_qty = $("#TranQty_"+data_value).text();
+                             var tran_qty = $(".TranQty_"+data_value+"_"+container+"_"+reflistno).text();
                              if (parseInt(data) > parseInt(tran_qty)) {
                                   notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
                                   $(this).val("");
