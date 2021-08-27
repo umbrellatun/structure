@@ -20,10 +20,10 @@ class GodSplitController extends Controller
                $end_date = self::ConvertDate($str_date[1]);
 
                $data["daterange"] = date_format(date_create($start_date), "d M Y") . ' - ' . date_format(date_create($end_date), "d M Y");
-               $data["headers"] = ICGodSplitHD::where(function($q)use($start_date, $end_date){
+               $headers = ICGodSplitHD::where(function($q)use($start_date, $end_date){
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
                })
-               ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+               ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
           } else {
                // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
@@ -31,12 +31,13 @@ class GodSplitController extends Controller
                     $today = date("Ymd");
                     $previous_day = date('Ymd',strtotime($today . "-15 days"));
                     $data["daterange"] = date_format(date_create($previous_day), "d M Y") . ' - ' . date_format(date_create($today), "d M Y");
-                    $data["headers"] = ICGodSplitHD::where(function($q)use($previous_day, $today){
+                    $headers = ICGodSplitHD::where(function($q)use($previous_day, $today){
                          $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
                     })
-                    ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC")->get();
+                    ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
                }
           }
+          $data["headers"] = $headers->paginate(10)->appends(request()->query());
           return view('godsplitlist', $data);
      }
 
@@ -132,29 +133,35 @@ class GodSplitController extends Controller
                          }
                          ICGodSplitHD::where('DocuNO', '=', $DocuNO)->update($data);
                          \DB::commit();
-                         $return['status'] = 1;
+                         $return['status'] = 2;
                          $return['content'] = 'ไม่อนุมัติสำเร็จ';
                     }
                     // $details = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
-                    $q = "SELECT";
-                    $q .= " DocuNO";
-                    $q .= ", RefSOCONo";
-                    $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
-                    $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
-                    $q .= ", CustCode";
-                    $q .= ", CustName";
-                    $q .= ", EmpCode";
-                    $q .= ", EmpName";
-                    $q .= ", GoodCode";
-                    $q .= ", GoodName1";
-                    $q .= ", AppvStatus";
-                    $q .= ", AppvSplitStatus";
-                    $q .= " FROM icGodSplit_hd";
-                    $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-                    $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
-                    // $q .= " ORDER BY AppvSplitStatus asc";
-                    $return['details'] = \DB::select($q);
+                    // $q = "SELECT";
+                    // $q .= " DocuNO";
+                    // $q .= ", RefSOCONo";
+                    // $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+                    // $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+                    // $q .= ", CustCode";
+                    // $q .= ", CustName";
+                    // $q .= ", EmpCode";
+                    // $q .= ", EmpName";
+                    // $q .= ", GoodCode";
+                    // $q .= ", GoodName1";
+                    // $q .= ", AppvStatus";
+                    // $q .= ", AppvSplitStatus";
+                    // $q .= " FROM icGodSplit_hd";
+                    // $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
+                    // $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
+                    // // $q .= " ORDER BY AppvSplitStatus asc";
+                    // $return['details'] = \DB::select($q);
                     // $return['details'] = $details;
+                    // $headers = ICGodSplitHD::where(function($q)use($start_date, $end_date){
+                    //      $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
+                    // })
+                    // ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+                    // $return["details"] = $headers->paginate(10)->appends(request()->query());
+                    $return["DocuNO"] = $DocuNO;
                } catch (Exception $e) {
                     \DB::rollBack();
                     $return['status'] = 0;
@@ -215,25 +222,32 @@ class GodSplitController extends Controller
                $start_date = date('Ymd',strtotime($today . "-15 days"));
                $end_date = date("Ymd");
           }
+          // $q = "SELECT";
+          // $q .= " DocuNO";
+          // $q .= ", RefSOCONo";
+          // $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
+          // $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
+          // $q .= ", CustCode";
+          // $q .= ", CustName";
+          // $q .= ", EmpCode";
+          // $q .= ", EmpName";
+          // $q .= ", GoodCode";
+          // $q .= ", GoodName1";
+          // $q .= ", AppvStatus";
+          // $q .= ", AppvSplitStatus";
+          // $q .= " FROM icGodSplit_hd";
+          // // $q .= " ORDER BY AppvSplitStatus asc";
+          // $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
+          // $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
+          // $return['details'] = \DB::select($q);
 
-          $q = "SELECT";
-          $q .= " DocuNO";
-          $q .= ", RefSOCONo";
-          $q .= ", CONVERT(VARCHAR, DocuDate, 6) DocuDate";
-          $q .= ", CONVERT(VARCHAR, ShipDate, 6) ShipDate";
-          $q .= ", CustCode";
-          $q .= ", CustName";
-          $q .= ", EmpCode";
-          $q .= ", EmpName";
-          $q .= ", GoodCode";
-          $q .= ", GoodName1";
-          $q .= ", AppvStatus";
-          $q .= ", AppvSplitStatus";
-          $q .= " FROM icGodSplit_hd";
-          // $q .= " ORDER BY AppvSplitStatus asc";
-          $q .= " WHERE (CONVERT(Varchar, [DocuDate], 112) BETWEEN $start_date AND $end_date)";
-          $q .= " ORDER BY ISNULL(AppvStatus, ''), AppvStatus ASC";
-          $return['details'] = \DB::select($q);
+          $headers = ICGodSplitHD::where(function($q)use($start_date, $end_date){
+               $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
+          })
+          ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+          $return["details"] = $headers->paginate(10)->appends(request()->query());
+
+
           return json_encode($return);
      }
 }

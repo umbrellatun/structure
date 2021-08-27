@@ -137,6 +137,7 @@
                                                                       <td>{{$header->GoodName1}}</td>
                                                                       <td class="text-center">
                                                                            {{-- {{$header->AppvStatus}} --}}
+                                                                           <div class="btn-group btn-group-sm" id="wait_approve_div_{{$header->DocuNO}}">
                                                                            @if ($header->AppvStatus == 'N')
                                                                                 <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
                                                                            @elseif($header->AppvStatus == 'Y')
@@ -144,31 +145,33 @@
                                                                            @elseif($header->AppvStatus == 'C')
                                                                                 <span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
                                                                            @endif
+                                                                           </div>
                                                                       </td>
                                                                       <td class="text-center">
                                                                            {{-- {{$header->AppvSplitStatus}} --}}
-                                                                           @if ($header->AppvSplitStatus == 'N')
-                                                                                <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
-                                                                           @elseif($header->AppvSplitStatus == 'Y')
-                                                                                <span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>
-                                                                           @elseif($header->AppvSplitStatus == 'R')
-                                                                                <span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
-                                                                           @endif
+                                                                           <div class="btn-group btn-group-sm" id="approve_div_{{$header->DocuNO}}">
+                                                                                @if ($header->AppvSplitStatus == 'N')
+                                                                                     <span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>
+                                                                                @elseif($header->AppvSplitStatus == 'Y')
+                                                                                     <span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>
+                                                                                @elseif($header->AppvSplitStatus == 'R')
+                                                                                     <span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>
+                                                                                @endif
+                                                                           </div>
+
                                                                       </td>
                                                                       <td class="text-center">
+                                                                           <div class="btn-group btn-group-sm" id="action_div_{{$header->DocuNO}}">
                                                                            @if ($header->AppvStatus == 'N')
-                                                                                <div class="btn-group btn-group-sm">
-                                                                                     <button class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
-                                                                                          <i class="ace-icon feather icon-edit-1 bigger-120"></i>
-                                                                                     </button>
-                                                                                </div>
+                                                                                <button id="btn-edit-{{$header->DocuNO}}" class="btn btn-warning btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                     <i class="ace-icon feather icon-edit-1 bigger-120"></i>
+                                                                                </button>
                                                                            @else
-                                                                                <div class="btn-group btn-group-sm">
-                                                                                     <button class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
-                                                                                          <i class="fas fa-eye bigger-120"></i>
-                                                                                     </button>
-                                                                                </div>
+                                                                                <button id="btn-view-{{$header->DocuNO}}" class="btn btn-primary btn-edit text-white" data-value="{{$header->DocuNO}}" data-toggle="modal" data-target="#ModalEdit">
+                                                                                     <i class="fas fa-eye bigger-120"></i>
+                                                                                </button>
                                                                            @endif
+                                                                           </div>
                                                                       </td>
                                                                  </tr>
                                                                  @php $i++; @endphp
@@ -180,6 +183,7 @@
                                                        @endif
                                                   </tbody>
                                              </table>
+                                             {{ $headers->links() }}
                                         </div>
                                    </div>
                               </div>
@@ -210,7 +214,6 @@
                                    <div class="dt-responsive table-responsive">
                                         <table id="simpletable2" class="table table-striped table-bordered nowrap">
                                              <thead>
-
                                              </thead>
                                              <tbody>
                                              </tbody>
@@ -291,12 +294,12 @@
      });
 
      $(document).ready(function() {
-             $('#simpletable').DataTable({
-                   "processing": true,
-                   "serverSide": false,
-                   "paging": true,
-                   "pageLength": 10,
-              });
+             // $('#simpletable').DataTable({
+             //       "processing": true,
+             //       "serverSide": false,
+             //       "paging": true,
+             //       "pageLength": 10,
+             //  });
              $('#simpletable2').DataTable({
                    // "processing": true,
                    // "autoWidth": false,
@@ -415,125 +418,159 @@
             validate_highlight(e);
          },
          success: function (e) {
-            validate_success(e);
+              validate_success(e);
          },
          errorPlacement: function (error, element) {
-            validate_errorplacement(error, element);
+              validate_errorplacement(error, element);
          },
          submitHandler: function (form) {
-            $.ajax({
-                 method : "POST",
-                 url : '{{ route('godsplit.updateAppvStatus') }}',
-                 dataType : 'json',
-                 data : $("#FormEdit").serialize(),
-                 headers: {
-                      'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                 },
-                 beforeSend: function() {
-                      $(".preloader").css("display", "block");
-                 },
-            }).done(function(rec){
-                 $(".preloader").css("display", "none");
-                  if (rec.status == 1) {
-                       swal("", rec.content, "success");
-                       $("#ModalEdit").modal('hide');
-                       // location.reload();
-                       $("#simpletable tbody").empty();
-                       $("#simpletable").dataTable().fnClearTable();
-                       $("#simpletable").dataTable().fnDraw();
-                       $("#simpletable").dataTable().fnDestroy();
-                       let tr = '';
-                      if (rec.details.length > 0){
-                           var i = 1;
-                           let flag = '';
-                           let badge = '';
-                           let btn_group = '';
-                           let btn_group2 = '';
-                           $.each(rec.details, function( key, data ) {
-                                if (data.AppvStatus == 'N') {
-                                     badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                                }else if(data.AppvStatus == 'Y'){
-                                     badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                }else if(data.AppvStatus == 'C'){
-                                     badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                }
-                                if (data.AppvSplitStatus == 'N') {
-                                     btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                                }else if(data.AppvSplitStatus == 'Y'){
-                                     btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                }else if(data.AppvSplitStatus == 'R'){
-                                     btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                }
-                                btn_group2 += '<div class="btn-group btn-group-sm">';
-                                if(data.AppvStatus == 'N'){
-                                     btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                                     btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                                     btn_group2 += '</button>';
-                                } else {
-                                     btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                                     btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
-                                     btn_group2 += '</button>';
-                                }
-                                btn_group2 += '</div>';
-                                // tr += '<tr>';
-                                // tr += '<td>'+i+'</td>';
-                                // tr += '<td>'+data.DocuNO+'</td>';
-                                // tr += '<td>'+data.RefSOCONo+'</td>';
-                                // tr += '<td>'+(data.DocuDate)+'</td>';
-                                // tr += '<td>'+(data.ShipDate)+'</td>';
-                                // tr += '<td>'+data.CustCode+'</td>';
-                                // tr += '<td>'+data.EmpCode+'</td>';
-                                // tr += '<td>'+data.GoodCode+'</td>';
-                                // tr += '<td>';
-                                // if (data.AppvStatus == 'N') {
-                                //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                                // }else if(data.AppvStatus == 'Y'){
-                                //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                // }else if(data.AppvStatus == 'C'){
-                                //      tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                // }
-                                // tr += '</td>';
-                                // tr += '<td>';
-                                // if (data.AppvSplitStatus == 'N') {
-                                //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                                // }else if(data.AppvSplitStatus == 'Y'){
-                                //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                // }else if(data.AppvSplitStatus == 'R'){
-                                //      tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                // }
-                                // tr += '</td>';
-                                // tr += '<td class="text-center">';
-                                // tr += '<div class="btn-group btn-group-sm">';
-                                // if(data.AppvStatus = 'N'){
-                                //      tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                                //      tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                                //      tr += '</button>';
-                                // } else {
-                                //      tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                                //      tr += '<i class="fas fa-eye bigger-120"></i>';
-                                //      tr += '</button>';
-                                // }
-                                //
-                                // tr += '</div>';
-                                // tr += '</td>';
-                                // tr += '</tr>';
-                                i++;
-                                // $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
+              $.ajax({
+                   method : "POST",
+                   url : '{{ route('godsplit.updateAppvStatus') }}',
+                   dataType : 'json',
+                   data : $("#FormEdit").serialize(),
+                   headers: {
+                        'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                   },
+                   beforeSend: function() {
+                        $(".preloader").css("display", "block");
+                   },
+              }).done(function(rec){
+                   $(".preloader").css("display", "none");
+                   var html = '';
+                   var html2 = '';
+                   var html3 = '';
+                   if (rec.status == 1) {
+                        swal("", rec.content, "success");
+                        $("#ModalEdit").modal('hide');
+                        // location.reload();
+                        //  $("#simpletable tbody").empty();
+                        //  $("#simpletable").dataTable().fnClearTable();
+                        //  $("#simpletable").dataTable().fnDraw();
+                        //  $("#simpletable").dataTable().fnDestroy();
+                        //  let tr = '';
+                        // if (rec.details.length > 0){
+                        //      var i = 1;
+                        //      let flag = '';
+                        //      let badge = '';
+                        //      let btn_group = '';
+                        //      let btn_group2 = '';
+                        //      $.each(rec.details, function( key, data ) {
+                        //           if (data.AppvStatus == 'N') {
+                        //                badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                        //           }else if(data.AppvStatus == 'Y'){
+                        //                badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           }else if(data.AppvStatus == 'C'){
+                        //                badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           }
+                        //           if (data.AppvSplitStatus == 'N') {
+                        //                btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                        //           }else if(data.AppvSplitStatus == 'Y'){
+                        //                btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           }else if(data.AppvSplitStatus == 'R'){
+                        //                btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           }
+                        //           btn_group2 += '<div class="btn-group btn-group-sm">';
+                        //           if(data.AppvStatus == 'N'){
+                        //                btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        //                btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                        //                btn_group2 += '</button>';
+                        //           } else {
+                        //                btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        //                btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
+                        //                btn_group2 += '</button>';
+                        //           }
+                        //           btn_group2 += '</div>';
+                        //           // tr += '<tr>';
+                        //           // tr += '<td>'+i+'</td>';
+                        //           // tr += '<td>'+data.DocuNO+'</td>';
+                        //           // tr += '<td>'+data.RefSOCONo+'</td>';
+                        //           // tr += '<td>'+(data.DocuDate)+'</td>';
+                        //           // tr += '<td>'+(data.ShipDate)+'</td>';
+                        //           // tr += '<td>'+data.CustCode+'</td>';
+                        //           // tr += '<td>'+data.EmpCode+'</td>';
+                        //           // tr += '<td>'+data.GoodCode+'</td>';
+                        //           // tr += '<td>';
+                        //           // if (data.AppvStatus == 'N') {
+                        //           //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                        //           // }else if(data.AppvStatus == 'Y'){
+                        //           //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           // }else if(data.AppvStatus == 'C'){
+                        //           //      tr += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           // }
+                        //           // tr += '</td>';
+                        //           // tr += '<td>';
+                        //           // if (data.AppvSplitStatus == 'N') {
+                        //           //      tr += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                        //           // }else if(data.AppvSplitStatus == 'Y'){
+                        //           //      tr += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           // }else if(data.AppvSplitStatus == 'R'){
+                        //           //      tr += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           // }
+                        //           // tr += '</td>';
+                        //           // tr += '<td class="text-center">';
+                        //           // tr += '<div class="btn-group btn-group-sm">';
+                        //           // if(data.AppvStatus = 'N'){
+                        //           //      tr += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        //           //      tr += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                        //           //      tr += '</button>';
+                        //           // } else {
+                        //           //      tr += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        //           //      tr += '<i class="fas fa-eye bigger-120"></i>';
+                        //           //      tr += '</button>';
+                        //           // }
+                        //           //
+                        //           // tr += '</div>';
+                        //           // tr += '</td>';
+                        //           // tr += '</tr>';
+                        //           i++;
+                        //           // $("#simpletable").DataTable().row.add([i,data.DocuNO,data.RefSOCONo,data.DocuDate,data.ShipDate,data.CustName,data.EmpName,data.GoodName1,badge,btn_group,btn_group2]).draw();
+                        //
+                        //           $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                        //
+                        //           badge = '';
+                        //           btn_group = '';
+                        //           btn_group2 = '';
+                        //      });
+                        // }
+                        $("#action_div_" + rec.DocuNO).empty();
+                        html += ' <button id="btn-view-'+rec.DocuNO+'" class="btn btn-primary btn-edit text-white" data-value="'+rec.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        html += '<i class="fas fa-eye bigger-120"></i>';
+                        html += '</button>';
+                        $("#action_div_" + rec.DocuNO).html(html);
 
-                                $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                        $("#wait_approve_div_" + rec.DocuNO).empty();
+                        html3 += '<span class="badge badge-success" title="Approve">';
+                        html3 += '<i class="fas fa-check-circle f-18 analytic-icon"></i>';
+                        html3 += '</span>';
+                        $("#wait_approve_div_" + rec.DocuNO).html(html3);
+                   }else if (rec.status == 2) {
+                        swal("", rec.content, "success");
+                        $("#ModalEdit").modal('hide');
+                        $("#action_div_" + rec.DocuNO).empty();
+                        html += ' <button id="btn-view-'+rec.DocuNO+'" class="btn btn-primary btn-edit text-white" data-value="'+rec.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                        html += '<i class="fas fa-eye bigger-120"></i>';
+                        html += '</button>';
+                        $("#action_div_" + rec.DocuNO).html(html);
 
-                                badge = '';
-                                btn_group = '';
-                                btn_group2 = '';
-                           });
-                      }
-                  } else {
-                       swal("", rec.content, "warning");
-                  }
-                  $('#simpletable').DataTable();
-            }).fail(function(){
-                  // btn.button("reset");
-            });
+                        $("#approve_div_" + rec.DocuNO).empty();
+                        html2 += '<span class="badge badge-danger" title="Reject">';
+                        html2 += '<i class="fas fa-window-close f-18 analytic-icon"></i>';
+                        html2 += '</span>';
+                        $("#approve_div_" + rec.DocuNO).html(html2);
+
+                        $("#wait_approve_div_" + rec.DocuNO).empty();
+                        html3 += '  <span class="badge badge-danger" title="Not Approve">';
+                        html3 += ' <i class="fas fa-window-close f-18 analytic-icon"></i>';
+                        html3 += '</span>';
+                        $("#wait_approve_div_" + rec.DocuNO).html(html3);
+                   } else {
+                        swal("", rec.content, "warning");
+                   }
+                   $('#simpletable').DataTable();
+              }).fail(function(){
+                   // btn.button("reset");
+              });
          },
          invalidHandler: function (form) {
 
@@ -557,52 +594,53 @@
                     },
                }).done(function(rec){
                     $(".preloader").css("display", "none");
+                    location.reload();
                     // $("#simpletable tbody").empty();
-                    $("#ModalEdit").modal('hide');
-                    $("#simpletable tbody").empty();
-                    $("#simpletable").dataTable().fnClearTable();
-                    $("#simpletable").dataTable().fnDraw();
-                    $("#simpletable").dataTable().fnDestroy();
-                    let tr = '';
-                    var i = 0;
-                    let flag = '';
-                    let badge = '';
-                    let btn_group = '';
-                    let btn_group2 = '';
-                    $.each(rec.details, function( key, data ) {
-                         if (data.AppvStatus == 'N') {
-                              badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                         }else if(data.AppvStatus == 'Y'){
-                              badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                         }else if(data.AppvStatus == 'C'){
-                              badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                         }
-                         if (data.AppvSplitStatus == 'N') {
-                              btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
-                         }else if(data.AppvSplitStatus == 'Y'){
-                              btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                         }else if(data.AppvSplitStatus == 'R'){
-                              btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                         }
-                         btn_group2 += '<div class="btn-group btn-group-sm">';
-                         if(data.AppvStatus == 'N'){
-                              btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
-                              btn_group2 += '</button>';
-                         } else {
-                              btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
-                              btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
-                              btn_group2 += '</button>';
-                         }
-                         btn_group2 += '</div>';
-
-                         i++;
-                         $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
-                         // $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
-                         badge = '';
-                         btn_group = '';
-                         btn_group2 = '';
-                    });
+                    // $("#ModalEdit").modal('hide');
+                    // $("#simpletable tbody").empty();
+                    // $("#simpletable").dataTable().fnClearTable();
+                    // $("#simpletable").dataTable().fnDraw();
+                    // $("#simpletable").dataTable().fnDestroy();
+                    // let tr = '';
+                    // var i = 0;
+                    // let flag = '';
+                    // let badge = '';
+                    // let btn_group = '';
+                    // let btn_group2 = '';
+                    // $.each(rec.details, function( key, data ) {
+                    //      if (data.AppvStatus == 'N') {
+                    //           badge += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                    //      }else if(data.AppvStatus == 'Y'){
+                    //           badge += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                    //      }else if(data.AppvStatus == 'C'){
+                    //           badge += '<span class="badge badge-danger" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                    //      }
+                    //      if (data.AppvSplitStatus == 'N') {
+                    //           btn_group += '<span class="badge badge-warning" title="รออนุมัติ">รออนุมัติ</span>';
+                    //      }else if(data.AppvSplitStatus == 'Y'){
+                    //           btn_group += '<span class="badge badge-success" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                    //      }else if(data.AppvSplitStatus == 'R'){
+                    //           btn_group += '<span class="badge badge-danger" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                    //      }
+                    //      btn_group2 += '<div class="btn-group btn-group-sm">';
+                    //      if(data.AppvStatus == 'N'){
+                    //           btn_group2 += '<button class="btn btn-warning btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                    //           btn_group2 += '<i class="ace-icon feather icon-edit-1 bigger-120"></i>';
+                    //           btn_group2 += '</button>';
+                    //      } else {
+                    //           btn_group2 += '<button class="btn btn-primary btn-edit text-white" data-value="'+data.DocuNO+'" data-toggle="modal" data-target="#ModalEdit">';
+                    //           btn_group2 += '<i class="fas fa-eye bigger-120"></i>';
+                    //           btn_group2 += '</button>';
+                    //      }
+                    //      btn_group2 += '</div>';
+                    //
+                    //      i++;
+                    //      $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                    //      // $("#simpletable").DataTable().row.add([i, data.DocuNO, data.RefSOCONo, data.DocuDate, data.ShipDate, data.CustName, data.EmpName, data.GoodName1, badge, btn_group, btn_group2]).draw();
+                    //      badge = '';
+                    //      btn_group = '';
+                    //      btn_group2 = '';
+                    // });
 
                }).fail(function(){
                     $(".preloader").css("display", "none");

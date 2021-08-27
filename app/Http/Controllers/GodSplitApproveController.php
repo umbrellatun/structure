@@ -154,7 +154,6 @@ class GodSplitApproveController extends Controller
                               // $q .= " ORDER BY ISNULL(AppvSplitStatus, '')";
                               // $q .= ", AppvStatus ASC, [DocuNO] DESC";
                               $return['details'] = \DB::select($q);
-
                          } else {
                               $arr = [];
                               $q = "SELECT dbo.GET_CheckStatusSPDT('$DocuNO') AS status_dt";
