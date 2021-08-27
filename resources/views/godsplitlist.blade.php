@@ -123,11 +123,11 @@
                                                        </tr>
                                                   </thead>
                                                   <tbody>
-                                                       @php $i=1; @endphp
+                                                       @php $i=0; @endphp
                                                        @if (count($headers) > 0)
                                                             @foreach ($headers as $key => $header)
                                                                  <tr>
-                                                                      <td>{{$i}}</td>
+                                                                      <td>{{ $headers->firstItem() + $i }}</td>
                                                                       <td>{{$header->DocuNO}}</td>
                                                                       <td>{{$header->RefSOCONo}}</td>
                                                                       <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
@@ -185,6 +185,7 @@
                                              </table>
                                              {{ $headers->links() }}
                                         </div>
+                                        <span class="text-info">ผลการค้นหาทั้งหมด {{$headers->total()}} รายการ</span>
                                    </div>
                               </div>
                          </div>
