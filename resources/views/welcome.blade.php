@@ -808,6 +808,8 @@
                                        badge1 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
                                   }else if(hd.AppvStatus == 'C'){
                                        badge1 = '<span class="btn btn-danger btn-sm" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                  } else {
+                                       badge1 = '';
                                   }
                                   if (hd.AppvSplitStatus == 'N'){
                                        badge2 = '<span class="btn btn-warning btn-sm"  title="รออนุมัติ">รออนุมัติ</span>';
@@ -815,6 +817,8 @@
                                        badge2 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
                                   }else if(hd.AppvSplitStatus == 'R'){
                                        badge2 = '<span class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                                  } else {
+                                       badge2 = '';
                                   }
                                   tr += '<tr>';
                                   tr += '<td class="text-center">'+no+'</td>';
