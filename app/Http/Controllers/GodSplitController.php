@@ -12,9 +12,11 @@ class GodSplitController extends Controller
 
      public function index(Request $request)
      {
+          // dd($request->all());
           $data["title"] = "อนุมัติคำขอแบ่งสินค้า";
           if ($request->daterange) {
                $daterange = $request->daterange;
+               $docuno = $request->docuno;
                $str_date = explode('-', $daterange);
                $start_date = self::ConvertDate($str_date[0]);
                $end_date = self::ConvertDate($str_date[1]);
@@ -23,6 +25,7 @@ class GodSplitController extends Controller
                $headers = ICGodSplitHD::where(function($q)use($start_date, $end_date){
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
                })
+               ->where('DocuNO', 'like', '%'.$docuno.'%')
                ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
           } else {
                // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
@@ -38,6 +41,7 @@ class GodSplitController extends Controller
                }
           }
           $data["headers"] = $headers->paginate(10)->appends(request()->query());
+          // dd($data["headers"]);
           return view('godsplitlist', $data);
      }
 

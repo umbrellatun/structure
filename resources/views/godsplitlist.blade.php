@@ -100,6 +100,10 @@
                                                             <input type="text" name="daterange" autocomplete="off" class="form-control w-50" value="{{ isset($_GET["daterange"]) ? $_GET["daterange"] : $daterange }}" />
                                                        </div>
                                                        <div class="form-group">
+                                                            <label>เลขที่เอกสาร</label>
+                                                            <input type="text" name="docuno" autocomplete="off" class="form-control w-50" value="{{ isset($_GET["docuno"]) ? $_GET["docuno"] : "" }}" />
+                                                       </div>
+                                                       <div class="form-group">
                                                             <input type="submit" class="btn btn-primary" value="Search">
                                                        </div>
                                                   </form>
