@@ -216,16 +216,16 @@
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                          </div>
                          <div class="modal-body">
-                                   <div class="dt-responsive table-responsive">
-                                        <table id="simpletable2" class="table table-striped table-bordered nowrap">
-                                             <thead>
-                                             </thead>
-                                             <tbody>
-                                             </tbody>
-                                             <tfoot>
-                                             </tfoot>
-                                        </table>
-                                   </div>
+                              <div class="dt-responsive table-responsive">
+                                   <table id="simpletable2" class="table table-striped table-bordered nowrap">
+                                        <thead>
+                                        </thead>
+                                        <tbody>
+                                        </tbody>
+                                        <tfoot>
+                                        </tfoot>
+                                   </table>
+                              </div>
                          </div>
                          <div class="modal-footer">
                               <button class="btn btn-success text-white" name="AppvStatus" value="Y">
