@@ -57,7 +57,7 @@ class HomeController extends Controller
          ]);
          if (!$validator->fails()) {
               try {
-                   $q = "SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate, EmpCode";
+                   $q = "(SELECT RefSOCOID, RefListNo, RefSOCONo, CONVERT ( VARCHAR, SOHD.DocuDate, 6) DocuDate, CustAddress, GoodPrice2, TranQty, SOHD.ShipDate, EmpCode";
                    $q .= ", DATEDIFF(day, DocuDate, SOHD.ShipDate) AS DateDiff";
                    $q .= " FROM tmConTain_bk_dt_Temp INNER JOIN";
                    $q .= " SOHD ON tmConTain_bk_dt_Temp.RefSOCOID = SOHD.SOID";
@@ -77,7 +77,7 @@ class HomeController extends Controller
                    $q .= " SOHD ON tmConTain_dt_Temp.RefSOCOID = SOHD.SOID";
                    $q .= " WHERE TranQty <> 0 AND CustCode = '$CustCode' AND GoodCode = '$GoodCode'";
                    // $q .= " AND CONVERT(Varchar, SOHD.ShipDate, 112) = '$ShipDate'";
-
+                   $q .= ") ORDER BY RefSOCONo ASC";
                    // dd($q);
                    $return["datas"] =  \DB::select($q);
                    $return['status'] = 1;

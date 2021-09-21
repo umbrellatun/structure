@@ -931,11 +931,18 @@
                              let span_product_name = modify_good_name.split(":");
                              $(".span_product_name").text("ชื่อสินค้า : " + span_product_name);
                              let tr = '';
+                             var disable_radio = '';
+                             var title_radio = '';
                              if (rec.datas.length > 0){
+                                  var i = 0;
                                   $.each(rec.datas, function( key, data ) {
-                                       tr += '<tr>';
+                                       if (i > 0){
+                                            disable_radio = 'disabled';
+                                            title_radio = 'ไม่สามารถเลือกได้ กรุณาเลือกรายการที่สร้างแรกสุด';
+                                       }
+                                       tr += '<tr title="'+title_radio+'">';
                                        tr += '<td>';
-                                       tr += '<input type="radio" name="RefSOCOID" class="form-check ref_soco_id" value="'+data.RefSOCOID+'">';
+                                       tr += '<input type="radio" name="RefSOCOID" class="form-check ref_soco_id" data-count="'+i+'" '+disable_radio+' value="'+data.RefSOCOID+'">';
                                        tr += '<input type="hidden" name="ref_list_no" id="ref_list_no_'+data.RefSOCOID+'" value="'+data.RefListNo+'">';
                                        // tr += '<input type="hidden" name="ref_soco_no" id="ref_soco_no_'+data.RefSOCOID+'" value="'+data.RefSOCONo+'">';
                                        tr += '<input type="hidden" id="soco_id_'+data.RefSOCOID+'" value="'+data.RefSOCOID+'">';
@@ -956,6 +963,8 @@
                                        tr += '<td class="text-right"><span id="span_tranqty_'+data.RefSOCOID+'">'+data.TranQty+'</span></td>';
                                        tr += '<td class="text-right">0</td>';
                                        tr += '</tr>';
+
+                                       i++;
                                   });
                              } else {
                                   tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
@@ -988,151 +997,158 @@
                    $("#table3 tbody").empty();
                    var valids = new Array();
                    var doc_ids = new Array();
+                   var cnt_radios = new Array();
                    $('.ref_soco_id').each(function(i, obj) {
                         valids.push($(obj).prop("checked"));
                         doc_ids.push($(obj).val());
+                        cnt_radios.push($(obj).data("count"));
                    });
                    if (jQuery.inArray( true, valids ) != -1) {
                         for (var i = 0; i < valids.length; i++) {
                              if(valids[i] == true){
-                                  let tr = '';
-                                  // a = $(".tr_"+doc_ids[i]).clone();
-                                  let ref_soco_no = $("#span_ref_soco_no_"+doc_ids[i]).text();
-                                  let docudate = $("#span_docudate_"+doc_ids[i]).text();
-                                  let date_amount = $("#span_date_amount_"+doc_ids[i]).text();
-                                  let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
-                                  let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
-                                  let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
-                                  let shipdate = $("#ship_date_"+doc_ids[i]).val();
-                                  let goodcode = $("#GoodCode").val();
-                                  let EmpCode = $("#EmpCode"+doc_ids[i]).val();
-                                  let refsocoid = $("#soco_id_"+doc_ids[i]).val();
-                                  let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
-                                  let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
-                                  tr += '<tr>';
-                                  tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
-                                  tr += '<input type="hidden" name="ref_soco_no" id="tb2_ref_soco_no_hdn" value="'+ref_soco_no+'">';
-                                  tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
-                                  tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
-                                  tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
-                                  tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
-                                  tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
-                                  tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
-                                  tr += '</td>';
-                                  tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
-                                  tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
-                                  tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
-                                  tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
-                                  tr += '<td class="text-right"><span id="product_amount_tranqty">'+tranqty+'</span></td>';
-                                  tr += '<td class="text-right"><span id="product_amount_sent">0</span></td>';
-                                  tr += '</tr>';
-                                  $("#table2 tbody").append(tr);
+                                  if (cnt_radios[i] == 0){
+                                       let tr = '';
+                                       // a = $(".tr_"+doc_ids[i]).clone();
+                                       let ref_soco_no = $("#span_ref_soco_no_"+doc_ids[i]).text();
+                                       let docudate = $("#span_docudate_"+doc_ids[i]).text();
+                                       let date_amount = $("#span_date_amount_"+doc_ids[i]).text();
+                                       let cus_address = $("#span_cus_address_"+doc_ids[i]).text();
+                                       let goodprice = $("#span_goodprice_"+doc_ids[i]).text();
+                                       let tranqty = $("#span_tranqty_"+doc_ids[i]).text();
+                                       let shipdate = $("#ship_date_"+doc_ids[i]).val();
+                                       let goodcode = $("#GoodCode").val();
+                                       let EmpCode = $("#EmpCode"+doc_ids[i]).val();
+                                       let refsocoid = $("#soco_id_"+doc_ids[i]).val();
+                                       let RefListNO = $("#ref_list_no_"+doc_ids[i]).val();
+                                       let DocuDate2 = $("#DocuDate2_"+doc_ids[i]).val();
+                                       tr += '<tr>';
+                                       tr += '<td><span id="tb2_refsocono">'+ref_soco_no+'</span>';
+                                       tr += '<input type="hidden" name="ref_soco_no" id="tb2_ref_soco_no_hdn" value="'+ref_soco_no+'">';
+                                       tr += '<input type="hidden" name="refsocoid" id="tb2_refsocoid" value="'+refsocoid+'">';
+                                       tr += '<input type="hidden" name="goodcode" id="tb2_goodcode" value="'+goodcode+'">';
+                                       tr += '<input type="hidden" name="shipdate" id="tb2_shipdate" value="'+shipdate+'">';
+                                       tr += '<input type="hidden" name="EmpCode" id="tb2_EmpCode" value="'+EmpCode+'">';
+                                       tr += '<input type="hidden" name="RefListNO" id="tb2_RefListNO" value="'+RefListNO+'">';
+                                       tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
+                                       tr += '</td>';
+                                       tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
+                                       tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
+                                       tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
+                                       tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
+                                       tr += '<td class="text-right"><span id="product_amount_tranqty">'+tranqty+'</span></td>';
+                                       tr += '<td class="text-right"><span id="product_amount_sent">0</span></td>';
+                                       tr += '</tr>';
+                                       $("#table2 tbody").append(tr);
 
-                                  $.ajax({
-                                       method : "post",
-                                       url : '{{ route('customer.get_default_product')}}',
-                                       dataType : 'json',
-                                       data : $("#get_product_form").serialize(),
-                                       headers: {
-                                            'X-CSRF-TOKEN': "{{ csrf_token() }}"
-                                       },
-                                       beforeSend: function() {
-                                            $(".preloader").css("display", "block");
-                                       },
-                                  }).done(function(rec){
-                                       $(".preloader").css("display", "none");
-                                       $("#table3 tbody").empty();
-                                       if(rec.status==1){
-                                            let tr = '';
-                                            let chkbox = '';
-                                            let find_string = '';
-                                            if (rec.datas.length > 0){
-                                                 $.each(rec.datas, function( key, data ) {
-                                                      find_string = (data.ContainerNO).includes("@");
-                                                      if (find_string == false){
-                                                           if (data.Flag_st.length == 0){
-                                                                chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
-                                                           } else {
-                                                                chkbox = '';
+                                       $.ajax({
+                                            method : "post",
+                                            url : '{{ route('customer.get_default_product')}}',
+                                            dataType : 'json',
+                                            data : $("#get_product_form").serialize(),
+                                            headers: {
+                                                 'X-CSRF-TOKEN': "{{ csrf_token() }}"
+                                            },
+                                            beforeSend: function() {
+                                                 $(".preloader").css("display", "block");
+                                            },
+                                       }).done(function(rec){
+                                            $(".preloader").css("display", "none");
+                                            $("#table3 tbody").empty();
+                                            if(rec.status==1){
+                                                 let tr = '';
+                                                 let chkbox = '';
+                                                 let find_string = '';
+                                                 if (rec.datas.length > 0){
+                                                      $.each(rec.datas, function( key, data ) {
+                                                           find_string = (data.ContainerNO).includes("@");
+                                                           if (find_string == false){
+                                                                if (data.Flag_st.length == 0){
+                                                                     chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                                                } else {
+                                                                     chkbox = '';
+                                                                }
+                                                                tr += '<tr>';
+                                                                tr += '<td>';
+                                                                tr += chkbox;
+                                                                tr += '</td>';
+                                                                tr += '<td>';
+                                                                tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                                                tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefListNo+'">';
+                                                                tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpName+'">';
+                                                                tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpCode+'">';
+                                                                tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.DocuDate+'">';
+                                                                tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.RefSOCONo+'</span>';
+                                                                tr += '</td>';
+                                                                // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
+                                                                tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+ data.ShipDate +'</span></td>';
+                                                                tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.CustName+'</span></td>';
+                                                                tr += '<td><span>'+data.EmpName+'</span></td>';
+                                                                tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
+                                                                tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
+                                                                tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
+                                                                tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                                tr += '</tr>';
                                                            }
-                                                           tr += '<tr>';
-                                                           tr += '<td>';
-                                                           tr += chkbox;
-                                                           tr += '</td>';
-                                                           tr += '<td>';
-                                                           tr += '<input type="hidden" id="RefSOCOID_'+data.RefSOCOID+'" class="RefSOCOID_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
-                                                           tr += '<input type="hidden" id="RefListNO_'+data.RefSOCOID+'" class="RefListNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.RefListNo+'">';
-                                                           tr += '<input type="hidden" id="CustName_'+data.RefSOCOID+'" class="CustName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpName+'">';
-                                                           tr += '<input type="hidden" id="EmpCode_'+data.RefSOCOID+'" class="EmpCode_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.EmpCode+'">';
-                                                           tr += '<input type="hidden" id="DocuDate2_'+data.RefSOCOID+'" class="DocuDate2_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" value="'+data.DocuDate+'">';
-                                                           tr += '<span id="RefSOCONo_'+data.RefSOCOID+'" class="RefSOCONo_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.RefSOCONo+'</span>';
-                                                           tr += '</td>';
-                                                           // tr += '<td><span id="DocuDate_'+data.RefSOCOID+'">'+ formatDate(data.DocuDate) +'</span></td>';
-                                                           tr += '<td><span id="DocuDate_'+data.RefSOCOID+'" class="DocuDate_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+ data.ShipDate +'</span></td>';
-                                                           tr += '<td><span id="EmpName_'+data.RefSOCOID+'" class="EmpName_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.CustName+'</span></td>';
-                                                           tr += '<td><span>'+data.EmpName+'</span></td>';
-                                                           tr += '<td><span id="ContainerNO_'+data.RefSOCOID+'" class="ContainerNO_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.ContainerNO+'</span></td>';
-                                                           tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
-                                                           tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
-                                                           tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                                           tr += '</tr>';
+                                                      });
+                                                 } else {
+                                                      tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
+                                                 }
+                                                 $("#table3 tbody").append(tr);
+
+                                                 $('.product_share_chk').on('click', function() {
+                                                      var val = $(this).data("value");
+                                                      var container = $(this).data("container");
+                                                      var reflistno = $(this).data("reflistno");
+                                                      if ($(this).is(':checked')) {
+                                                           $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", false);
+                                                           $(".product_share_" + val + "_" + container + "_" + reflistno).focus();
+                                                      } else {
+                                                           $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", true);
+                                                           $(".product_share_" + val + "_" + container + "_" + reflistno).val("");
+                                                      }
+                                                      numIndex();
+                                                 });
+
+                                                 $('.product_share').on('keyup', function() {
+                                                      var data = $(this).val();
+                                                      var data_value = $(this).data("value");
+                                                      var container = $(this).data("container");
+                                                      var reflistno = $(this).data("reflistno");
+                                                      var tran_qty = $(".TranQty_"+data_value+"_"+container+"_"+reflistno).text();
+                                                      if (parseInt(data) > parseInt(tran_qty)) {
+                                                           notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
+                                                           $(this).val("");
+                                                           $(this).focus();
+                                                      } else {
+                                                           numIndex();
                                                       }
                                                  });
+                                                 var next = data+1;
+                                                 $("#menu" + data).removeClass('active');
+                                                 $("#menu" + data).removeClass('in');
+                                                 $("#menu" + next).addClass('active');
+                                                 $("#menu" + next).addClass('in');
+
+                                                 $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
+                                                 $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
                                             } else {
-                                                 tr += '<tr><td colspan="8" align="center">ไม่พบข้อมูล</td></tr>';
-                                            }
-                                            $("#table3 tbody").append(tr);
-
-                                            $('.product_share_chk').on('click', function() {
-                                                 var val = $(this).data("value");
-                                                 var container = $(this).data("container");
-                                                 var reflistno = $(this).data("reflistno");
-                                                 if ($(this).is(':checked')) {
-                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", false);
-                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).focus();
+                                                 if(rec.status == 2) {
+                                                      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ");
+                                                      return false;
                                                  } else {
-                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).attr("readonly", true);
-                                                      $(".product_share_" + val + "_" + container + "_" + reflistno).val("");
+                                                      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "มีบางอย่างผิดพลาด");
+                                                      return false;
                                                  }
-                                                 numIndex();
-                                            });
-
-                                            $('.product_share').on('keyup', function() {
-                                                 var data = $(this).val();
-                                                 var data_value = $(this).data("value");
-                                                 var container = $(this).data("container");
-                                                 var reflistno = $(this).data("reflistno");
-                                                 var tran_qty = $(".TranQty_"+data_value+"_"+container+"_"+reflistno).text();
-                                                 if (parseInt(data) > parseInt(tran_qty)) {
-                                                      notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ห้ามกรอกเกินจำนวนสินค้าสั่งจอง");
-                                                      $(this).val("");
-                                                      $(this).focus();
-                                                 } else {
-                                                      numIndex();
-                                                 }
-                                            });
-                                            var next = data+1;
-                                            $("#menu" + data).removeClass('active');
-                                            $("#menu" + data).removeClass('in');
-                                            $("#menu" + next).addClass('active');
-                                            $("#menu" + next).addClass('in');
-
-                                            $("#icon-"+data).removeClass('btn-info').addClass('btn-default');
-                                            $("#icon-"+next).addClass('btn-info').removeClass('btn-default');
-                                       } else {
-                                            if(rec.status == 2) {
-                                                 notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "ไม่สามารถเลือกได้ เนื่่องจากรายการดังกล่าวกำลังอยู่ระหว่างดำเนินการ");
-                                                 return false;
-                                            } else {
-                                                 notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "มีบางอย่างผิดพลาด");
-                                                 return false;
                                             }
-                                       }
-                                  }).fail(function(){
-                                       $(".preloader").css("display", "none");
-                                       swal("", "", "error");
+                                       }).fail(function(){
+                                            $(".preloader").css("display", "none");
+                                            swal("", "", "error");
+                                            return false;
+                                       });
+                                  } else {
+                                       notify("bottom", "left", "fas fa-exclamation-circle", "danger", "", "", "กรุณาเลือกรายการแรก");
                                        return false;
-                                  });
+                                  }
                              }
                         }
                    } else {
