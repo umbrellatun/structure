@@ -132,8 +132,8 @@
                                                             @foreach ($headers as $key => $header)
                                                                  <tr>
                                                                       <td>{{ $headers->firstItem() + $i }}</td>
-                                                                      <td>{{$header->DocuNO}}</td>
-                                                                      <td>{{$header->RefSOCONo}}</td>
+                                                                      <td>{{ $header->DocuNO }}</td>
+                                                                      <td>{{ $header->RefSOCONo }}</td>
                                                                       <td>{{ date_format(date_create($header->DocuDate), "d M Y")}}</td>
                                                                       <td>{{ date_format(date_create($header->ShipDate), "d M Y")}}</td>
                                                                       <td>{{$header->CustName}}</td>

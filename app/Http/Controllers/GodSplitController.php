@@ -26,7 +26,13 @@ class GodSplitController extends Controller
                     $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$start_date."' AND '".$end_date."'");
                })
                ->where('DocuNO', 'like', '%'.$docuno.'%')
-               ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+               // ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+               ->orderByRaw(
+                    "CASE
+                         WHEN AppvStatus = 'N' THEN 1
+                         WHEN AppvStatus = 'Y' THEN 2
+                         WHEN AppvStatus = 'C' THEN 3 END ASC"
+               );
           } else {
                // $data["headers"] = ICGodSplitHD::orderBy('DocuNO', 'desc')->get();
                // $data["headers"] = ICGodSplitHD::orderBy('AppvStatus', 'asc')->get();
@@ -37,7 +43,14 @@ class GodSplitController extends Controller
                     $headers = ICGodSplitHD::where(function($q)use($previous_day, $today){
                          $q->whereRaw("CONVERT(Varchar, [DocuDate], 112) BETWEEN '".$previous_day."' AND '".$today."'");
                     })
-                    ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+                    // ->orderByRaw("ISNULL(AppvStatus, ''), AppvStatus ASC");
+                    // ->orderByRaw("AppvStatus", "N", "Y", "C");
+                    ->orderByRaw(
+                         "CASE
+                              WHEN AppvStatus = 'N' THEN 1
+                              WHEN AppvStatus = 'Y' THEN 2
+                              WHEN AppvStatus = 'C' THEN 3 END ASC"
+                    );
                }
           }
           $data["headers"] = $headers->paginate(10)->appends(request()->query());
