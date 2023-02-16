@@ -376,6 +376,7 @@ class HomeController extends Controller
                                   ,'Flag_st' => $tb4_Flag_st[$i]
                                   ,'TranQty' => $tb4_TranQty[$i]
                                   ,'SplitQty' => $tb4_SplitQty[$i]
+                                  ,'RefShipDate' => $ShipDate
                              ];
                              \DB::table('icGodSplit_dt')->insert($data);
                         }
