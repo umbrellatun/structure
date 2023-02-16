@@ -195,6 +195,7 @@ class GodSplitController extends Controller
           try {
                if ($daterange){
                     $start_date = explode(' ', trim($daterange));
+
                     if($start_date[1] == 'Jan'){
                          $date_use = $start_date[2] . '01' . $start_date[0];
                     }elseif($start_date[1] == 'Feb'){
