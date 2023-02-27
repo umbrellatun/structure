@@ -407,17 +407,71 @@ class HomeController extends Controller
          ]);
          if (!$validator->fails()) {
               try {
-                   // $hds = ICGodSplitHD::where('CustCode', '=', $CustCode)
-                   //                      ->orderBy('DocuNO', 'desc')
-                   //                      ->get();
-                   $q = "SELECT DocuNO, RefSOCONo, CONVERT ( VARCHAR, DocuDate, 6) DocuDate, CONVERT ( VARCHAR, ShipDate, 6) ShipDate, CustName, GoodName1, AppvStatus, AppvSplitStatus";
-                   $q .= " FROM icGodSplit_hd";
-                   $q .= " WHERE CustCode = '$CustCode'";
-                   $q .= " ORDER BY DocuNO DESC";
+                   $html = '';
+                   $badge1 = '';
+                   $badge2 = '';
+                   $hds = ICGodSplitHD::with('ICGodSplitDT')->where('CustCode', '=', $CustCode)
+                                        ->orderBy('DocuNO', 'desc')
+                                        ->get();
+                    if (count($hds) > 0) {
+                         $no = 1;
+                         foreach ($hds as $key => $hd) {
+                              if ($hd->AppvStatus == 'N') {
+                                   $badge1 = '<span class="btn btn-warning btn-sm" title="รออนุมัติ">รออนุมัติ</span>';
+                              }
+                              else if ($hd->AppvStatus == 'Y') {
+                                   $badge1 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }
+                              else if ($hd->AppvStatus == 'C') {
+                                   $badge1 = '<span class="btn btn-danger btn-sm" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              } else {
+                                   $badge1 = '';
+                              }
+
+                              if ($hd->AppvSplitStatus == 'N'){
+                                   $badge2 = '<span class="btn btn-warning btn-sm"  title="รออนุมัติ">รออนุมัติ</span>';
+                              }
+                              else if ($hd->AppvSplitStatus == 'Y'){
+                                   $badge2 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                              }
+                              else if ($hd->AppvSplitStatus == 'R'){
+                                   $badge2 = '<span class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                              }
+                              else {
+                                   $badge2 = '';
+                              }
+                              $html .= '<tr>';
+                              $html .= '<td class="text-center">'.$no.'</td>';
+                              $html .= '<td class="text-left">'.$hd->DocuNO.'</td>';
+                              $html .= '<td class="text-left">'.$hd->RefSOCONo.'</td>';
+                              $html .= '<td class="text-left">'.date_format(date_create($hd->DocuDate), "d M Y").'</td>';
+                              $html .= '<td class="text-left">'.date_format(date_create($hd->ShipDate), "d M Y").'</td>';
+                              $html .= '<td class="text-left"></td>';
+                              $html .= '<td class="text-left">'.$hd->CustName.'</td>';
+                              // $html .= '<td class="text-left">'.$hd->EmpName.'</td>';
+                              $html .= '<td class="text-left">'.$hd->GoodName1.'</td>';
+                              $html .= '<td class="text-center">'.$badge1.'</td>';
+                              $html .= '<td class="text-center">'.$badge2.'</td>';
+                              $html .= '<td class="text-center">';
+                              $html .= '<div class="btn-group btn-group-sm">';
+                              $html .= '<button class="btn btn-primary btn-sm btn-view" data-value="'.$hd->DocuNO.'" data-toggle="modal" data-target="#ModalView" title="ดูข้อมูล">';
+                              $html .= '<i class="fas fa-eye bigger-120"></i>';
+                              $html .= '</button>';
+                              $html .= '</div>';
+                              $html .= '</td>';
+                              $html .= '</tr>';
+                         }
+                    } else {
+                         $html .= '<tr><td colspan="10" align="center">ไม่พบข้อมูล</td></tr>';
+                    }
+                   // $q = "SELECT DocuNO, RefSOCONo, CONVERT ( VARCHAR, DocuDate, 6) DocuDate, CONVERT ( VARCHAR, ShipDate, 6) ShipDate, CustName, GoodName1, AppvStatus, AppvSplitStatus";
+                   // $q .= " FROM icGodSplit_hd";
+                   // $q .= " WHERE CustCode = '$CustCode'";
+                   // $q .= " ORDER BY DocuNO DESC";
                    // dd($q);
-                   $return["hds"] =  \DB::select($q);
+                   // $return["hds"] =  \DB::select($q);
                    $return['status'] = 1;
-                   // $return['hds'] = $hds;
+                   $return['html'] = $html;
                    $return['content'] = 'จัดเก็บสำเร็จ';
               } catch (Exception $e) {
                    $return['status'] = 0;

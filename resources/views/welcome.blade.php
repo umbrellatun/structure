@@ -467,6 +467,7 @@
                                                 <th>เลขที่ใบจอง</th>
                                                 <th>วันที่เอกสาร</th>
                                                 <th>วันที่นัดส่ง</th>
+                                                <th>วันที่ทำการแลก</th>
                                                 <th>ชื่อลูกค้า</th>
                                                 {{-- <th>ชื่อพนักงานขาย</th> --}}
                                                 <th>ชื่อสินค้า</th>
@@ -795,56 +796,57 @@
                    },
               }).done(function(rec){
                    if (rec.status == 1) {
-                        let tr = '';
-                        var badge1 = '';
-                        var badge2 = '';
-                        // console.log(rec.hds);
-                        if (rec.hds.length > 0){
-                             let no = 1;
-                             $.each(rec.hds, function( key, hd ) {
-                                  if (hd.AppvStatus == 'N'){
-                                       badge1 = '<span class="btn btn-warning btn-sm" title="รออนุมัติ">รออนุมัติ</span>';
-                                  }else if(hd.AppvStatus == 'Y'){
-                                       badge1 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                  }else if(hd.AppvStatus == 'C'){
-                                       badge1 = '<span class="btn btn-danger btn-sm" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                  } else {
-                                       badge1 = '';
-                                  }
-                                  if (hd.AppvSplitStatus == 'N'){
-                                       badge2 = '<span class="btn btn-warning btn-sm"  title="รออนุมัติ">รออนุมัติ</span>';
-                                  }else if(hd.AppvSplitStatus == 'Y'){
-                                       badge2 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
-                                  }else if(hd.AppvSplitStatus == 'R'){
-                                       badge2 = '<span class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
-                                  } else {
-                                       badge2 = '';
-                                  }
-                                  tr += '<tr>';
-                                  tr += '<td class="text-center">'+no+'</td>';
-                                  tr += '<td class="text-left">'+hd.DocuNO+'</td>';
-                                  tr += '<td class="text-left">'+hd.RefSOCONo+'</td>';
-                                  tr += '<td class="text-left">'+(hd.DocuDate)+'</td>';
-                                  tr += '<td class="text-left">'+(hd.ShipDate)+'</td>';
-                                  tr += '<td class="text-left">'+hd.CustName+'</td>';
-                                  // tr += '<td class="text-left">'+hd.EmpName+'</td>';
-                                  tr += '<td class="text-left">'+hd.GoodName1+'</td>';
-                                  tr += '<td class="text-center">'+badge1+'</td>';
-                                  tr += '<td class="text-center">'+badge2+'</td>';
-                                  tr += '<td class="text-center">';
-                                  tr += '<div class="btn-group btn-group-sm">';
-                                  tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView" title="ดูข้อมูล">';
-                                  tr += '<i class="fas fa-eye bigger-120"></i>';
-                                  tr += '</button>';
-                                  tr += '</div>';
-                                  tr += '</td>';
-                                  tr += '</tr>';
-                                  no++;
-                             });
-                        } else {
-                             tr += '<tr><td colspan="10" align="center">ไม่พบข้อมูล</td></tr>';
-                        }
-                        $("#tableHD tbody").append(tr);
+                        // let tr = '';
+                        // var badge1 = '';
+                        // var badge2 = '';
+                        // // console.log(rec.hds);
+                        // if (rec.hds.length > 0){
+                        //      let no = 1;
+                        //      $.each(rec.hds, function( key, hd ) {
+                        //           if (hd.AppvStatus == 'N'){
+                        //                badge1 = '<span class="btn btn-warning btn-sm" title="รออนุมัติ">รออนุมัติ</span>';
+                        //           }else if(hd.AppvStatus == 'Y'){
+                        //                badge1 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           }else if(hd.AppvStatus == 'C'){
+                        //                badge1 = '<span class="btn btn-danger btn-sm" title="Not Approve"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           } else {
+                        //                badge1 = '';
+                        //           }
+                        //           if (hd.AppvSplitStatus == 'N'){
+                        //                badge2 = '<span class="btn btn-warning btn-sm"  title="รออนุมัติ">รออนุมัติ</span>';
+                        //           }else if(hd.AppvSplitStatus == 'Y'){
+                        //                badge2 = '<span class="btn btn-success btn-sm" title="Approve"><i class="fas fa-check-circle f-18 analytic-icon"></i></span>';
+                        //           }else if(hd.AppvSplitStatus == 'R'){
+                        //                badge2 = '<span class="btn btn-danger btn-sm" title="Reject"><i class="fas fa-window-close f-18 analytic-icon"></i></span>';
+                        //           } else {
+                        //                badge2 = '';
+                        //           }
+                        //           tr += '<tr>';
+                        //           tr += '<td class="text-center">'+no+'</td>';
+                        //           tr += '<td class="text-left">'+hd.DocuNO+'</td>';
+                        //           tr += '<td class="text-left">'+hd.RefSOCONo+'</td>';
+                        //           tr += '<td class="text-left">'+(hd.DocuDate)+'</td>';
+                        //           tr += '<td class="text-left">'+(hd.ShipDate)+'</td>';
+                        //           tr += '<td class="text-left"></td>';
+                        //           tr += '<td class="text-left">'+hd.CustName+'</td>';
+                        //           // tr += '<td class="text-left">'+hd.EmpName+'</td>';
+                        //           tr += '<td class="text-left">'+hd.GoodName1+'</td>';
+                        //           tr += '<td class="text-center">'+badge1+'</td>';
+                        //           tr += '<td class="text-center">'+badge2+'</td>';
+                        //           tr += '<td class="text-center">';
+                        //           tr += '<div class="btn-group btn-group-sm">';
+                        //           tr += '<button class="btn btn-primary btn-sm btn-view" data-value="'+hd.DocuNO+'" data-toggle="modal" data-target="#ModalView" title="ดูข้อมูล">';
+                        //           tr += '<i class="fas fa-eye bigger-120"></i>';
+                        //           tr += '</button>';
+                        //           tr += '</div>';
+                        //           tr += '</td>';
+                        //           tr += '</tr>';
+                        //           no++;
+                        //      });
+                        // } else {
+                        //      tr += '<tr><td colspan="10" align="center">ไม่พบข้อมูล</td></tr>';
+                        // }
+                        $("#tableHD tbody").append(rec.html);
                         $("#HistoryModal").addClass("in");
 
                         $('.btn-view').on('click',function(){

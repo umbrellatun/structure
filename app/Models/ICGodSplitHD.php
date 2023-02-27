@@ -8,4 +8,9 @@ class ICGodSplitHD extends Model
 {
      protected $table = "icGodSplit_hd";
      public $timestamps = false;
+
+     public function ICGodSplitDT()
+     {
+          return $this->hasMany(ICGodSplitDT::class, 'DocuNO', 'DocuNO');
+     }
 }
