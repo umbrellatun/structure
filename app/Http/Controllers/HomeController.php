@@ -399,6 +399,11 @@ class HomeController extends Controller
 
     }
 
+    public function date_sorting($a, $b)
+    {
+         return strtotime($b) - strtotime($a);
+    }
+
     public function getSelfProduct(Request $request)
     {
          $CustCode = $request->CustCode;
@@ -416,6 +421,22 @@ class HomeController extends Controller
                     if (count($hds) > 0) {
                          $no = 1;
                          foreach ($hds as $key => $hd) {
+
+                              // foreach ($hd->ICGodSplitDT as $key => $ICGodSplitDT) {
+                              //      if ($ICGodSplitDT->RefShipDate) {
+                              //           array_push($ref_ship_date_arr, $ICGodSplitDT->RefShipDate);
+                              //      }
+                              // }
+                              // dd(date_format(date_create('2023-02-18 00:00:00.000'), "Y-m-d"));
+                              // $ref_ship_date_arr = [date_format(date_create('2023-02-02 00:00:00.000'), "Y-m-d"),  date_format(date_create('2023-02-18 00:00:00.000'), "Y-m-d"), date_format(date_create('2023-02-02 00:00:00.000'), "Y-m-d")];
+
+                              $sortedArr = collect($hd->ICGodSplitDT)->sortByDesc('RefShipDate')->all();
+                              if (strlen($sortedArr[0]->RefShipDate) > 0) {
+                                   $ref_ship_date = date_format(date_create($sortedArr[0]->RefShipDate), 'd M Y');
+                              } else {
+                                   $ref_ship_date = '';
+                              }
+
                               if ($hd->AppvStatus == 'N') {
                                    $badge1 = '<span class="btn btn-warning btn-sm" title="รออนุมัติ">รออนุมัติ</span>';
                               }
@@ -440,13 +461,14 @@ class HomeController extends Controller
                               else {
                                    $badge2 = '';
                               }
+
                               $html .= '<tr>';
                               $html .= '<td class="text-center">'.$no.'</td>';
                               $html .= '<td class="text-left">'.$hd->DocuNO.'</td>';
                               $html .= '<td class="text-left">'.$hd->RefSOCONo.'</td>';
                               $html .= '<td class="text-left">'.date_format(date_create($hd->DocuDate), "d M Y").'</td>';
                               $html .= '<td class="text-left">'.date_format(date_create($hd->ShipDate), "d M Y").'</td>';
-                              $html .= '<td class="text-left"></td>';
+                              $html .= '<td class="text-left">'. $ref_ship_date .'</td>';
                               $html .= '<td class="text-left">'.$hd->CustName.'</td>';
                               // $html .= '<td class="text-left">'.$hd->EmpName.'</td>';
                               $html .= '<td class="text-left">'.$hd->GoodName1.'</td>';
@@ -460,6 +482,8 @@ class HomeController extends Controller
                               $html .= '</div>';
                               $html .= '</td>';
                               $html .= '</tr>';
+
+                              $no++;
                          }
                     } else {
                          $html .= '<tr><td colspan="10" align="center">ไม่พบข้อมูล</td></tr>';
