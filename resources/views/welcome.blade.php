@@ -275,6 +275,7 @@
                                                                                        <tr>
                                                                                             <th class="text-center">เลขที่เอกสาร</th>
                                                                                             <th class="text-center">วันที่จอง</th>
+                                                                                            <th class="text-center">วันที่นัดส่ง</th>
                                                                                             <th class="text-center">จำนวนวัน</th>
                                                                                             <th class="text-left">สถานที่จัดส่ง</th>
                                                                                             <th class="text-right">ราคา/หน่วย</th>
@@ -617,6 +618,41 @@
          return [day, month, year].join('-');
     }
 
+    function getMonth(date) {
+         var d = new Date(date),
+         month = '' + (d.getMonth() + 1),
+         day = '' + d.getDate(),
+         year = d.getFullYear();
+
+         if (month == 1){
+              month = 1;
+         } else if (month == 2) {
+              month = 2;
+         } else if (month == 3) {
+              month = 3;
+         } else if (month == 4) {
+              month = 4;
+         } else if (month == 5) {
+              month = 5;
+         } else if (month == 6) {
+              month = 6;
+         } else if (month == 7) {
+              month = 7;
+         } else if (month == 8) {
+              month = 8;
+         } else if (month == 9) {
+              month = 9;
+         } else if (month == 10) {
+              month = 10;
+         } else if (month == 11) {
+              month = 11;
+         } else if (month == 12) {
+              month = 12;
+         }
+
+         return month;
+    }
+
     function notify(from, align, icon, type, animIn, animOut, title) {
          $.notify({
               icon: icon,
@@ -731,6 +767,39 @@
 
          });
     }
+
+    function ConvertDateToEng(data){
+          var date = '';
+          if (data) {
+               var month;
+               var x = data.split("-");
+               var position_3 = x[0];
+               var position_2 = x[1];
+               var position_1 = x[2];
+
+               var y = position_1.split(" ");
+               var position1 = y[0];
+               var position4 = y[1];
+
+               switch (position_2) {
+                    case '01' : month = "Jan"; break;
+                    case '02' : month = "Feb"; break;
+                    case '03' : month = "Mar"; break;
+                    case '04' : month = "Apr"; break;
+                    case '05' : month = "May"; break;
+                    case '06' : month = "Jun"; break;
+                    case '07' : month = "Jul"; break;
+                    case '08' : month = "Aug"; break;
+                    case '09' : month = "Sep"; break;
+                    case '10' : month = "Oct"; break;
+                    case '11' : month = "Nov"; break;
+                    case '12' : month = "Dec"; break;
+                    default : '';
+               }
+               date = position1 + ' ' + month + ' ' + position_3 + ' ' + position4;
+          }
+          return date;
+     }
 
     $(document).ready(function (){
          $.ajax({
@@ -1034,6 +1103,7 @@
                                        tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
                                        tr += '</td>';
                                        tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
+                                       tr += '<td><span id="tb2_shipdate2">'+formatDate(shipdate)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
                                        tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
@@ -1064,7 +1134,7 @@
                                                       $.each(rec.datas, function( key, data ) {
                                                            find_string = (data.ContainerNO).includes("@");
                                                            if (find_string == false){
-                                                                if (data.Flag_st.length == 0){
+                                                                if (data.Flag_st.length == 0 && (getMonth($("#tb2_shipdate2").text()) == getMonth(data.ShipDate))){
                                                                      chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                                                 } else {
                                                                      chkbox = '';
@@ -1351,7 +1421,10 @@
                              $.each(rec.datas, function( key, data ) {
                                   find_string = (data.ContainerNO).includes("@");
                                   if (find_string == false){
-                                       if (data.Flag_st.length == 0){
+                                        // console.log(jsDateDiff1(formatDate($("#tb2_shipdate").text()), data.ShipDate));
+                                        // console.log(jsDateDiff1(formatDate($("#tb2_shipdate2").text()), data.ShipDate));
+                                        // console.log(getMonth($("#tb2_shipdate2").text()) + "++" + getMonth(data.ShipDate));
+                                       if (data.Flag_st.length == 0 && (getMonth($("#tb2_shipdate2").text()) == getMonth(data.ShipDate))){
                                             chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                        } else {
                                             chkbox = '';
