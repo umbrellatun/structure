@@ -1135,14 +1135,14 @@
                                                            find_string = (data.ContainerNO).includes("@");
                                                            if (find_string == false){
                                                                 // console.log(getMonthNum($("#tb2_shipdate2").text()));
-                                                                if (data.Flag_st.length == 0 && (getMonthNum($("#tb2_shipdate2").text()) == getMonthNum(data.ShipDate))){
+                                                                if (data.Flag_st.length == 0 && (parseInt(getMonthNum($("#tb2_shipdate2").text())) == parseInt(getMonthNum(data.ShipDate)))) {
                                                                      chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                                                 } else {
                                                                      chkbox = '';
                                                                 }
                                                                 tr += '<tr>';
                                                                 tr += '<td>';
-                                                                tr += getMonthNum($("#tb2_shipdate").val()) + '|' + getMonthNum(data.ShipDate);
+                                                                tr += parseInt(getMonthNum($("#tb2_shipdate").val())) + '|' + parseInt(getMonthNum(data.ShipDate));
                                                                 tr += '</td>';
                                                                 tr += '<td>';
                                                                 tr += chkbox;
