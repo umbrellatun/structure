@@ -618,7 +618,7 @@
          return [day, month, year].join('-');
     }
 
-    function getMonth(date) {
+    function getMonthNum(date) {
          var d = new Date(date),
          month = '' + (d.getMonth() + 1),
          day = '' + d.getDate(),
@@ -1103,7 +1103,7 @@
                                        tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
                                        tr += '</td>';
                                        tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
-                                       tr += '<td><span id="tb2_shipdate2">'+formatDate(shipdate)+'</span></td>';
+                                       tr += '<td><span id="tb2_shipdate2">'+ConvertDateToEng(shipdate)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
                                        tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
@@ -1134,7 +1134,8 @@
                                                       $.each(rec.datas, function( key, data ) {
                                                            find_string = (data.ContainerNO).includes("@");
                                                            if (find_string == false){
-                                                                if (data.Flag_st.length == 0 && (getMonth($("#tb2_shipdate2").text()) == getMonth(data.ShipDate))){
+                                                                // console.log(getMonthNum($("#tb2_shipdate2").text()));
+                                                                if (data.Flag_st.length == 0 && (getMonthNum($("#tb2_shipdate2").text()) == getMonthNum(data.ShipDate))){
                                                                      chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                                                 } else {
                                                                      chkbox = '';
@@ -1423,8 +1424,8 @@
                                   if (find_string == false){
                                         // console.log(jsDateDiff1(formatDate($("#tb2_shipdate").text()), data.ShipDate));
                                         // console.log(jsDateDiff1(formatDate($("#tb2_shipdate2").text()), data.ShipDate));
-                                        // console.log(getMonth($("#tb2_shipdate2").text()) + "++" + getMonth(data.ShipDate));
-                                       if (data.Flag_st.length == 0 && (getMonth($("#tb2_shipdate2").text()) == getMonth(data.ShipDate))){
+                                        // console.log(getMonthNum($("#tb2_shipdate2").text()) + "++" + getMonthNum(data.ShipDate));
+                                       if (data.Flag_st.length == 0 && (getMonthNum($("#tb2_shipdate2").text()) == getMonthNum(data.ShipDate))){
                                             chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                        } else {
                                             chkbox = '';
