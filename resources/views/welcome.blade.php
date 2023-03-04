@@ -1452,7 +1452,7 @@
                                        // tr += '</tr>';
                                        tr += '<tr>';
                                        tr += '<td>';
-                                       tr += getMonthNum($("#tb2_shipdate2").text()) + '|' + getMonthNum(data.ShipDate));
+                                       tr += getMonthNum($("#tb2_shipdate2").text()) + '|' + getMonthNum(data.ShipDate);
                                        tr += '</td>';
                                        tr += '<td>';
                                        tr += chkbox;
