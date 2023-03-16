@@ -1103,7 +1103,8 @@
                                        tr += '<input type="hidden" name="DocuDate2" id="tb2_DocuDate2" value="'+DocuDate2+'">';
                                        tr += '</td>';
                                        tr += '<td><span id="tb2_docudate">'+docudate+'</span></td>';
-                                       tr += '<td><span id="tb2_shipdate2">'+ConvertDateToEng(shipdate)+'</span></td>';
+                                       tr += '<td><span id="tb2_shipdate2">'+formatDate(shipdate.substring(0,10))+'</span></td>';
+                                       // tr += '<td><span id="tb2_shipdate2">'+ConvertDateToEng(shipdate)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_date_amount">'+date_amount+'</span></td>';
                                        tr += '<td><span title="'+cus_address+'" id="tb2_cus_address">'+ truncateString(cus_address, 50)+'</span></td>';
                                        tr += '<td class="text-right"><span id="tb2_goodprice">'+goodprice+'</span></td>';
