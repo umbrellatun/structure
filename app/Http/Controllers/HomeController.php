@@ -155,6 +155,7 @@ class HomeController extends Controller
                         // dd($q);
                         $return["datas"] =  \DB::select($q);
                         $return['status'] = 1;
+                        $return['sql'] = $q;
                    }
               } catch (Exception $e) {
                    $return['status'] = 0;
