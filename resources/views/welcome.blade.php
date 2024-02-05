@@ -1140,12 +1140,12 @@
                                                                      chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                                                 } else {
                                                                      chkbox = '';
-                                                                     // if (data.Flag_st.length > 0) {
-                                                                     //      chkbox += 'ตู้นี้มีสถานะแล้ว';
-                                                                     // }
-                                                                     // if ( parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate)) ) {
-                                                                     //      chkbox += 'วันที่นัดส่งคนละเดือนกัน';
-                                                                     // }
+                                                                     if ((data.Flag_st).length > 0) {
+                                                                          chkbox += 'ตู้นี้มีสถานะแล้ว';
+                                                                     }
+                                                                     if ( parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate)) ) {
+                                                                          chkbox += 'วันที่นัดส่งคนละเดือนกัน';
+                                                                     }
                                                                 }
                                                                 tr += '<tr>';
                                                                 tr += '<td>';
@@ -1436,12 +1436,12 @@
                                             chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
                                        } else {
                                             chkbox = '';
-                                            // if (data.Flag_st.length > 0) {
-                                            //      chkbox += 'ตู้นี้มีสถานะแล้ว';
-                                            // }
-                                            // if (parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate))) {
-                                            //      chkbox += 'วันที่นัดส่งคนละเดือนกัน';
-                                            // }
+                                            if ((data.Flag_st).length > 0) {
+                                                 chkbox += 'ตู้นี้มีสถานะแล้ว';
+                                            }
+                                            if (parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate))) {
+                                                 chkbox += 'วันที่นัดส่งคนละเดือนกัน';
+                                            }
                                        }
                                        // tr += '<tr>';
                                        // tr += '<td>';
