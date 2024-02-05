@@ -1170,7 +1170,7 @@
                                                                 tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                                                 tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
                                                                 tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                                                tr += '<td><span class="text-danger">'.remarktable3.'</span></td>';
+                                                                tr += '<td><span class="text-danger">'+remarktable3+'</span></td>';
                                                                 tr += '</tr>';
                                                            }
                                                       });
@@ -1489,7 +1489,7 @@
                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
                                        tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
-                                       tr += '<td><span class="text-danger">'.remarktable3.'</span></td>';
+                                       tr += '<td><span class="text-danger">'+remarktable3+'</span></td>';
                                        tr += '</tr>';
                                   }
                              });
