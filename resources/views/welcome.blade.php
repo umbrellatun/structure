@@ -1143,9 +1143,9 @@
                                                                      if ((data.Flag_st).length > 0) {
                                                                           chkbox += 'ตู้นี้มีสถานะแล้ว';
                                                                      }
-                                                                     if ( parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate)) ) {
-                                                                          chkbox += 'วันที่นัดส่งคนละเดือนกัน';
-                                                                     }
+                                                                     // if ( parseInt(getMonthNum($("#tb2_shipdate").val())) <> parseInt(getMonthNum(data.ShipDate))){
+                                                                     //      chkbox += 'วันที่นัดส่งคนละเดือนกัน';
+                                                                     // }
                                                                 }
                                                                 tr += '<tr>';
                                                                 tr += '<td>';
