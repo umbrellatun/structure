@@ -332,6 +332,7 @@
                                                                                        <th>สถานะตู้</th>
                                                                                        <th>จำนวนสินค้าสั่งจอง</th>
                                                                                        <th>จำนวนสินค้าแบ่งให้</th>
+                                                                                       <th>Remark</th>
                                                                                   </tr>
                                                                              </thead>
                                                                              <tbody>
@@ -1138,8 +1139,10 @@
                                                                 // console.log(getMonthNum($("#tb2_shipdate2").text()));
                                                                 if (data.Flag_st.length == 0 && (parseInt(getMonthNum($("#tb2_shipdate").val())) == parseInt(getMonthNum(data.ShipDate)))) {
                                                                      chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                                                     remarktable3 = '';
                                                                 } else {
                                                                      chkbox = '';
+                                                                     remarktable3 = 'ไม่สามารถเลือกได้เนื่องจากตู้มีสถานะแล้วหรือวันที่นัดส่งคนละเดือนกัน';
                                                                      // if ((data.Flag_st).length > 0) {
                                                                      //      chkbox += 'ตู้นี้มีสถานะแล้ว';
                                                                      // }
@@ -1167,6 +1170,7 @@
                                                                 tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                                                 tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
                                                                 tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                                                tr += '<td><span class="text-danger">'.remarktable3.'</span></td>';
                                                                 tr += '</tr>';
                                                            }
                                                       });
@@ -1434,8 +1438,10 @@
                                         // console.log(getMonthNum($("#tb2_shipdate2").text()) + "++" + getMonthNum(data.ShipDate));
                                         if (data.Flag_st.length == 0 && (parseInt(getMonthNum($("#tb2_shipdate").val())) == parseInt(getMonthNum(data.ShipDate)))) {
                                             chkbox = '<input type="checkbox" id="product_share_chk_'+data.RefSOCOID+'" class="form-check-input product_share_chk product_share_chk_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'" data-value="'+data.RefSOCOID+'" data-container="'+data.ContainerNO+'" data-reflistno="'+data.RefListNo+'" value="'+data.RefSOCOID+'">';
+                                            remarktable3 = '';
                                        } else {
                                             chkbox = '';
+                                            remarktable3 = 'ไม่สามารถเลือกได้เนื่องจากตู้มีสถานะแล้วหรือวันที่นัดส่งคนละเดือนกัน';
                                             // if ((data.Flag_st).length > 0) {
                                             //      chkbox += 'ตู้นี้มีสถานะแล้ว';
                                             // }
@@ -1483,6 +1489,7 @@
                                        tr += '<td><span id="Flag_st_'+data.RefSOCOID+'" class="Flag_st_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.Flag_st+'</span></td>';
                                        tr += '<td class="text-right"><span id="TranQty_'+data.RefSOCOID+'" class="TranQty_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+'">'+data.TranQty+'</span></td>';
                                        tr += '<td><input type="text" data-value="'+data.RefSOCOID+'" data-reflistno="'+data.RefListNo+'" data-container="'+data.ContainerNO+'" class="form-control product_share product_share_'+data.RefSOCOID+'_'+data.ContainerNO+'_'+data.RefListNo+' number-only" id="product_share_'+data.RefSOCOID+'" readonly="readonly" /></td>';
+                                       tr += '<td><span class="text-danger">'.remarktable3.'</span></td>';
                                        tr += '</tr>';
                                   }
                              });
