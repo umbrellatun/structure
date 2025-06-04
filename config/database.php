@@ -106,8 +106,8 @@ return [
             'host' => env('DB_HOST_109', '192.168.1.109'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE_109', 'TMDBM'),
-            'username' => env('DB_USERNAME', 'it'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'jtpit'),
+            'password' => env('DB_PASSWORD', 'Jtpack.com@2025'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -119,8 +119,8 @@ return [
             'host' => env('DB_HOST_112', '192.168.1.112'),
             'port' => env('DB_PORT', '1433'),
             'database' => env('DB_DATABASE_112', 'PDA'),
-            'username' => env('DB_USERNAME', 'it'),
-            'password' => env('DB_PASSWORD', ''),
+            'username' => env('DB_USERNAME', 'jtpit'),
+            'password' => env('DB_PASSWORD', 'Jtpack.com@2025'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
@@ -158,7 +158,7 @@ return [
 
         'options' => [
             'cluster' => env('REDIS_CLUSTER', 'redis'),
-            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_').'_database_'),
+            'prefix' => env('REDIS_PREFIX', Str::slug(env('APP_NAME', 'laravel'), '_') . '_database_'),
         ],
 
         'default' => [
