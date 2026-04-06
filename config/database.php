@@ -124,6 +124,7 @@ return [
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
+            // 'prefix_indexes' => true,
         ],
 
     ],
